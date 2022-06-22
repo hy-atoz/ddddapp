@@ -31,6 +31,7 @@ const initialState = {
     formattedDate: initialFormattedDate,
   },
   isLoading: false,
+  prevOrNext: '',
   value: [],
 };
 
@@ -44,12 +45,16 @@ export const resultSlice = createSlice({
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
     },
+    setPrevOrNext: (state, action) => {
+      state.prevOrNext = action.payload;
+    },
     setSelectedDate: (state, action) => {
       state.dates = action.payload;
     },
   },
 });
 
-export const {addResult, setIsLoading, setSelectedDate} = resultSlice.actions;
+export const {addResult, setIsLoading, setPrevOrNext, setSelectedDate} =
+  resultSlice.actions;
 
 export default resultSlice.reducer;
