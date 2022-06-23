@@ -1,35 +1,41 @@
 import React, {useState, useEffect} from 'react';
 import moment from 'moment';
-import momentTz from 'moment-timezone';
 import {HStack} from 'native-base';
-import * as RNLocalize from 'react-native-localize';
 import {useDispatch, useSelector} from 'react-redux';
 import AppHeader from '../components/AppHeader';
 import AppRow from '../components/AppRow';
 import CompanyHeader from '../components/CompanyHeader';
 import DateAndDraw from '../components/DateAndDraw';
 import Jackpot from '../components/Jackpot';
+import SixDJackpot from '../components/SixDJackpot';
 import WinnerSection from '../components/WinnerSection';
 import WinnerTop3 from '../components/WinnerTop3';
-import {ALPHABET, API_BASE_URL, TITLES} from '../constants';
+import YouTubePlayer from '../components/YouTubePlayer';
+import {
+  ALPHABET,
+  API_BASE_URL,
+  DRAW_TIME,
+  REFRESH_RATE_MILLISECOND,
+  REFRESH_RATE_SECOND,
+  TARGET_TIME,
+  TIME_FORMAT_LONG,
+  TITLES,
+} from '../constants';
 import ResultScreenContainer from '../containers/ResultScreenContainer';
+import {saveResult, setIsLiveStarted, setIsLoading} from '../features/result';
 import {createNumberRow} from '../utils/createRow';
 import formatPrize from '../utils/formatPrize';
 import getItem from '../utils/getItem';
-import YouTubePlayer from '../components/YouTubePlayer';
-import SixDJackpot from '../components/SixDJackpot';
-import {addResult, setIsLoading, setSelectedDate} from '../features/result';
 
-const drawTime = {start: 190000, end: 204500};
-const MALAYSIA_TIME_ZONE = 'Asia/Kuala_Lumpur';
-const today = moment().format('YYYY-MM-DD HH:mm');
-const deviceTimeZone = RNLocalize.getTimeZone();
-const deviceTime = momentTz.tz(today, deviceTimeZone);
-const targetTime = deviceTime.clone().tz(MALAYSIA_TIME_ZONE).format('HHmmss');
-const targetDate = deviceTime
-  .clone()
-  .tz(MALAYSIA_TIME_ZONE)
-  .format('YYYY-MM-DD');
+const AtoE = ALPHABET.slice(0, 5);
+const FtoJ = ALPHABET.slice(5, 10);
+const KtoM = [
+  {id: 'empty1', name: ''},
+  ...ALPHABET.slice(10, 13),
+  {id: 'empty2', name: ''},
+];
+const NtoR = ALPHABET.slice(13, 18);
+const StoW = ALPHABET.slice(18, 23);
 
 const ResultScreen = ({
   bgColor,
@@ -37,61 +43,65 @@ const ResultScreen = ({
   hasLastRow,
   hasLetter,
   hasLiveVideo,
+  index,
   isBlackText,
   isGreenText,
   source,
   name,
 }) => {
+  const [currentTime, setCurrentTime] = useState(TARGET_TIME);
+
   const dispatch = useDispatch();
-  const [currentTime, setCurrentTime] = useState(targetTime);
-  const [liveee, setLiveee] = useState(0);
+  const isLiveStarted = useSelector(state => state.result.isLiveStarted);
   const result = useSelector(state => state.result.value);
-  const isLoading = useSelector(state => state.result.isLoading);
+
+  // Fetch the latest data from the base api endpoint
+  const fetchFdData = async () => {
+    const response = await fetch(`${API_BASE_URL}`);
+    const json = await response.json();
+    dispatch(saveResult(json));
+  };
 
   // Decide whether to go live or not
   useEffect(() => {
     let timer;
     if (
-      Number(currentTime) >= drawTime.start &&
-      Number(currentTime) <= drawTime.end
+      Number(currentTime) >= DRAW_TIME.start &&
+      Number(currentTime) <= DRAW_TIME.end
     ) {
-      setIsLoading(false);
-      setLiveee(1);
+      dispatch(setIsLoading(false)); // Disable full screen loading
+      dispatch(setIsLiveStarted(1));
 
       timer = setInterval(() => {
         setCurrentTime(prevTime =>
-          moment(prevTime, 'HHmmss').add(30, 'seconds').format('HHmmss'),
+          moment(prevTime)
+            .add(REFRESH_RATE_SECOND, 'seconds')
+            .format(TIME_FORMAT_LONG),
         );
         if (
-          Number(currentTime) >= drawTime.start &&
-          Number(currentTime) <= drawTime.end
+          Number(currentTime) >= DRAW_TIME.start &&
+          Number(currentTime) <= DRAW_TIME.end
         ) {
           console.log('🔴 live:', currentTime);
-          setIsLoading(false);
-          setLiveee(1);
+          dispatch(setIsLoading(false)); // Disable full screen loading
+          dispatch(setIsLiveStarted(1));
           fetchFdData();
         } else {
-          setLiveee(0);
           // console.log('❌ nestedIf offline:', currentTime);
+          dispatch(setIsLiveStarted(0));
           clearInterval(timer);
         }
-      }, 30000);
+      }, REFRESH_RATE_MILLISECOND);
       return () => {
         clearInterval(timer);
       };
     } else {
-      setLiveee(0);
       // console.log('❌ else offline:', currentTime);
+      dispatch(setIsLiveStarted(0));
       clearInterval(timer);
     }
     return () => clearInterval(timer);
-  }, [currentTime, liveee]);
-
-  const fetchFdData = async () => {
-    const response = await fetch(`${API_BASE_URL}`);
-    const json = await response.json();
-    dispatch(addResult(json));
-  };
+  }, [currentTime, isLiveStarted]);
 
   const fdData = getItem(result, companyCode).fdData;
   const {
@@ -103,22 +113,12 @@ const ResultScreen = ({
     jp1,
     jp2,
     n1,
-    n2,
-    n3,
     n1_pos,
+    n2,
     n2_pos,
+    n3,
     n3_pos,
   } = fdData;
-  const AtoE = ALPHABET.slice(0, 5);
-  const FtoJ = ALPHABET.slice(5, 10);
-  const KtoM = [
-    {id: 'empty1', name: ''},
-    ...ALPHABET.slice(10, 13),
-    {id: 'empty2', name: ''},
-  ];
-  const NtoR = ALPHABET.slice(13, 18);
-  const StoW = ALPHABET.slice(18, 23);
-
   const hasJackpotAmount = fdData?.jackpotAmount;
   const hasJackpotGD = fdData?.JackpotPrize;
   const urlId = fdData?.videoUrl;
@@ -128,13 +128,13 @@ const ResultScreen = ({
   }
 
   return (
-    <ResultScreenContainer>
+    <ResultScreenContainer index={index}>
       <AppHeader />
       <CompanyHeader
         bgColor={bgColor}
         isBlackText={isBlackText}
         isGreenText={isGreenText}
-        isLive={Number(isLive) && liveee}
+        isLive={Number(isLive) && isLiveStarted}
         // isLive={1}
         isToday={Number(isLive) === 0 && isToday}
         // isToday={1}

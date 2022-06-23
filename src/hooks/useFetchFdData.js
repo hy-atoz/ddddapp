@@ -3,7 +3,7 @@
 import {useEffect} from 'react';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
-import {addResult, setIsLoaded} from '../features/result';
+import {saveResult, setIsLoaded} from '../features/result';
 import {API_BASE_URL} from '../constants';
 
 const useFetchFdData = ({date = ''}) => {
@@ -28,7 +28,7 @@ const useFetchFdData = ({date = ''}) => {
       .then(
         res =>
           res.data !== undefined &&
-          dispatch(addResult(res.data)) &&
+          dispatch(saveResult(res.data)) &&
           dispatch(setIsLoaded(true)),
       )
       .catch(err => console.log(err));

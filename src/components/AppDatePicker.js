@@ -1,63 +1,51 @@
 import React, {useState} from 'react';
 import moment from 'moment';
-import momentTz from 'moment-timezone';
 import {HStack, IconButton} from 'native-base';
 import DatePicker from 'react-native-date-picker';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
+import {DATE_FORMAT, TARGET_TIME} from '../constants';
 import {setPrevOrNext, setSelectedDate} from '../features/result';
-import * as RNLocalize from 'react-native-localize';
-
-const MALAYSIA_TIME_ZONE = 'Asia/Kuala_Lumpur';
-const today = moment().format('YYYY-MM-DD HH:mm');
-const deviceTimeZone = RNLocalize.getTimeZone();
-const deviceTime = momentTz.tz(today, deviceTimeZone);
-const targetTime = deviceTime
-  .clone()
-  .tz(MALAYSIA_TIME_ZONE)
-  .format('YYYY-MM-DD');
 
 const AppDatePicker = ({disableButton = false}) => {
   const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch();
-  const dates = useSelector(state => state.result.dates);
+  const {formattedDate, selectedDate} = useSelector(
+    state => state.result.dates,
+  );
 
-  // TODO: Fix this
   const goPreviousDate = () => {
-    console.log('⏪ goToPrevious', dates.selectedDate);
-    const previousDate = moment(dates.selectedDate)
+    console.log('⏪ goToPrevious', formattedDate);
+    const previousDate = moment(selectedDate, DATE_FORMAT)
       .subtract(1, 'days')
       .toDate();
-    const formattedPreviousDate = moment(dates.selectedDate, 'YYYY-MM-DD')
+    const formattedPreviousDate = moment(selectedDate)
       .subtract(1, 'days')
-      .format('YYYY-MM-DD');
-
-    dispatch(setPrevOrNext('prev'));
+      .format(DATE_FORMAT);
 
     dispatch(
       setSelectedDate({
         selectedDate: previousDate,
         formattedDate: formattedPreviousDate,
       }),
+      // dispatch(setPrevOrNext('/prev'));
     );
   };
 
-  // TODO: Fix this
   const goNextDate = () => {
-    console.log('⏭ goToNext', dates.selectedDate);
-    const nextDate = moment(dates.selectedDate).add(1, 'days').toDate();
-    const formattedNextDate = moment(dates.selectedDate, 'YYYY-MM-DD')
+    console.log('⏭ goToNext', formattedDate);
+    const nextDate = moment(selectedDate, DATE_FORMAT).add(1, 'days').toDate();
+    const formattedNextDate = moment(selectedDate)
       .add(1, 'days')
-      .format('YYYY-MM-DD');
-
-    dispatch(setPrevOrNext('next'));
+      .format(DATE_FORMAT);
 
     dispatch(
       setSelectedDate({
         selectedDate: nextDate,
         formattedDate: formattedNextDate,
       }),
+      // dispatch(setPrevOrNext('/next'));
     );
   };
 
@@ -88,8 +76,8 @@ const AppDatePicker = ({disableButton = false}) => {
       </AntDesign.Button>
       <DatePicker
         androidVariant="iosClone"
-        date={dates.selectedDate}
-        maximumDate={moment(targetTime).toDate()}
+        date={selectedDate}
+        maximumDate={moment(TARGET_TIME).toDate()}
         modal
         mode="date"
         open={open}
@@ -102,7 +90,7 @@ const AppDatePicker = ({disableButton = false}) => {
           dispatch(
             setSelectedDate({
               selectedDate: date,
-              formattedDate: moment(date).format('YYYY-MM-DD'),
+              formattedDate: moment(date).format(DATE_FORMAT),
             }),
           );
         }}

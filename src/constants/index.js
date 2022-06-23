@@ -1,3 +1,7 @@
+import moment from 'moment';
+import momentTz from 'moment-timezone';
+import * as RNLocalize from 'react-native-localize';
+
 export const ALPHABET = [
   {id: 's1', name: 'A'},
   {id: 's2', name: 'B'},
@@ -32,6 +36,35 @@ export const APP = {
   EMPTY: '----',
   GRAY_BORDER: 'gray.400',
   TITLE_BG: 'brand.black',
+};
+
+export const DATE_FORMAT = 'YYYY-MM-DD';
+export const TIME_FORMAT_SHORT = 'HHmm';
+export const TIME_FORMAT_LONG = 'HHmmss';
+export const DRAW_TIME = {start: 190000, end: 204500};
+export const MALAYSIA_TIME_ZONE = 'Asia/Kuala_Lumpur';
+export const TODAY = moment().format(DATE_FORMAT);
+export const DEVICE_TIME_ZONE = RNLocalize.getTimeZone();
+export const DEVICE_TIME = momentTz.tz(TODAY, DEVICE_TIME_ZONE);
+export const TARGET_TIME = DEVICE_TIME.clone()
+  .tz(MALAYSIA_TIME_ZONE)
+  .format(TIME_FORMAT_LONG);
+export const TARGET_DATE = DEVICE_TIME.clone()
+  .tz(MALAYSIA_TIME_ZONE)
+  .format(DATE_FORMAT);
+
+export const REFRESH_RATE_SECOND = 30;
+export const REFRESH_RATE_MILLISECOND = 30000;
+
+export const TITLES = {
+  APP: '4DNum Results',
+  FIRST: '1st Prize 首獎',
+  SECOND: '2nd Prize 二獎',
+  THIRD: '3rd Prize 三獎',
+  SPECIAL: 'Special 特別獎',
+  CONSOLATION: 'Consolation 安慰獎',
+  FD_JACKPOT_ONE: '4D Jackpot 1 Prize',
+  FD_JACKPOT_TWO: '4D Jackpot 2 Prize',
 };
 
 export const EMPTY_ARR = [
@@ -151,14 +184,3 @@ export const EMPTY_ARR = [
     name: APP.EMPTY,
   },
 ];
-
-export const TITLES = {
-  APP: '4DNum Results',
-  FIRST: '1st Prize 首獎',
-  SECOND: '2nd Prize 二獎',
-  THIRD: '3rd Prize 三獎',
-  SPECIAL: 'Special 特別獎',
-  CONSOLATION: 'Consolation 安慰獎',
-  FD_JACKPOT_ONE: '4D Jackpot 1 Prize',
-  FD_JACKPOT_TWO: '4D Jackpot 2 Prize',
-};

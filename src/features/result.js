@@ -1,28 +1,18 @@
 import {createSlice} from '@reduxjs/toolkit';
 import moment from 'moment';
-import momentTz from 'moment-timezone';
-import * as RNLocalize from 'react-native-localize';
+import {DATE_FORMAT, DRAW_TIME, TARGET_DATE, TARGET_TIME} from '../constants';
 
 let initialDate = new Date();
 let initialFormattedDate = '';
-const MALAYSIA_TIME_ZONE = 'Asia/Kuala_Lumpur';
-const today = moment().format('YYYY-MM-DD HH:mm');
-const deviceTimeZone = RNLocalize.getTimeZone();
-const deviceTime = momentTz.tz(today, deviceTimeZone);
-const targetTime = deviceTime.clone().tz(MALAYSIA_TIME_ZONE).format('HHmmss');
-const targetDate = deviceTime
-  .clone()
-  .tz(MALAYSIA_TIME_ZONE)
-  .format('YYYY-MM-DD');
 
-if (targetTime < 182900) {
-  initialDate = moment(targetDate).subtract(1, 'days').toDate();
-  initialFormattedDate = moment(targetDate)
+if (TARGET_TIME < DRAW_TIME.start) {
+  initialDate = moment(TARGET_DATE).subtract(1, 'days').toDate();
+  initialFormattedDate = moment(TARGET_DATE)
     .subtract(1, 'days')
-    .format('YYYY-MM-DD');
+    .format(DATE_FORMAT);
 } else {
-  initialDate = moment(targetDate).toDate();
-  initialFormattedDate = moment(targetDate).format('YYYY-MM-DD');
+  initialDate = moment(TARGET_DATE).toDate();
+  initialFormattedDate = moment(TARGET_DATE).format(DATE_FORMAT);
 }
 
 const initialState = {
@@ -31,6 +21,7 @@ const initialState = {
     formattedDate: initialFormattedDate,
   },
   isLoading: false,
+  isLiveStarted: 0,
   prevOrNext: '',
   value: [],
 };
@@ -39,8 +30,11 @@ export const resultSlice = createSlice({
   name: 'result',
   initialState,
   reducers: {
-    addResult: (state, action) => {
+    saveResult: (state, action) => {
       state.value = action.payload;
+    },
+    setIsLiveStarted: (state, action) => {
+      state.isLiveStarted = action.payload;
     },
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
@@ -54,7 +48,12 @@ export const resultSlice = createSlice({
   },
 });
 
-export const {addResult, setIsLoading, setPrevOrNext, setSelectedDate} =
-  resultSlice.actions;
+export const {
+  saveResult,
+  setIsLoading,
+  setIsLiveStarted,
+  setPrevOrNext,
+  setSelectedDate,
+} = resultSlice.actions;
 
 export default resultSlice.reducer;
