@@ -13,7 +13,9 @@ const AppTitle = ({isLive}) => {
       backgroundColor="gray.200"
       justifyContent="center"
       paddingY={2}>
-      <Text fontWeight="bold">{TITLES.APP}</Text>
+      <Text fontFamily="Roboto-Bold" fontWeight="bold">
+        {TITLES.APP}
+      </Text>
       {/* <Flex position="absolute" right="4" bottom="1">
         {isLive === 1 ? <Refresh isSpinning /> : <Refresh />}
       </Flex> */}

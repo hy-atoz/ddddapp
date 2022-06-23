@@ -17,7 +17,11 @@ const Jackpot = ({isLast, prize, title}) => {
         borderTopWidth="0"
         height={10}
         padding={2}>
-        <Text fontSize="sm" fontWeight="bold" textAlign="center">
+        <Text
+          fontFamily="Roboto-Regular"
+          fontSize="sm"
+          fontWeight="bold"
+          textAlign="center">
           {prize}
         </Text>
       </Box>

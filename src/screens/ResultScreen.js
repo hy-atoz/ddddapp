@@ -19,9 +19,9 @@ import getItem from '../utils/getItem';
 import YouTubePlayer from '../components/YouTubePlayer';
 import SixDJackpot from '../components/SixDJackpot';
 import axios from 'axios';
-import {addResult, setSelectedDate} from '../features/result';
+import {addResult, setIsLoading, setSelectedDate} from '../features/result';
 
-const drawTime = {start: 182900, end: 202000};
+const drawTime = {start: 190000, end: 204500};
 const MALAYSIA_TIME_ZONE = 'Asia/Kuala_Lumpur';
 const today = moment().format('YYYY-MM-DD HH:mm');
 const deviceTimeZone = RNLocalize.getTimeZone();
@@ -56,17 +56,19 @@ const ResultScreen = ({
       Number(currentTime) >= drawTime.start &&
       Number(currentTime) <= drawTime.end
     ) {
+      setIsLoading(false);
       setLiveee(1);
 
       timer = setInterval(() => {
         setCurrentTime(prevTime =>
-          moment(prevTime, 'HHmmss').add(20, 'seconds').format('HHmmss'),
+          moment(prevTime, 'HHmmss').add(30, 'seconds').format('HHmmss'),
         );
         if (
           Number(currentTime) >= drawTime.start &&
           Number(currentTime) <= drawTime.end
         ) {
           console.log('🔴 live:', currentTime);
+          setIsLoading(false);
           setLiveee(1);
           fetchFdData();
         } else {
@@ -74,7 +76,7 @@ const ResultScreen = ({
           // console.log('❌ nestedIf offline:', currentTime);
           clearInterval(timer);
         }
-      }, 20000);
+      }, 30000);
       return () => {
         clearInterval(timer);
       };
@@ -89,12 +91,7 @@ const ResultScreen = ({
   const fetchFdData = async () => {
     const response = await fetch(`${API_BASE_URL}`);
     const json = await response.json();
-    console.log(json);
     dispatch(addResult(json));
-    // axios
-    //   .get(`${API_BASE_URL}/${date}`)
-    //   .then(res => res.data !== undefined && dispatch(addResult(res.data)))
-    //   .catch(err => console.error(err));
   };
 
   if (result.length === 0) {
@@ -173,8 +170,8 @@ const ResultScreen = ({
           bgColor={bgColor}
           isBlackText={isBlackText}
           isGreenText={isGreenText}
-          isLive={Number(isLive) && liveee}
-          // isLive={1}
+          // isLive={Number(isLive) && liveee}
+          isLive={1}
           isToday={Number(isLive) === 0 && isToday}
           // isToday={1}
           name={name}

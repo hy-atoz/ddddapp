@@ -7,8 +7,9 @@ const WinnerTop3Title = ({title}) => {
     <Box backgroundColor={APP.TITLE_BG} padding={2}>
       <Text
         color="white"
+        fontFamily="Roboto-Bold"
         fontSize="sm"
-        fontWeight="extrabold"
+        fontWeight="bold"
         textAlign="center">
         {title}
       </Text>

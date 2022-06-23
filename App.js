@@ -1,7 +1,6 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import {NavigationContainer} from '@react-navigation/native';
-import axios from 'axios';
 import moment from 'moment';
 import momentTz from 'moment-timezone';
 import {
@@ -22,9 +21,7 @@ import {setInternetConnection} from './src/features/internet';
 import {addResult, setIsLoading, setSelectedDate} from './src/features/result';
 import ResultScreen from './src/screens/ResultScreen';
 import getItem from './src/utils/getItem';
-import LottieLoader from './src/components/LottieLoader';
 
-// axios.defaults.timeout = 50000;
 const codePushOptions = {
   checkFrequency: __DEV__
     ? codePush.CheckFrequency.MANUAL
@@ -52,6 +49,7 @@ const App = () => {
     state => state.result.dates,
   );
   const isLoading = useSelector(state => state.result.isLoading);
+  const prevOrNext = useSelector(state => state.result.prevOrNext);
   const result = useSelector(state => state.result.value);
 
   // base options for <Carousel />
@@ -68,9 +66,9 @@ const App = () => {
       };
 
   // Fetching data from API and save to result state
-  const fetchFdData = async (date = '') => {
+  const fetchFdData = async (date = '', state = '') => {
     dispatch(setIsLoading(true));
-    const response = await fetch(`${API_BASE_URL}/${date}`);
+    const response = await fetch(`${API_BASE_URL}/${date}/${state}`);
     const json = await response.json();
     dispatch(addResult(json));
     dispatch(setIsLoading(false));
@@ -100,8 +98,9 @@ const App = () => {
   // Fetching fdData every time the selected date is changing
   useEffect(() => {
     console.log('⏳ Fetching data...');
-    if (formattedDate !== '') {
-      fetchFdData(formattedDate);
+    console.log('🦊 ', prevOrNext);
+    if (formattedDate !== '' && prevOrNext !== '') {
+      fetchFdData(formattedDate, prevOrNext);
     } else {
       fetchFdData();
     }
@@ -124,11 +123,6 @@ const App = () => {
       const fdData = getItem(result, currentSide).fdData;
       console.log('👑 fdData.dd', fdData.dd);
       updateDate(fdData.dd);
-      // if (currentSide === 'H' || currentSide === 'GD') {
-      //   updateDate(targetTimeGlobal);
-      // } else {
-      //   updateDate(fdData.dd);
-      // }
     }
   }, [currentSide, result]);
 

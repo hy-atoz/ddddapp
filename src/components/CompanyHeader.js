@@ -33,13 +33,14 @@ const CompanyHeader = ({
       <Heading
         alignSelf="center"
         color={color}
+        fontFamily="Roboto-Bold"
         fontSize="md"
         textAlign="center">
         {name}
       </Heading>
       {isLive === 1 && (
         <Flex position="absolute" right="1">
-          <Blink duration={800}>
+          <Blink duration={2000}>
             <Live />
           </Blink>
         </Flex>

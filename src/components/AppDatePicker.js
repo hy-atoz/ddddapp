@@ -5,7 +5,7 @@ import {HStack, IconButton} from 'native-base';
 import DatePicker from 'react-native-date-picker';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
-import {setSelectedDate} from '../features/result';
+import {setPrevOrNext, setSelectedDate} from '../features/result';
 import * as RNLocalize from 'react-native-localize';
 
 const MALAYSIA_TIME_ZONE = 'Asia/Kuala_Lumpur';
@@ -34,6 +34,8 @@ const AppDatePicker = () => {
       .subtract(1, 'days')
       .format('YYYY-MM-DD');
 
+    dispatch(setPrevOrNext('prev'));
+
     dispatch(
       setSelectedDate({
         selectedDate: previousDate,
@@ -49,6 +51,8 @@ const AppDatePicker = () => {
     const formattedNextDate = moment(dates.selectedDate, 'YYYY-MM-DD')
       .add(1, 'days')
       .format('YYYY-MM-DD');
+
+    dispatch(setPrevOrNext('next'));
 
     dispatch(
       setSelectedDate({

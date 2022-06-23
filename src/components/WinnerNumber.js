@@ -16,7 +16,12 @@ const WinnerNumber = ({hasLetter, isLast, letter, number}) => {
       flexShrink={0}
       paddingX={0}>
       {hasLetter ? <Letter text={letter} /> : null}
-      <Text color="black" fontSize="2xl" fontWeight="medium" textAlign="center">
+      <Text
+        color="black"
+        fontFamily="Roboto-Medium"
+        fontSize="2xl"
+        fontWeight="600"
+        textAlign="center">
         {number}
       </Text>
     </Flex>

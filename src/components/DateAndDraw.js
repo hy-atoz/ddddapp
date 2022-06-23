@@ -5,10 +5,12 @@ const DateAndDraw = ({date = '----/--/--', day = '---', draw = '---/---'}) => {
   return (
     <HStack backgroundColor="white" justifyContent="space-between" paddingY={2}>
       <Box>
-        <Text fontWeight="bold">{`${date} (${day})`}</Text>
+        <Text
+          fontFamily="Roboto-Bold"
+          fontWeight="bold">{`${date} (${day})`}</Text>
       </Box>
       <Box>
-        <Text fontWeight="bold">{`${draw}`}</Text>
+        <Text fontFamily="Roboto-Bold" fontWeight="bold">{`${draw}`}</Text>
       </Box>
     </HStack>
   );

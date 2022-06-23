@@ -16,7 +16,12 @@ const WinnerSectionTitle = ({
       marginBottom={forVideo ? 0 : 0}
       padding={1}
       width="100%">
-      <Text color="white" fontSize="sm" fontWeight="bold" textAlign="center">
+      <Text
+        color="white"
+        fontFamily="Roboto-Bold"
+        fontSize="sm"
+        fontWeight="bold"
+        textAlign="center">
         {title}
       </Text>
     </Box>
