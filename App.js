@@ -139,10 +139,10 @@ const App = () => {
         <Carousel
           {...baseOptions}
           data={c}
-          defaultIndex={activeIndex}
+          defaultIndex={0}
           loop
           onSnapToItem={index => {
-            setActiveIndex(index);
+            // setActiveIndex(index);
             setCurrentSide(c[index].code);
           }}
           panGestureHandlerProps={activeOffsetX}
