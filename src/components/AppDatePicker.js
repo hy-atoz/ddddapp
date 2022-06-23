@@ -17,12 +17,11 @@ const targetTime = deviceTime
   .tz(MALAYSIA_TIME_ZONE)
   .format('YYYY-MM-DD');
 
-const AppDatePicker = () => {
+const AppDatePicker = ({disableButton = false}) => {
   const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch();
   const dates = useSelector(state => state.result.dates);
-  const isLoading = useSelector(state => state.result.isLoading);
 
   // TODO: Fix this
   const goPreviousDate = () => {
@@ -69,7 +68,7 @@ const AppDatePicker = () => {
       justifyContent="center"
       padding={0.5}>
       <IconButton
-        disabled={isLoading}
+        disabled={disableButton}
         colorScheme="muted"
         variant="ghost"
         onPress={goPreviousDate}
@@ -84,7 +83,7 @@ const AppDatePicker = () => {
         color="black"
         name="calendar"
         size={18}
-        onPress={() => setOpen(true)}>
+        onPress={() => !disableButton && setOpen(true)}>
         Date
       </AntDesign.Button>
       <DatePicker
@@ -109,7 +108,7 @@ const AppDatePicker = () => {
         }}
       />
       <IconButton
-        disabled={isLoading}
+        disabled={disableButton}
         colorScheme="muted"
         variant="ghost"
         onPress={goNextDate}

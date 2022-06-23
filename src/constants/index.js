@@ -36,191 +36,119 @@ export const APP = {
 
 export const EMPTY_ARR = [
   {
-    id: 0,
+    key: 1,
+    id: 'a',
     name: APP.EMPTY,
   },
   {
-    id: 1,
+    key: 2,
+    id: 'b',
     name: APP.EMPTY,
   },
   {
-    id: 2,
+    key: 3,
+    id: 'c',
     name: APP.EMPTY,
   },
   {
-    id: 3,
+    key: 4,
+    id: 'd',
     name: APP.EMPTY,
   },
   {
-    id: 4,
+    key: 5,
+    id: 'e',
     name: APP.EMPTY,
   },
   {
-    id: 5,
+    key: 6,
+    id: 'f',
     name: APP.EMPTY,
   },
   {
-    id: 6,
+    key: 7,
+    id: 'g',
     name: APP.EMPTY,
   },
   {
-    id: 7,
+    key: 8,
+    id: 'h',
     name: APP.EMPTY,
   },
   {
-    id: 8,
+    key: 9,
+    id: 'i',
     name: APP.EMPTY,
   },
   {
-    id: 9,
+    key: 10,
+    id: 'j',
     name: APP.EMPTY,
   },
   {
-    id: 10,
+    key: 11,
+    id: 'k',
     name: APP.EMPTY,
   },
   {
-    id: 11,
+    key: 12,
+    id: 'l',
     name: APP.EMPTY,
   },
   {
-    id: 12,
+    key: 13,
+    id: 'm',
     name: APP.EMPTY,
   },
   {
-    id: 13,
+    key: 14,
+    id: 'n',
     name: APP.EMPTY,
   },
   {
-    id: 14,
+    key: 15,
+    id: 'o',
     name: APP.EMPTY,
   },
   {
-    id: 15,
+    key: 16,
+    id: 'p',
     name: APP.EMPTY,
   },
   {
-    id: 16,
+    key: 17,
+    id: 'q',
     name: APP.EMPTY,
   },
   {
-    id: 17,
+    key: 18,
+    id: 'r',
     name: APP.EMPTY,
   },
   {
-    id: 18,
+    key: 19,
+    id: 's',
     name: APP.EMPTY,
   },
   {
-    id: 19,
+    key: 20,
+    id: 't',
     name: APP.EMPTY,
   },
   {
-    id: 20,
+    key: 21,
+    id: 'u',
     name: APP.EMPTY,
   },
   {
-    id: 21,
+    key: 22,
+    id: 'v',
     name: APP.EMPTY,
   },
   {
-    id: 22,
+    key: 23,
+    id: 'w',
     name: APP.EMPTY,
-  },
-];
-
-export const EMPTY_ARR_2 = [
-  {
-    id: 0,
-    name: APP.EMPTY,
-  },
-  {
-    id: 1,
-    name: '2292',
-  },
-  {
-    id: 2,
-    name: '1297',
-  },
-  {
-    id: 3,
-    name: '3200',
-  },
-  {
-    id: 4,
-    name: APP.EMPTY,
-  },
-  {
-    id: 5,
-    name: '3380',
-  },
-  {
-    id: 6,
-    name: '8448',
-  },
-  {
-    id: 7,
-    name: '1074',
-  },
-  {
-    id: 8,
-    name: '2923',
-  },
-  {
-    id: 9,
-    name: '1313',
-  },
-  {
-    id: 10,
-    name: APP.EMPTY,
-  },
-  {
-    id: 11,
-    name: '8777',
-  },
-  {
-    id: 12,
-    name: '6517',
-  },
-  {
-    id: 13,
-    name: '9843',
-  },
-  {
-    id: 14,
-    name: '9441',
-  },
-  {
-    id: 15,
-    name: '7981',
-  },
-  {
-    id: 16,
-    name: '3884',
-  },
-  {
-    id: 17,
-    name: '6744',
-  },
-  {
-    id: 18,
-    name: '0215',
-  },
-  {
-    id: 19,
-    name: '1244',
-  },
-  {
-    id: 20,
-    name: '4872',
-  },
-  {
-    id: 21,
-    name: '5597',
-  },
-  {
-    id: 22,
-    name: '7311',
   },
 ];
 

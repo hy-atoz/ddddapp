@@ -21,6 +21,8 @@ import {setInternetConnection} from './src/features/internet';
 import {addResult, setIsLoading, setSelectedDate} from './src/features/result';
 import ResultScreen from './src/screens/ResultScreen';
 import getItem from './src/utils/getItem';
+import BlankResultScreen from './src/screens/BlankResultScreen';
+import Swiper from 'react-native-swiper';
 
 const codePushOptions = {
   checkFrequency: __DEV__
@@ -97,13 +99,13 @@ const App = () => {
 
   // Fetching fdData every time the selected date is changing
   useEffect(() => {
-    console.log('⏳ Fetching data...');
-    console.log('🦊 ', prevOrNext);
-    if (formattedDate !== '' && prevOrNext !== '') {
-      fetchFdData(formattedDate, prevOrNext);
-    } else {
-      fetchFdData();
-    }
+    // console.log('⏳ Fetching data...');
+    // console.log('🦊 ', prevOrNext);
+    // if (formattedDate !== '' && prevOrNext !== '') {
+    //   fetchFdData(formattedDate, prevOrNext);
+    // } else {
+    //   fetchFdData();
+    // }
     SplashScreen.hide();
   }, [formattedDate]);
 
@@ -115,174 +117,16 @@ const App = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log('🕰 selectedDate', selectedDate);
-    console.log('⚽️ currentSide', currentSide);
-
-    if (result.length !== 0) {
-      const fdData = getItem(result, currentSide).fdData;
-      console.log('👑 fdData.dd', fdData.dd);
-      updateDate(fdData.dd);
-    }
-  }, [currentSide, result]);
-
-  // TODO: Fix this
-  // Update selectedDate based on which side of the carousel is active
   // useEffect(() => {
-  //   console.log('📌 activeIndex', activeIndex);
   //   console.log('🕰 selectedDate', selectedDate);
-
-  //   let companyCode = '';
-  //   let fdData, today, deviceTime, targetTime;
+  //   console.log('⚽️ currentSide', currentSide);
 
   //   if (result.length !== 0) {
-  //     switch (activeIndex) {
-  //       case 0:
-  //         companyCode = c[0].code;
-  //         fdData = getItem(result, companyCode).fdData;
-  //         today = moment(fdData.dd).toDate();
-  //         deviceTime = momentTz.tz(today, deviceTimeZone);
-  //         targetTime = deviceTime
-  //           .clone()
-  //           .tz(MALAYSIA_TIME_ZONE)
-  //           .format('YYYY-MM-DD');
-
-  //         console.log(`🌱 drawDate: [${companyCode}]`, targetTime);
-
-  //         updateDate(targetTime);
-  //         break;
-  //       case 1:
-  //         companyCode = c[1].code;
-  //         fdData = getItem(result, companyCode).fdData;
-  //         today = moment(fdData.dd).toDate();
-  //         deviceTime = momentTz.tz(today, deviceTimeZone);
-  //         targetTime = deviceTime
-  //           .clone()
-  //           .tz(MALAYSIA_TIME_ZONE)
-  //           .format('YYYY-MM-DD');
-
-  //         console.log(`🌱 drawDate: [${companyCode}]`, targetTime);
-
-  //         updateDate(targetTime);
-  //         break;
-  //       case 2:
-  //         companyCode = c[2].code;
-  //         fdData = getItem(result, companyCode).fdData;
-  //         today = moment(fdData.dd).toDate();
-  //         deviceTime = momentTz.tz(today, deviceTimeZone);
-  //         targetTime = deviceTime
-  //           .clone()
-  //           .tz(MALAYSIA_TIME_ZONE)
-  //           .format('YYYY-MM-DD');
-
-  //         console.log(`🌱 drawDate: [${companyCode}]`, targetTime);
-
-  //         updateDate(targetTime);
-  //         break;
-  //       case 3:
-  //         companyCode = c[3].code;
-  //         fdData = getItem(result, companyCode).fdData;
-  //         today = moment(fdData.dd).toDate();
-  //         deviceTime = momentTz.tz(today, deviceTimeZone);
-  //         targetTime = deviceTime
-  //           .clone()
-  //           .tz(MALAYSIA_TIME_ZONE)
-  //           .format('YYYY-MM-DD');
-
-  //         console.log(`🌱 drawDate: [${companyCode}]`, targetTime);
-
-  //         updateDate(targetTime);
-  //         break;
-  //       case 4:
-  //         companyCode = c[4].code;
-  //         fdData = getItem(result, companyCode).fdData;
-  //         today = moment(fdData.dd).toDate();
-  //         deviceTime = momentTz.tz(today, deviceTimeZone);
-  //         targetTime = deviceTime
-  //           .clone()
-  //           .tz(MALAYSIA_TIME_ZONE)
-  //           .format('YYYY-MM-DD');
-
-  //         console.log(`🌱 drawDate: [${companyCode}]`, targetTime);
-
-  //         updateDate(targetTime);
-  //         break;
-  //       case 5:
-  //         companyCode = c[5].code;
-  //         fdData = getItem(result, companyCode).fdData;
-  //         today = moment(fdData.dd).toDate();
-  //         deviceTime = momentTz.tz(today, deviceTimeZone);
-  //         targetTime = deviceTime
-  //           .clone()
-  //           .tz(MALAYSIA_TIME_ZONE)
-  //           .format('YYYY-MM-DD');
-
-  //         console.log(`🌱 drawDate: [${companyCode}]`, targetTime);
-
-  //         updateDate(targetTime);
-  //         break;
-  //       case 6:
-  //         companyCode = c[6].code;
-  //         fdData = getItem(result, companyCode).fdData;
-  //         today = moment(fdData.dd).toDate();
-  //         deviceTime = momentTz.tz(today, deviceTimeZone);
-  //         targetTime = deviceTime
-  //           .clone()
-  //           .tz(MALAYSIA_TIME_ZONE)
-  //           .format('YYYY-MM-DD');
-
-  //         console.log(`🌱 drawDate: [${companyCode}]`, targetTime);
-
-  //         updateDate(targetTime);
-  //         break;
-  //       case 7:
-  //         companyCode = c[7].code;
-  //         fdData = getItem(result, companyCode).fdData;
-  //         today = moment(fdData.dd).toDate();
-  //         deviceTime = momentTz.tz(today, deviceTimeZone);
-  //         targetTime = deviceTime
-  //           .clone()
-  //           .tz(MALAYSIA_TIME_ZONE)
-  //           .format('YYYY-MM-DD');
-
-  //         console.log(`🌱 drawDate: [${companyCode}]`, targetTime);
-
-  //         updateDate(targetTime);
-  //         break;
-  //       case 8:
-  //         companyCode = c[8].code;
-  //         fdData = getItem(result, companyCode).fdData;
-  //         today = moment(fdData.dd).toDate();
-  //         deviceTime = momentTz.tz(today, deviceTimeZone);
-  //         targetTime = deviceTime
-  //           .clone()
-  //           .tz(MALAYSIA_TIME_ZONE)
-  //           .format('YYYY-MM-DD');
-
-  //         console.log(`🌱 drawDate: [${companyCode}]`, targetTime);
-
-  //         updateDate(targetTime);
-  //         break;
-  //       default:
-  //         companyCode = c[0].code;
-  //         fdData = getItem(result, companyCode).fdData;
-  //         today = moment(fdData.dd).toDate();
-  //         deviceTime = momentTz.tz(today, deviceTimeZone);
-  //         targetTime = deviceTime
-  //           .clone()
-  //           .tz(MALAYSIA_TIME_ZONE)
-  //           .format('YYYY-MM-DD');
-
-  //         console.log(`🌱 drawDate: [${companyCode}]`, targetTime);
-
-  //         updateDate(targetTimeGlobal);
-  //     }
+  //     const fdData = getItem(result, currentSide).fdData;
+  //     console.log('👑 fdData.dd', fdData.dd);
+  //     updateDate(fdData.dd);
   //   }
-  // }, [activeIndex, result]);
-  // When result is included in the dependency array,
-  // the goNextDate function will not work properly
-  // But when the result is not included in the dependency array,
-  // the goPreviousDate function will not work properly
+  // }, [currentSide, result]);
 
   return (
     <NavigationContainer>
@@ -295,24 +139,47 @@ const App = () => {
           />
         ) : null}
         <AppTitle />
-        <Carousel
-          {...baseOptions}
-          data={c}
-          defaultIndex={activeIndex}
-          loop
-          onSnapToItem={index => {
-            setActiveIndex(index);
-            setCurrentSide(c[index].code);
-          }}
-          pagingEnabled={false}
-          panGestureHandlerProps={{
-            activeOffsetX: [-10, 10],
-          }}
-          ref={ref}
-          width={PAGE_WIDTH}
-          renderItem={({index}) => {
-            return (
-              <>
+        {result.length === 0 ? (
+          <Carousel
+            {...baseOptions}
+            data={c}
+            defaultIndex={0}
+            loop
+            panGestureHandlerProps={{activeOffsetX: [-10, 10]}}
+            ref={ref}
+            renderItem={({index}) => {
+              return (
+                <BlankResultScreen
+                  key={index}
+                  index={index}
+                  bgColor={c[index].color}
+                  hasLetter={c[index].hasLetter}
+                  isBlackText={c[index].isBlackText}
+                  isGreenText={c[index].isGreenText}
+                  name={c[index].name}
+                  source={c[index].image}
+                />
+              );
+            }}
+          />
+        ) : (
+          <Carousel
+            {...baseOptions}
+            data={c}
+            defaultIndex={activeIndex}
+            snapEnabled
+            loop
+            onSnapToItem={index => {
+              setActiveIndex(index);
+              setCurrentSide(c[index].code);
+            }}
+            pagingEnabled={false}
+            panGestureHandlerProps={{
+              activeOffsetX: [-10, 10],
+            }}
+            ref={ref}
+            renderItem={({index}) => {
+              return (
                 <ResultScreen
                   key={index}
                   index={index}
@@ -326,10 +193,10 @@ const App = () => {
                   name={c[index].name}
                   source={c[index].image}
                 />
-              </>
-            );
-          }}
-        />
+              );
+            }}
+          />
+        )}
       </SafeAreaView>
     </NavigationContainer>
   );

@@ -1,15 +1,23 @@
 import React from 'react';
 import WinnerNumber from '../components/WinnerNumber';
 
-export const createEmptyNumberRow = arr => {
+export const createEmptyNumberRow = (arr, hasLetter) => {
   return arr.map((item, index) => {
     const isLast = index === arr.length - 1;
 
-    return <WinnerNumber isLast={isLast} key={item.id} number={item.name} />;
+    return (
+      <WinnerNumber
+        hasLetter={hasLetter}
+        isLast={isLast}
+        key={item.key}
+        letter={item.id}
+        number={item.name}
+      />
+    );
   });
 };
 
-const createNumberRow = (arr, fdData, hasLetter) => {
+export const createNumberRow = (arr, fdData, hasLetter) => {
   return arr.map((letter, index) => {
     const isLast = index === arr.length - 1;
     const number = fdData[letter.id];
@@ -25,5 +33,3 @@ const createNumberRow = (arr, fdData, hasLetter) => {
     );
   });
 };
-
-export default createNumberRow;
