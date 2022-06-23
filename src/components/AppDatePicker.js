@@ -4,7 +4,7 @@ import {HStack, IconButton} from 'native-base';
 import DatePicker from 'react-native-date-picker';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
-import {DATE_FORMAT, TARGET_TIME} from '../constants';
+import {DATE_FORMAT, TARGET_DATE} from '../constants';
 import {setPrevOrNext, setSelectedDate} from '../features/result';
 
 const AppDatePicker = ({disableButton = false}) => {
@@ -17,10 +17,8 @@ const AppDatePicker = ({disableButton = false}) => {
 
   const goPreviousDate = () => {
     console.log('⏪ goToPrevious', formattedDate);
-    const previousDate = moment(selectedDate, DATE_FORMAT)
-      .subtract(1, 'days')
-      .toDate();
-    const formattedPreviousDate = moment(selectedDate)
+    const previousDate = moment(selectedDate).subtract(1, 'days').toDate();
+    const formattedPreviousDate = moment(selectedDate, DATE_FORMAT)
       .subtract(1, 'days')
       .format(DATE_FORMAT);
 
@@ -35,8 +33,8 @@ const AppDatePicker = ({disableButton = false}) => {
 
   const goNextDate = () => {
     console.log('⏭ goToNext', formattedDate);
-    const nextDate = moment(selectedDate, DATE_FORMAT).add(1, 'days').toDate();
-    const formattedNextDate = moment(selectedDate)
+    const nextDate = moment(selectedDate).add(1, 'days').toDate();
+    const formattedNextDate = moment(selectedDate, DATE_FORMAT)
       .add(1, 'days')
       .format(DATE_FORMAT);
 
@@ -77,7 +75,7 @@ const AppDatePicker = ({disableButton = false}) => {
       <DatePicker
         androidVariant="iosClone"
         date={selectedDate}
-        maximumDate={moment(TARGET_TIME).toDate()}
+        maximumDate={moment(TARGET_DATE).toDate()}
         modal
         mode="date"
         open={open}

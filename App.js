@@ -22,6 +22,7 @@ const codePushOptions = {
     : codePush.CheckFrequency.ON_APP_RESUME,
 };
 const {height: PAGE_HEIGHT, width: PAGE_WIDTH} = Dimensions.get('window');
+const activeOffsetX = {activeOffsetX: [-10, 10]};
 
 const App = () => {
   const blankResultRef = useRef(null);
@@ -117,7 +118,7 @@ const App = () => {
           data={c}
           defaultIndex={0}
           loop
-          panGestureHandlerProps={{activeOffsetX: [-10, 10]}}
+          panGestureHandlerProps={activeOffsetX}
           ref={blankResultRef}
           renderItem={({index}) => {
             return (
@@ -144,9 +145,7 @@ const App = () => {
             setActiveIndex(index);
             setCurrentSide(c[index].code);
           }}
-          panGestureHandlerProps={{
-            activeOffsetX: [-10, 10],
-          }}
+          panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
           renderItem={({index}) => {
             return (
