@@ -20,7 +20,7 @@ const WinnerNumber = ({hasLetter, isLast, letter, number}) => {
         color="black"
         fontFamily="Roboto-Medium"
         fontSize="2xl"
-        fontWeight="600"
+        fontWeight="medium"
         textAlign="center">
         {number}
       </Text>
