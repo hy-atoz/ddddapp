@@ -3,6 +3,7 @@ import NetInfo from '@react-native-community/netinfo';
 import moment from 'moment';
 import {Dimensions, SafeAreaView, StyleSheet} from 'react-native';
 import codePush from 'react-native-code-push';
+import InAppBrowser from 'react-native-inappbrowser-reborn';
 import Carousel from 'react-native-reanimated-carousel';
 import SplashScreen from 'react-native-splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
@@ -52,6 +53,41 @@ const App = () => {
         width: PAGE_WIDTH,
       };
 
+  const linkOptions = {
+    // iOS Properties
+    dismissButtonStyle: 'close',
+    preferredBarTintColor: 'white',
+    preferredControlTintColor: 'black',
+    readerMode: false,
+    animated: true,
+    modalPresentationStyle: 'popover',
+    modalTransitionStyle: 'coverVertical',
+    modalEnabled: true,
+    enableBarCollapsing: false,
+    // Android Properties
+    showTitle: true,
+    toolbarColor: 'white',
+    secondaryToolbarColor: 'black',
+    navigationBarColor: 'black',
+    navigationBarDividerColor: 'white',
+    enableUrlBarHiding: true,
+    enableDefaultShare: true,
+    forceCloseOnRedirection: false,
+    animations: {
+      startEnter: 'slide_in_right',
+      startExit: 'slide_out_left',
+      endEnter: 'slide_in_left',
+      endExit: 'slide_out_right',
+    },
+  };
+
+  // Open external link in the in-app browser
+  // Link: https://github.com/proyecto26/react-native-inappbrowser
+  const open4DNumWebsite = async () => {
+    const url = 'http://dream.4dnum.com';
+    InAppBrowser.open(url, linkOptions);
+  };
+
   // Fetching data from API and save to result state
   const fetchFdData = async (date = '') => {
     console.log('🌺 Fetching data from', `${API_BASE_URL}/${date}`);
@@ -90,20 +126,16 @@ const App = () => {
   }, [formattedDate]);
 
   // Update the selectedDate based on the result
-  // useEffect(() => {
-  //   console.log(
-  //     `🕰 selectedDate ${formattedDate} | ⚽️ currentSide ${currentSide}`,
-  //   );
-  //   if (result.length !== 0) {
-  //     console.log('🔥 Done fetching data...');
-  //     const fdData = getItem(result, currentSide).fdData;
-  //     updateDate(fdData.dd);
-
-  //     // if (isLiveStarted) {
-  //     //   updateDate(TARGET_DATE);
-  //     // }
-  //   }
-  // }, [result]);
+  useEffect(() => {
+    console.log(
+      `🕰 selectedDate ${formattedDate} | ⚽️ currentSide ${currentSide}`,
+    );
+    if (result.length !== 0) {
+      console.log('🔥 Done fetching data...');
+      const fdData = getItem(result, currentSide).fdData;
+      updateDate(fdData.dd);
+    }
+  }, [result]);
 
   // CodePush: https://github.com/gulsher7/CodePushApp
   useEffect(() => {
@@ -117,6 +149,7 @@ const App = () => {
     <SafeAreaView style={styles.container}>
       {isLoading && !isLiveStarted ? <FullScreenLoading /> : null}
       <AppTitle />
+      {/* <Button onPress={open4DNumWebsite}>Open Link</Button> */}
       {result.length === 0 ? (
         <Carousel
           {...baseOptions}
@@ -142,32 +175,30 @@ const App = () => {
       ) : (
         <Carousel
           {...baseOptions}
-          windowSize={3}
           data={c}
           defaultIndex={0}
           onSnapToItem={index => setCurrentSide(c[index].code)}
           pagingEnabled
           panGestureHandlerProps={activeOffsetX}
-          snapEnabled
-          // scrollAnimationDuration={300}
           ref={resultRef}
+          // scrollAnimationDuration={300}
+          snapEnabled
+          windowSize={3}
           renderItem={({index}) => {
             return (
-              <>
-                <ResultScreen
-                  key={index}
-                  index={index}
-                  bgColor={c[index].color}
-                  companyCode={c[index].code}
-                  hasLastRow={c[index].hasLastRow}
-                  hasLetter={c[index].hasLetter}
-                  hasLiveVideo={c[index].hasLiveVideo}
-                  isBlackText={c[index].isBlackText}
-                  isGreenText={c[index].isGreenText}
-                  name={c[index].name}
-                  source={c[index].image}
-                />
-              </>
+              <ResultScreen
+                key={index}
+                index={index}
+                bgColor={c[index].color}
+                companyCode={c[index].code}
+                hasLastRow={c[index].hasLastRow}
+                hasLetter={c[index].hasLetter}
+                hasLiveVideo={c[index].hasLiveVideo}
+                isBlackText={c[index].isBlackText}
+                isGreenText={c[index].isGreenText}
+                name={c[index].name}
+                source={c[index].image}
+              />
             );
           }}
         />

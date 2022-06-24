@@ -24,12 +24,7 @@ import {
   TITLES,
 } from '../constants';
 import ResultScreenContainer from '../containers/ResultScreenContainer';
-import {
-  saveResult,
-  setIsLiveStarted,
-  setIsLoading,
-  setSelectedDate,
-} from '../features/result';
+import {saveResult, setIsLiveStarted, setIsLoading} from '../features/result';
 import {createNumberRow} from '../utils/createRow';
 import formatPrize from '../utils/formatPrize';
 import getItem from '../utils/getItem';
@@ -61,6 +56,7 @@ const ResultScreen = ({
 
   const dispatch = useDispatch();
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
+  const {formattedDate} = useSelector(state => state.result.dates);
   const result = useSelector(state => state.result.value);
 
   // Fetch the latest data from the base api endpoint
@@ -78,8 +74,8 @@ const ResultScreen = ({
       Number(currentTime) >= DRAW_TIME.start &&
       Number(currentTime) <= DRAW_TIME.end
     ) {
-      dispatch(setIsLiveStarted(1));
       console.log('🔴 live:', currentTime);
+      dispatch(setIsLiveStarted(1));
 
       timer = setInterval(() => {
         setCurrentTime(prevTime =>
@@ -137,7 +133,7 @@ const ResultScreen = ({
 
   return (
     <ResultScreenContainer index={index}>
-      <AppHeader />
+      <AppHeader disableButton={false} />
       <CompanyHeader
         bgColor={bgColor}
         isBlackText={isBlackText}

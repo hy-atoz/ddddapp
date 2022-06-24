@@ -1,4 +1,5 @@
 package com.ddddapp;
+import com.proyecto26.inappbrowser.RNInAppBrowserModule;
 
 import android.os.Bundle; 
 
@@ -14,6 +15,12 @@ public class MainActivity extends ReactActivity {
         // super.onCreate(savedInstanceState);
         super.onCreate(null);
     }
+  
+  // @Override
+  //   protected void onStart() {
+  //   super.onStart();
+  //   RNInAppBrowserModule.onStart(this);
+  // }
 
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule
