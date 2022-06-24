@@ -3,7 +3,7 @@ import React from 'react';
 import {APP} from '../constants';
 import Letter from './Letter';
 
-const WinnerNumber = ({hasLetter, isLast, letter, number}) => {
+const WinnerNumber = ({color = 'black', hasLetter, isLast, letter, number}) => {
   return (
     <Flex
       alignItems="center"
@@ -17,7 +17,7 @@ const WinnerNumber = ({hasLetter, isLast, letter, number}) => {
       paddingX={0}>
       {hasLetter ? <Letter text={letter} /> : null}
       <Text
-        color="black"
+        color={color}
         fontFamily="Roboto-Medium"
         fontSize="2xl"
         fontWeight="medium"

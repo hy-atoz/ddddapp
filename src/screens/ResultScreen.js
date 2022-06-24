@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import {HStack} from 'native-base';
 import {useDispatch, useSelector} from 'react-redux';
@@ -14,15 +14,22 @@ import YouTubePlayer from '../components/YouTubePlayer';
 import {
   ALPHABET,
   API_BASE_URL,
+  DATE_FORMAT,
   DRAW_TIME,
   REFRESH_RATE_MILLISECOND,
   REFRESH_RATE_SECOND,
+  TARGET_DATE,
   TARGET_TIME,
   TIME_FORMAT_LONG,
   TITLES,
 } from '../constants';
 import ResultScreenContainer from '../containers/ResultScreenContainer';
-import {saveResult, setIsLiveStarted, setIsLoading} from '../features/result';
+import {
+  saveResult,
+  setIsLiveStarted,
+  setIsLoading,
+  setSelectedDate,
+} from '../features/result';
 import {createNumberRow} from '../utils/createRow';
 import formatPrize from '../utils/formatPrize';
 import getItem from '../utils/getItem';
@@ -50,6 +57,7 @@ const ResultScreen = ({
   name,
 }) => {
   const [currentTime, setCurrentTime] = useState(TARGET_TIME);
+  const [color, setColor] = useState('black');
 
   const dispatch = useDispatch();
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
@@ -57,6 +65,7 @@ const ResultScreen = ({
 
   // Fetch the latest data from the base api endpoint
   const fetchFdData = async () => {
+    dispatch(setIsLoading(false));
     const response = await fetch(`${API_BASE_URL}`);
     const json = await response.json();
     dispatch(saveResult(json));
@@ -69,12 +78,12 @@ const ResultScreen = ({
       Number(currentTime) >= DRAW_TIME.start &&
       Number(currentTime) <= DRAW_TIME.end
     ) {
-      dispatch(setIsLoading(false)); // Disable full screen loading
       dispatch(setIsLiveStarted(1));
+      console.log('🔴 live:', currentTime);
 
       timer = setInterval(() => {
         setCurrentTime(prevTime =>
-          moment(prevTime)
+          moment(prevTime, TIME_FORMAT_LONG)
             .add(REFRESH_RATE_SECOND, 'seconds')
             .format(TIME_FORMAT_LONG),
         );
@@ -82,12 +91,11 @@ const ResultScreen = ({
           Number(currentTime) >= DRAW_TIME.start &&
           Number(currentTime) <= DRAW_TIME.end
         ) {
-          console.log('🔴 live:', currentTime);
-          dispatch(setIsLoading(false)); // Disable full screen loading
+          console.log('🔴 nestedIf live:', currentTime);
           dispatch(setIsLiveStarted(1));
           fetchFdData();
         } else {
-          // console.log('❌ nestedIf offline:', currentTime);
+          console.log('❌ nestedIf offline:', currentTime);
           dispatch(setIsLiveStarted(0));
           clearInterval(timer);
         }
@@ -96,7 +104,7 @@ const ResultScreen = ({
         clearInterval(timer);
       };
     } else {
-      // console.log('❌ else offline:', currentTime);
+      console.log('❌ else offline:', currentTime);
       dispatch(setIsLiveStarted(0));
       clearInterval(timer);
     }
@@ -135,9 +143,7 @@ const ResultScreen = ({
         isBlackText={isBlackText}
         isGreenText={isGreenText}
         isLive={Number(isLive) && isLiveStarted}
-        // isLive={1}
         isToday={Number(isLive) === 0 && isToday}
-        // isToday={1}
         name={name}
         source={source}
       />
@@ -151,17 +157,17 @@ const ResultScreen = ({
         letter3={n3_pos}
       />
       <WinnerSection title={TITLES.SPECIAL}>
-        <AppRow>{createNumberRow(AtoE, fdData, hasLetter)}</AppRow>
-        <AppRow>{createNumberRow(FtoJ, fdData, hasLetter)}</AppRow>
+        <AppRow>{createNumberRow(AtoE, fdData, hasLetter, color)}</AppRow>
+        <AppRow>{createNumberRow(FtoJ, fdData, hasLetter, color)}</AppRow>
         {hasLastRow ? (
-          <AppRow>{createNumberRow(KtoM, fdData, hasLetter)}</AppRow>
+          <AppRow>{createNumberRow(KtoM, fdData, hasLetter, color)}</AppRow>
         ) : (
           <AppRow isEmpty />
         )}
       </WinnerSection>
       <WinnerSection title={TITLES.CONSOLATION}>
-        <AppRow>{createNumberRow(NtoR, fdData, hasLetter)}</AppRow>
-        <AppRow>{createNumberRow(StoW, fdData, hasLetter)}</AppRow>
+        <AppRow>{createNumberRow(NtoR, fdData, hasLetter, color)}</AppRow>
+        <AppRow>{createNumberRow(StoW, fdData, hasLetter, color)}</AppRow>
       </WinnerSection>
       {!jp1 || !jp2 ? null : (
         <HStack>

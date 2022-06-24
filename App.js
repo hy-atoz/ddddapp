@@ -8,7 +8,7 @@ import SplashScreen from 'react-native-splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import AppTitle from './src/components/AppTitle';
 import FullScreenLoading from './src/components/FullScreenLoading';
-import {API_BASE_URL, DATE_FORMAT} from './src/constants';
+import {API_BASE_URL, DATE_FORMAT, TARGET_DATE} from './src/constants';
 import c from './src/constants/companies';
 import {setInternetConnection} from './src/features/internet';
 import {saveResult, setIsLoading, setSelectedDate} from './src/features/result';
@@ -22,18 +22,19 @@ const codePushOptions = {
     : codePush.CheckFrequency.ON_APP_RESUME,
 };
 const {height: PAGE_HEIGHT, width: PAGE_WIDTH} = Dimensions.get('window');
-const activeOffsetX = {activeOffsetX: [-10, 10]};
+const activeOffsetX = {activeOffsetX: [-1, 1]};
 
 const App = () => {
   const blankResultRef = useRef(null);
   const resultRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [currentSide, setCurrentSide] = useState('M');
   const [isVertical] = useState(false);
+  const [resultCount, setResultCount] = useState(0);
 
   const dispatch = useDispatch();
   const hasInternet = useSelector(state => state.internet.value);
   const {formattedDate} = useSelector(state => state.result.dates);
+  const isLiveStarted = useSelector(state => state.result.isLiveStarted);
   const isLoading = useSelector(state => state.result.isLoading);
   const prevOrNext = useSelector(state => state.result.prevOrNext);
   const result = useSelector(state => state.result.value);
@@ -70,14 +71,6 @@ const App = () => {
     );
   };
 
-  // CodePush: https://github.com/gulsher7/CodePushApp
-  useEffect(() => {
-    codePush.sync({
-      updateDialog: true,
-      installMode: codePush.InstallMode.IMMEDIATE,
-    });
-  }, []);
-
   // Check if there is an internet connection
   useEffect(() => {
     const data = NetInfo.addEventListener(state => {
@@ -97,27 +90,38 @@ const App = () => {
   }, [formattedDate]);
 
   // Update the selectedDate based on the result
+  // useEffect(() => {
+  //   console.log(
+  //     `🕰 selectedDate ${formattedDate} | ⚽️ currentSide ${currentSide}`,
+  //   );
+  //   if (result.length !== 0) {
+  //     console.log('🔥 Done fetching data...');
+  //     const fdData = getItem(result, currentSide).fdData;
+  //     updateDate(fdData.dd);
+
+  //     // if (isLiveStarted) {
+  //     //   updateDate(TARGET_DATE);
+  //     // }
+  //   }
+  // }, [result]);
+
+  // CodePush: https://github.com/gulsher7/CodePushApp
   useEffect(() => {
-    console.log(
-      `🕰 selectedDate ${formattedDate} | ⚽️ currentSide ${currentSide}`,
-    );
-    if (result.length !== 0) {
-      console.log('🔥 Done fetching data...');
-      const fdData = getItem(result, currentSide).fdData;
-      updateDate(fdData.dd);
-    }
-  }, [result]);
+    codePush.sync({
+      updateDialog: true,
+      installMode: codePush.InstallMode.IMMEDIATE,
+    });
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      {isLoading ? <FullScreenLoading /> : null}
+      {isLoading && !isLiveStarted ? <FullScreenLoading /> : null}
       <AppTitle />
       {result.length === 0 ? (
         <Carousel
           {...baseOptions}
           data={c}
           defaultIndex={0}
-          loop
           panGestureHandlerProps={activeOffsetX}
           ref={blankResultRef}
           renderItem={({index}) => {
@@ -138,14 +142,14 @@ const App = () => {
       ) : (
         <Carousel
           {...baseOptions}
+          windowSize={3}
           data={c}
           defaultIndex={0}
-          loop
-          onSnapToItem={index => {
-            // setActiveIndex(index);
-            setCurrentSide(c[index].code);
-          }}
+          onSnapToItem={index => setCurrentSide(c[index].code)}
+          pagingEnabled
           panGestureHandlerProps={activeOffsetX}
+          snapEnabled
+          // scrollAnimationDuration={300}
           ref={resultRef}
           renderItem={({index}) => {
             return (

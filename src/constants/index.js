@@ -39,11 +39,11 @@ export const APP = {
 };
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
-export const TIME_FORMAT_SHORT = 'HHmm';
+export const TIME_FORMAT_SHORT = 'HH:mm';
 export const TIME_FORMAT_LONG = 'HHmmss';
 export const DRAW_TIME = {start: 190000, end: 204500};
 export const MALAYSIA_TIME_ZONE = 'Asia/Kuala_Lumpur';
-export const TODAY = moment().format(DATE_FORMAT);
+export const TODAY = moment().format(`${DATE_FORMAT} ${TIME_FORMAT_SHORT}`);
 export const DEVICE_TIME_ZONE = RNLocalize.getTimeZone();
 export const DEVICE_TIME = momentTz.tz(TODAY, DEVICE_TIME_ZONE);
 export const TARGET_TIME = DEVICE_TIME.clone()
