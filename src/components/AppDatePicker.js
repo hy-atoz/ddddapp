@@ -5,7 +5,12 @@ import DatePicker from 'react-native-date-picker';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
 import {DATE_FORMAT, TARGET_DATE} from '../constants';
-import {setPrevOrNext, setSelectedDate} from '../features/result';
+import {
+  setIsLoading,
+  setIsPreviousDatePressed,
+  setPrevOrNext,
+  setSelectedDate,
+} from '../features/result';
 
 const AppDatePicker = ({disableButton = false}) => {
   const [open, setOpen] = useState(false);
@@ -22,6 +27,8 @@ const AppDatePicker = ({disableButton = false}) => {
       .subtract(1, 'days')
       .format(DATE_FORMAT);
 
+    dispatch(setIsLoading(true));
+    dispatch(setIsPreviousDatePressed(true));
     dispatch(
       setSelectedDate({
         selectedDate: previousDate,
@@ -38,6 +45,7 @@ const AppDatePicker = ({disableButton = false}) => {
       .add(1, 'days')
       .format(DATE_FORMAT);
 
+    dispatch(setIsLoading(true));
     dispatch(
       setSelectedDate({
         selectedDate: nextDate,
@@ -63,7 +71,6 @@ const AppDatePicker = ({disableButton = false}) => {
           name: 'caretleft',
         }}
       />
-
       <AntDesign.Button
         backgroundColor="white"
         color="black"

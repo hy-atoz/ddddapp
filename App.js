@@ -9,10 +9,15 @@ import SplashScreen from 'react-native-splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import AppTitle from './src/components/AppTitle';
 import FullScreenLoading from './src/components/FullScreenLoading';
-import {API_BASE_URL, DATE_FORMAT, TARGET_DATE} from './src/constants';
+import {API_BASE_URL, DATE_FORMAT} from './src/constants';
 import c from './src/constants/companies';
 import {setInternetConnection} from './src/features/internet';
-import {saveResult, setIsLoading, setSelectedDate} from './src/features/result';
+import {
+  saveResult,
+  setIsLoading,
+  setIsPreviousDatePressed,
+  setSelectedDate,
+} from './src/features/result';
 import BlankResultScreen from './src/screens/BlankResultScreen';
 import ResultScreen from './src/screens/ResultScreen';
 import getItem from './src/utils/getItem';
@@ -30,13 +35,15 @@ const App = () => {
   const resultRef = useRef(null);
   const [currentSide, setCurrentSide] = useState('M');
   const [isVertical] = useState(false);
-  const [resultCount, setResultCount] = useState(0);
 
   const dispatch = useDispatch();
   const hasInternet = useSelector(state => state.internet.value);
   const {formattedDate} = useSelector(state => state.result.dates);
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
   const isLoading = useSelector(state => state.result.isLoading);
+  const isPrevDatePressed = useSelector(
+    state => state.result.isPrevDatePressed,
+  );
   const prevOrNext = useSelector(state => state.result.prevOrNext);
   const result = useSelector(state => state.result.value);
 
@@ -91,7 +98,6 @@ const App = () => {
   // Fetching data from API and save to result state
   const fetchFdData = async (date = '') => {
     console.log('🌺 Fetching data from', `${API_BASE_URL}/${date}`);
-    dispatch(setIsLoading(true));
     const response = await fetch(`${API_BASE_URL}/${date}`);
     const json = await response.json();
     dispatch(setIsLoading(false));
@@ -109,10 +115,14 @@ const App = () => {
 
   // Check if there is an internet connection
   useEffect(() => {
+    dispatch(setIsLoading(true));
     const data = NetInfo.addEventListener(state => {
-      !state.isConnected && !state.isInternetReachable
-        ? dispatch(setInternetConnection(false))
-        : dispatch(setInternetConnection(true));
+      if (!state.isConnected && !state.isInternetReachable) {
+        dispatch(setIsLoading(false));
+        dispatch(setInternetConnection(false));
+      } else {
+        dispatch(setInternetConnection(true));
+      }
     });
     return () => {
       data();
@@ -123,7 +133,7 @@ const App = () => {
   useEffect(() => {
     formattedDate ? fetchFdData(formattedDate) : fetchFdData();
     SplashScreen.hide();
-  }, [formattedDate]);
+  }, [formattedDate, hasInternet]);
 
   // Update the selectedDate based on the result
   useEffect(() => {
@@ -133,7 +143,8 @@ const App = () => {
     if (result.length !== 0) {
       console.log('🔥 Done fetching data...');
       const fdData = getItem(result, currentSide).fdData;
-      updateDate(fdData.dd);
+      const currentSideDate = fdData.dd;
+      isPrevDatePressed && updateDate(currentSideDate);
     }
   }, [result]);
 
@@ -149,7 +160,6 @@ const App = () => {
     <SafeAreaView style={styles.container}>
       {isLoading && !isLiveStarted ? <FullScreenLoading /> : null}
       <AppTitle />
-      {/* <Button onPress={open4DNumWebsite}>Open Link</Button> */}
       {result.length === 0 ? (
         <Carousel
           {...baseOptions}
@@ -181,7 +191,6 @@ const App = () => {
           pagingEnabled
           panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
-          // scrollAnimationDuration={300}
           snapEnabled
           windowSize={3}
           renderItem={({index}) => {
