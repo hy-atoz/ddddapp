@@ -91,6 +91,7 @@ const AppDatePicker = ({disableButton = false}) => {
           setOpen(false);
         }}
         onConfirm={date => {
+          dispatch(setIsLoading(true));
           setOpen(false);
           dispatch(
             setSelectedDate({

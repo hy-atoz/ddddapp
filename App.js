@@ -101,6 +101,7 @@ const App = () => {
     const response = await fetch(`${API_BASE_URL}/${date}`);
     const json = await response.json();
     dispatch(setIsLoading(false));
+    // dispatch(saveResult([]));
     dispatch(saveResult(json));
   };
 
@@ -191,8 +192,9 @@ const App = () => {
           pagingEnabled
           panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
+          // scrollAnimationDuration={500}
           snapEnabled
-          windowSize={3}
+          // windowSize={3}
           renderItem={({index}) => {
             return (
               <ResultScreen
