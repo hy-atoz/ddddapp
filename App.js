@@ -152,7 +152,7 @@ const App = () => {
   // CodePush: https://github.com/gulsher7/CodePushApp
   useEffect(() => {
     codePush.sync({
-      updateDialog: true,
+      updateDialog: false,
       installMode: codePush.InstallMode.IMMEDIATE,
     });
   }, []);
