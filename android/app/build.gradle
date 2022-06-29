@@ -139,8 +139,8 @@ android {
         applicationId "com.ddddapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.2"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         if (isNewArchitectureEnabled()) {
@@ -244,12 +244,12 @@ android {
             // Note: CodePush updates shouldn't be tested in Debug mode as they're overriden by the RN packager. However, because CodePush checks for updates in all modes, we must supply a key.
             // resValue "string", "CodePushDeploymentKey", '""'
         }
-        releaseStaging {
+        // releaseStaging {
             // resValue "string", "CodePushDeploymentKey", '"pj-RGo3ziIWNNFBYTgNp8GNyk8fPx6J52rtYf"'
             // Note: It's a good idea to provide matchingFallbacks for the new buildType you create to prevent build issues
             // Add the following line if not already there
-            matchingFallbacks = ['release']
-        }
+            // matchingFallbacks = ['release']
+        // }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
