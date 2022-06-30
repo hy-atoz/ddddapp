@@ -6,12 +6,12 @@ let initialDate = new Date();
 let initialFormattedDate = '';
 
 if (TARGET_TIME < DRAW_TIME.start) {
-  // initialDate = moment(TARGET_DATE).subtract(1, 'days').toDate();
-  // initialFormattedDate = moment(TARGET_DATE)
-  //   .subtract(1, 'days')
-  //   .format(DATE_FORMAT);
-  initialDate = moment(TARGET_DATE).toDate();
-  initialFormattedDate = moment(TARGET_DATE).format(DATE_FORMAT);
+  initialDate = moment(TARGET_DATE).subtract(1, 'days').toDate();
+  initialFormattedDate = moment(TARGET_DATE)
+    .subtract(1, 'days')
+    .format(DATE_FORMAT);
+  // initialDate = moment(TARGET_DATE).toDate();
+  // initialFormattedDate = moment(TARGET_DATE).format(DATE_FORMAT);
 } else {
   initialDate = moment(TARGET_DATE).toDate();
   initialFormattedDate = moment(TARGET_DATE).format(DATE_FORMAT);
