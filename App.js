@@ -7,7 +7,6 @@ import InAppBrowser from 'react-native-inappbrowser-reborn';
 import Carousel from 'react-native-reanimated-carousel';
 import SplashScreen from 'react-native-splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
-import AppTitle from './src/components/AppTitle';
 import FullScreenLoading from './src/components/FullScreenLoading';
 import {API_BASE_URL, DATE_FORMAT} from './src/constants';
 import c from './src/constants/companies';
@@ -28,7 +27,7 @@ const codePushOptions = {
     : codePush.CheckFrequency.ON_APP_RESUME,
 };
 const {height: PAGE_HEIGHT, width: PAGE_WIDTH} = Dimensions.get('window');
-const activeOffsetX = {activeOffsetX: [-1, 1]};
+const activeOffsetX = {activeOffsetX: [-10, 10]};
 
 const App = () => {
   const blankResultRef = useRef(null);
@@ -101,7 +100,6 @@ const App = () => {
     const response = await fetch(`${API_BASE_URL}/${date}`);
     const json = await response.json();
     dispatch(setIsLoading(false));
-    // dispatch(saveResult([]));
     dispatch(saveResult(json));
   };
 
@@ -160,7 +158,6 @@ const App = () => {
   return (
     <SafeAreaView style={styles.container}>
       {isLoading && !isLiveStarted ? <FullScreenLoading /> : null}
-      <AppTitle />
       {result.length === 0 ? (
         <Carousel
           {...baseOptions}
@@ -192,9 +189,7 @@ const App = () => {
           pagingEnabled
           panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
-          // scrollAnimationDuration={500}
           snapEnabled
-          // windowSize={3}
           renderItem={({index}) => {
             return (
               <ResultScreen
