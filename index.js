@@ -1,5 +1,5 @@
-if(__DEV__) {
-  import('./ReactotronConfig').then(() => console.log('Reactotron Configured'))
+if (__DEV__) {
+  import('./ReactotronConfig').then(() => console.log('Reactotron Configured'));
 }
 import React from 'react';
 import {configureStore} from '@reduxjs/toolkit';
