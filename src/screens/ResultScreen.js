@@ -24,7 +24,12 @@ import {
   TITLES,
 } from '../constants';
 import ResultScreenContainer from '../containers/ResultScreenContainer';
-import {saveResult, setIsLiveStarted, setIsLoading} from '../features/result';
+import {
+  saveResult,
+  setIsLiveStarted,
+  setIsLoading,
+  setIsPreviousDatePressed,
+} from '../features/result';
 import {createNumberRow} from '../utils/createRow';
 import formatPrize from '../utils/formatPrize';
 import getItem from '../utils/getItem';
@@ -56,6 +61,9 @@ const ResultScreen = ({
 
   const dispatch = useDispatch();
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
+  const isPrevDatePressed = useSelector(
+    state => state.result.isPrevDatePressed,
+  );
   const {formattedDate} = useSelector(state => state.result.dates);
   const result = useSelector(state => state.result.value);
 
@@ -66,6 +74,8 @@ const ResultScreen = ({
     dispatch(saveResult(json));
     dispatch(setIsLoading(false));
   };
+
+  // TODO: What to do when the user presses the "Previous Date" button?
 
   // Decide whether to go live or not
   useEffect(() => {
