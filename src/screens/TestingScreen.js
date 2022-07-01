@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {Box, Text} from 'native-base';
 import React from 'react';
 import {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
@@ -9,9 +9,9 @@ const TestingScreen = () => {
   }, []);
 
   return (
-    <View>
-      <Text>TestingScreen</Text>
-    </View>
+    <Box>
+      <Text textAlign="center">TestingScreen</Text>
+    </Box>
   );
 };
 export default TestingScreen;
