@@ -16,7 +16,7 @@ const FullScreenLoading = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    backgroundColor: 'rgba(0,0,0,0.1)',
     flex: 1,
     zIndex: 1,
   },

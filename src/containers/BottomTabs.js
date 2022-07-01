@@ -4,6 +4,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import App from '../../App';
 import TestingScreen from '../screens/TestingScreen';
+import SettingScreen from '../screens/SettingScreen';
+import {useEffect} from 'react';
+import SplashScreen from 'react-native-splash-screen';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,14 +23,18 @@ function BottomTabs() {
     headerStyle: {height: Platform.OS === 'ios' ? 80 : 40},
     headerTitleAlign: 'center',
     headerTitleStyle: {
-      fontFamily: 'Roboto-Bold',
       fontSize: 16,
     },
   };
 
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
     <Tab.Navigator
-      initialRouteName="Result"
+      initialRouteName="Settings"
+      sceneContainerStyle={{backgroundColor: 'white'}}
       screenOptions={({route}) => ({
         tabBarActiveTintColor: 'black',
         tabBarInactiveTintColor: 'gray',
@@ -39,16 +46,16 @@ function BottomTabs() {
               iconName = focused ? 'ios-menu' : 'ios-menu';
               size = 22;
               break;
-            case ROUTES.toolbox:
-              iconName = focused ? 'ios-cube' : 'ios-cube-outline';
-              break;
-            case ROUTES.result:
-              iconName = focused ? 'ios-calculator' : 'ios-calculator-outline';
-              break;
             case ROUTES.notification:
               iconName = focused
                 ? 'ios-chatbubbles-sharp'
                 : 'ios-chatbubbles-outline';
+              break;
+            case ROUTES.result:
+              iconName = focused ? 'ios-calculator' : 'ios-calculator-outline';
+              break;
+            case ROUTES.toolbox:
+              iconName = focused ? 'ios-cube' : 'ios-cube-outline';
               break;
             case ROUTES.settings:
               iconName = focused
@@ -67,7 +74,7 @@ function BottomTabs() {
         options={{...headerOptions}}
       />
       <Tab.Screen
-        name={ROUTES.toolbox}
+        name={ROUTES.notification}
         component={TestingScreen}
         options={{...headerOptions}}
       />
@@ -80,13 +87,13 @@ function BottomTabs() {
         }}
       />
       <Tab.Screen
-        name={ROUTES.notification}
+        name={ROUTES.toolbox}
         component={TestingScreen}
         options={{...headerOptions}}
       />
       <Tab.Screen
         name={ROUTES.settings}
-        component={TestingScreen}
+        component={SettingScreen}
         options={{...headerOptions}}
       />
     </Tab.Navigator>

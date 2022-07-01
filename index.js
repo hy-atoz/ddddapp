@@ -13,6 +13,7 @@ import internetReducer from './src/features/internet';
 import resultReducer from './src/features/result';
 import theme from './src/utils/theme';
 import BottomTabs from './src/containers/BottomTabs';
+import App from './App';
 
 const store = configureStore({
   reducer: {
@@ -31,6 +32,7 @@ const RNRedux = () => (
       <GestureHandlerRootView style={{flex: 1}}>
         <NavigationContainer>
           <BottomTabs />
+          {/* <App /> */}
         </NavigationContainer>
       </GestureHandlerRootView>
     </NativeBaseProvider>
