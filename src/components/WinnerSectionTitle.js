@@ -1,6 +1,9 @@
 import {Box, Text} from 'native-base';
 import React from 'react';
+import {Dimensions} from 'react-native';
 import {APP} from '../constants';
+
+const DEVICE_WIDTH = Dimensions.get('window').width;
 
 const WinnerSectionTitle = ({
   backgroundColor = APP.TITLE_BG,
@@ -19,7 +22,7 @@ const WinnerSectionTitle = ({
       <Text
         color="white"
         fontFamily="Roboto-Bold"
-        fontSize="sm"
+        fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'sm'}
         fontWeight="bold"
         textAlign="center">
         {title}
