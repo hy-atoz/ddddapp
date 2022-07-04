@@ -10,6 +10,7 @@ const Letter = ({isTop3, text}) => {
       fontWeight={isTop3 ? 'medium' : 'bold'}
       position="absolute"
       left={0.5}
+      top={0}
       textTransform="uppercase">
       {text}
     </Text>

@@ -1,8 +1,11 @@
 import {Flex, Heading, HStack, Image} from 'native-base';
 import React from 'react';
+import {Dimensions} from 'react-native';
 import Blink from './Blink';
 import Live from './Live';
 import New from './New';
+
+const DEVICE_WIDTH = Dimensions.get('window').width;
 
 const CompanyHeader = ({
   bgColor,
@@ -29,12 +32,17 @@ const CompanyHeader = ({
       justifyContent="center"
       paddingY={1}
       space={2}>
-      <Image alt={name} height={8} width={8} source={source} />
+      <Image
+        alt={name}
+        height={DEVICE_WIDTH <= 320 ? 6 : 8}
+        width={DEVICE_WIDTH <= 320 ? 6 : 8}
+        source={source}
+      />
       <Heading
         alignSelf="center"
         color={color}
         fontFamily="Roboto-Bold"
-        fontSize="md"
+        fontSize={DEVICE_WIDTH <= 320 ? 'sm' : 'md'}
         textAlign="center">
         {name}
       </Heading>

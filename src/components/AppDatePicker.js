@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Dimensions} from 'react-native';
 import moment from 'moment';
 import {HStack, IconButton} from 'native-base';
 import DatePicker from 'react-native-date-picker';
@@ -11,6 +12,9 @@ import {
   setPrevOrNext,
   setSelectedDate,
 } from '../features/result';
+
+const DEVICE_WIDTH = Dimensions.get('window').width;
+const ICON_SIZE = DEVICE_WIDTH <= 320 ? 4 : 8;
 
 const AppDatePicker = ({disableButton = false}) => {
   const [open, setOpen] = useState(false);
@@ -64,6 +68,7 @@ const AppDatePicker = ({disableButton = false}) => {
       <IconButton
         disabled={disableButton}
         colorScheme="muted"
+        size={ICON_SIZE}
         variant="ghost"
         onPress={goPreviousDate}
         _icon={{
@@ -75,7 +80,7 @@ const AppDatePicker = ({disableButton = false}) => {
         backgroundColor="white"
         color="black"
         name="calendar"
-        size={18}
+        size={DEVICE_WIDTH <= 320 ? 14 : 18}
         onPress={() => !disableButton && setOpen(true)}>
         Date
       </AntDesign.Button>
@@ -104,6 +109,7 @@ const AppDatePicker = ({disableButton = false}) => {
       <IconButton
         disabled={disableButton}
         colorScheme="muted"
+        size={ICON_SIZE}
         variant="ghost"
         onPress={goNextDate}
         _icon={{

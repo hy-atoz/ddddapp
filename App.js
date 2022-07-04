@@ -28,7 +28,7 @@ const codePushOptions = {
     : codePush.CheckFrequency.ON_APP_RESUME,
 };
 const {height: PAGE_HEIGHT, width: PAGE_WIDTH} = Dimensions.get('window');
-const activeOffsetX = {activeOffsetX: [-1, 1]};
+const activeOffsetX = {activeOffsetX: [-10, 10]};
 
 const App = () => {
   const blankResultRef = useRef(null);
@@ -101,7 +101,6 @@ const App = () => {
     const response = await fetch(`${API_BASE_URL}/${date}`);
     const json = await response.json();
     dispatch(setIsLoading(false));
-    // dispatch(saveResult([]));
     dispatch(saveResult(json));
   };
 
@@ -166,7 +165,10 @@ const App = () => {
           {...baseOptions}
           data={c}
           defaultIndex={0}
-          panGestureHandlerProps={activeOffsetX}
+          // panGestureHandlerProps={activeOffsetX}
+          panGestureHandlerProps={{
+            activeOffsetX: [-10, 10],
+          }}
           ref={blankResultRef}
           renderItem={({index}) => {
             return (
@@ -190,7 +192,10 @@ const App = () => {
           defaultIndex={0}
           onSnapToItem={index => setCurrentSide(c[index].code)}
           pagingEnabled
-          panGestureHandlerProps={activeOffsetX}
+          // panGestureHandlerProps={activeOffsetX}
+          panGestureHandlerProps={{
+            activeOffsetX: [-10, 10],
+          }}
           ref={resultRef}
           // scrollAnimationDuration={500}
           snapEnabled

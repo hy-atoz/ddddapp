@@ -1,7 +1,10 @@
 import {Flex, Text} from 'native-base';
 import React from 'react';
+import {Dimensions} from 'react-native';
 import {APP} from '../constants';
 import Letter from './Letter';
+
+const DEVICE_WIDTH = Dimensions.get('window').width;
 
 const WinnerNumber = ({color = 'black', hasLetter, isLast, letter, number}) => {
   return (
@@ -19,7 +22,7 @@ const WinnerNumber = ({color = 'black', hasLetter, isLast, letter, number}) => {
       <Text
         color={color}
         fontFamily="Roboto-Medium"
-        fontSize="2xl"
+        fontSize={DEVICE_WIDTH <= 320 ? 'xl' : '2xl'}
         fontWeight="medium"
         textAlign="center">
         {number}
