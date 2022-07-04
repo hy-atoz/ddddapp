@@ -18,6 +18,7 @@ const Jackpot = ({isLast, prize, title}) => {
         height={10}
         padding={2}>
         <Text
+          allowFontScaling={false}
           fontFamily="Roboto-Regular"
           fontSize="sm"
           fontWeight="bold"

@@ -4,6 +4,7 @@ import React from 'react';
 const Letter = ({isTop3, text}) => {
   return (
     <Text
+      allowFontScaling={false}
       color="brand.red"
       fontFamily="Roboto-Regular"
       fontSize={isTop3 ? '2xs' : '3xs'}

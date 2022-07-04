@@ -16,6 +16,7 @@ const NoInternet = () => {
         justifyContent="center"
         height="100%">
         <Text
+          allowFontScaling={false}
           color="white"
           fontSize="sm"
           fontWeight="bold"

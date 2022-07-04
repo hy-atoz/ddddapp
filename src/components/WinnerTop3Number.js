@@ -18,6 +18,7 @@ const WinnerTop3Number = ({isLast, letter, result = APP.EMPTY}) => {
       width="100%">
       <Letter isTop3 text={letter} />
       <Text
+        allowFontScaling={false}
         fontFamily="Roboto-Bold"
         fontSize={DEVICE_WIDTH <= 320 ? 'xl' : '2xl'}
         fontWeight="bold"

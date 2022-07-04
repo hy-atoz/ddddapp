@@ -14,22 +14,15 @@ import YouTubePlayer from '../components/YouTubePlayer';
 import {
   ALPHABET,
   API_BASE_URL,
-  DATE_FORMAT,
   DRAW_TIME,
   REFRESH_RATE_MILLISECOND,
   REFRESH_RATE_SECOND,
-  TARGET_DATE,
   TARGET_TIME,
   TIME_FORMAT_LONG,
   TITLES,
 } from '../constants';
 import ResultScreenContainer from '../containers/ResultScreenContainer';
-import {
-  saveResult,
-  setIsLiveStarted,
-  setIsLoading,
-  setIsPreviousDatePressed,
-} from '../features/result';
+import {saveResult, setIsLiveStarted, setIsLoading} from '../features/result';
 import {createNumberRow} from '../utils/createRow';
 import formatPrize from '../utils/formatPrize';
 import getItem from '../utils/getItem';
@@ -57,14 +50,9 @@ const ResultScreen = ({
   name,
 }) => {
   const [currentTime, setCurrentTime] = useState(TARGET_TIME);
-  const [color, setColor] = useState('black');
 
   const dispatch = useDispatch();
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
-  const isPrevDatePressed = useSelector(
-    state => state.result.isPrevDatePressed,
-  );
-  const {formattedDate} = useSelector(state => state.result.dates);
   const result = useSelector(state => state.result.value);
 
   // Fetch the latest data from the base api endpoint
@@ -134,7 +122,7 @@ const ResultScreen = ({
     n3_pos,
   } = fdData;
   const hasJackpotAmount = fdData?.jackpotAmount;
-  const hasJackpotGD = fdData?.JackpotPrize;
+  // const hasJackpotGD = fdData?.JackpotPrize;
   const urlId = fdData?.videoUrl;
   var videoId = '';
   if (urlId !== undefined) {
@@ -163,17 +151,17 @@ const ResultScreen = ({
         letter3={n3_pos}
       />
       <WinnerSection title={TITLES.SPECIAL}>
-        <AppRow>{createNumberRow(AtoE, fdData, hasLetter, color)}</AppRow>
-        <AppRow>{createNumberRow(FtoJ, fdData, hasLetter, color)}</AppRow>
+        <AppRow>{createNumberRow(AtoE, fdData, hasLetter)}</AppRow>
+        <AppRow>{createNumberRow(FtoJ, fdData, hasLetter)}</AppRow>
         {hasLastRow ? (
-          <AppRow>{createNumberRow(KtoM, fdData, hasLetter, color)}</AppRow>
+          <AppRow>{createNumberRow(KtoM, fdData, hasLetter)}</AppRow>
         ) : (
           <AppRow isEmpty />
         )}
       </WinnerSection>
       <WinnerSection title={TITLES.CONSOLATION}>
-        <AppRow>{createNumberRow(NtoR, fdData, hasLetter, color)}</AppRow>
-        <AppRow>{createNumberRow(StoW, fdData, hasLetter, color)}</AppRow>
+        <AppRow>{createNumberRow(NtoR, fdData, hasLetter)}</AppRow>
+        <AppRow>{createNumberRow(StoW, fdData, hasLetter)}</AppRow>
       </WinnerSection>
       {!jp1 || !jp2 ? null : (
         <HStack>

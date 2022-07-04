@@ -28,7 +28,7 @@ const codePushOptions = {
     : codePush.CheckFrequency.ON_APP_RESUME,
 };
 const {height: PAGE_HEIGHT, width: PAGE_WIDTH} = Dimensions.get('window');
-const activeOffsetX = {activeOffsetX: [-10, 10]};
+// const activeOffsetX = {activeOffsetX: [-10, 10]};
 
 const App = () => {
   const blankResultRef = useRef(null);
@@ -44,7 +44,7 @@ const App = () => {
   const isPrevDatePressed = useSelector(
     state => state.result.isPrevDatePressed,
   );
-  const prevOrNext = useSelector(state => state.result.prevOrNext);
+  // const prevOrNext = useSelector(state => state.result.prevOrNext);
   const result = useSelector(state => state.result.value);
 
   // Base options for <Carousel />
@@ -90,10 +90,10 @@ const App = () => {
 
   // Open external link in the in-app browser
   // Link: https://github.com/proyecto26/react-native-inappbrowser
-  const open4DNumWebsite = async () => {
-    const url = 'http://dream.4dnum.com';
-    InAppBrowser.open(url, linkOptions);
-  };
+  // const open4DNumWebsite = async () => {
+  //   const url = 'http://dream.4dnum.com';
+  //   InAppBrowser.open(url, linkOptions);
+  // };
 
   // Fetching data from API and save to result state
   const fetchFdData = async (date = '') => {
@@ -160,6 +160,30 @@ const App = () => {
     <SafeAreaView style={styles.container}>
       {isLoading && !isLiveStarted ? <FullScreenLoading /> : null}
       <AppTitle />
+      {/* <Carousel
+        {...baseOptions}
+        data={c}
+        defaultIndex={0}
+        // panGestureHandlerProps={activeOffsetX}
+        panGestureHandlerProps={{
+          activeOffsetX: [-10, 10],
+        }}
+        ref={blankResultRef}
+        renderItem={({index}) => {
+          return (
+            <BlankResultScreen
+              key={index}
+              index={index}
+              bgColor={c[index].color}
+              hasLetter={c[index].hasLetter}
+              isBlackText={c[index].isBlackText}
+              isGreenText={c[index].isGreenText}
+              name={c[index].name}
+              source={c[index].image}
+            />
+          );
+        }}
+      /> */}
       {result.length === 0 ? (
         <Carousel
           {...baseOptions}
@@ -197,9 +221,7 @@ const App = () => {
             activeOffsetX: [-10, 10],
           }}
           ref={resultRef}
-          // scrollAnimationDuration={500}
           snapEnabled
-          // windowSize={3}
           renderItem={({index}) => {
             return (
               <ResultScreen

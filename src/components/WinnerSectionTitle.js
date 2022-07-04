@@ -20,6 +20,7 @@ const WinnerSectionTitle = ({
       padding={1}
       width="100%">
       <Text
+        allowFontScaling={false}
         color="white"
         fontFamily="Roboto-Bold"
         fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'sm'}

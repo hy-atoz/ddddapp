@@ -12,12 +12,14 @@ const DateAndDraw = ({date = '----/--/--', day = '---', draw = '---/---'}) => {
       paddingY={DEVICE_WIDTH <= 320 ? '1' : '2'}>
       <Box>
         <Text
+          allowFontScaling={false}
           fontFamily="Roboto-Bold"
           fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'sm'}
           fontWeight="bold">{`${date} (${day})`}</Text>
       </Box>
       <Box>
         <Text
+          allowFontScaling={false}
           fontFamily="Roboto-Bold"
           fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'sm'}
           fontWeight="bold">{`${draw}`}</Text>

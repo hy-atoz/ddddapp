@@ -13,6 +13,7 @@ const Live = () => {
       paddingX={0.5}>
       <Icon name="broadcast" color="white" size={10} />
       <Text
+        allowFontScaling={false}
         color="white"
         fontSize="2xs"
         fontWeight="bold"

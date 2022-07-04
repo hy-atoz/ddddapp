@@ -20,6 +20,7 @@ const WinnerNumber = ({color = 'black', hasLetter, isLast, letter, number}) => {
       paddingX={0}>
       {hasLetter ? <Letter text={letter} /> : null}
       <Text
+        allowFontScaling={false}
         color={color}
         fontFamily="Roboto-Medium"
         fontSize={DEVICE_WIDTH <= 320 ? 'xl' : '2xl'}

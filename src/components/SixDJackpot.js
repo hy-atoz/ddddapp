@@ -8,6 +8,7 @@ const SixDJackpot = ({amount, backgroundColor, hasPrefix}) => {
   return (
     <Box backgroundColor={backgroundColor} marginY={2} paddingY={2}>
       <Text
+        allowFontScaling={false}
         color="white"
         fontSize={DEVICE_WIDTH <= 320 ? 'md' : 'lg'}
         fontWeight="bold"
@@ -15,6 +16,7 @@ const SixDJackpot = ({amount, backgroundColor, hasPrefix}) => {
         Jackpot Pool
       </Text>
       <Text
+        allowFontScaling={false}
         color="white"
         fontSize={DEVICE_WIDTH <= 320 ? 'lg' : 'xl'}
         fontWeight="bold"

@@ -13,7 +13,7 @@ const AppTitle = ({isLive}) => {
       backgroundColor="gray.200"
       justifyContent="center"
       paddingY={2}>
-      <Text fontFamily="Roboto-Bold" fontWeight="bold">
+      <Text allowFontScaling={false} fontFamily="Roboto-Bold" fontWeight="bold">
         {TITLES.APP}
       </Text>
       {/* <Flex position="absolute" right="4" bottom="1">

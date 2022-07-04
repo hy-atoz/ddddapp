@@ -13,6 +13,7 @@ const New = () => {
       paddingX={0.5}>
       <Icon name="new" color="white" size={10} />
       <Text
+        allowFontScaling={false}
         color="white"
         fontSize="2xs"
         fontWeight="bold"

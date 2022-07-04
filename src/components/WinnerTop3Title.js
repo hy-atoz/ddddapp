@@ -12,6 +12,7 @@ const WinnerTop3Title = ({title}) => {
       height={DEVICE_WIDTH <= 320 ? '8' : '10'}
       justifyContent="center">
       <Text
+        allowFontScaling={false}
         color="white"
         fontFamily="Roboto-Bold"
         fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'sm'}

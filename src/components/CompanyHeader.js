@@ -39,6 +39,7 @@ const CompanyHeader = ({
         source={source}
       />
       <Heading
+        allowFontScaling={false}
         alignSelf="center"
         color={color}
         fontFamily="Roboto-Bold"
