@@ -77,6 +77,7 @@ const AppDatePicker = ({disableButton = false}) => {
         }}
       />
       <AntDesign.Button
+        allowFontScaling={false}
         backgroundColor="white"
         color="black"
         name="calendar"
