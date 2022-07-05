@@ -10,8 +10,6 @@ if (TARGET_TIME < DRAW_TIME.start) {
   initialFormattedDate = moment(TARGET_DATE)
     .subtract(1, 'days')
     .format(DATE_FORMAT);
-  // initialDate = moment(TARGET_DATE).toDate();
-  // initialFormattedDate = moment(TARGET_DATE).format(DATE_FORMAT);
 } else {
   initialDate = moment(TARGET_DATE).toDate();
   initialFormattedDate = moment(TARGET_DATE).format(DATE_FORMAT);
@@ -22,8 +20,8 @@ const initialState = {
     selectedDate: initialDate,
     formattedDate: initialFormattedDate,
   },
-  isLoading: false,
   isLiveStarted: 0,
+  isLoading: false,
   isPrevDatePressed: false,
   prevOrNext: '',
   value: [],
@@ -45,9 +43,6 @@ export const resultSlice = createSlice({
     setIsPreviousDatePressed: (state, action) => {
       state.isPrevDatePressed = action.payload;
     },
-    setPrevOrNext: (state, action) => {
-      state.prevOrNext = action.payload;
-    },
     setSelectedDate: (state, action) => {
       state.dates = action.payload;
     },
@@ -59,7 +54,6 @@ export const {
   setIsLoading,
   setIsLiveStarted,
   setIsPreviousDatePressed,
-  setPrevOrNext,
   setSelectedDate,
 } = resultSlice.actions;
 

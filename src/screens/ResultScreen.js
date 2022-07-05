@@ -25,7 +25,6 @@ import ResultScreenContainer from '../containers/ResultScreenContainer';
 import {saveResult, setIsLiveStarted, setIsLoading} from '../features/result';
 import {createNumberRow} from '../utils/createRow';
 import formatPrize from '../utils/formatPrize';
-import getItem from '../utils/getItem';
 
 const AtoE = ALPHABET.slice(0, 5);
 const FtoJ = ALPHABET.slice(5, 10);
@@ -53,7 +52,9 @@ const ResultScreen = ({
 
   const dispatch = useDispatch();
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
-  const result = useSelector(state => state.result.value);
+  const fdData = useSelector(
+    state => state.result.value.find(f => f.type === companyCode).fdData,
+  );
 
   // Fetch the latest data from the base api endpoint
   const fetchFdData = async () => {
@@ -62,8 +63,6 @@ const ResultScreen = ({
     dispatch(saveResult(json));
     dispatch(setIsLoading(false));
   };
-
-  // TODO: What to do when the user presses the "Previous Date" button?
 
   // Decide whether to go live or not
   useEffect(() => {
@@ -105,7 +104,6 @@ const ResultScreen = ({
     return () => clearInterval(timer);
   }, [currentTime, isLiveStarted]);
 
-  const fdData = getItem(result, companyCode).fdData;
   const {
     day,
     dd,

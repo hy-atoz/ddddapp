@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import moment from 'moment';
-import {Dimensions, SafeAreaView, StyleSheet} from 'react-native';
+import {Dimensions, SafeAreaView} from 'react-native';
 import codePush from 'react-native-code-push';
-import InAppBrowser from 'react-native-inappbrowser-reborn';
+// import InAppBrowser from 'react-native-inappbrowser-reborn';
 import Carousel from 'react-native-reanimated-carousel';
 import SplashScreen from 'react-native-splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
@@ -12,12 +12,7 @@ import FullScreenLoading from './src/components/FullScreenLoading';
 import {API_BASE_URL, DATE_FORMAT} from './src/constants';
 import c from './src/constants/companies';
 import {setInternetConnection} from './src/features/internet';
-import {
-  saveResult,
-  setIsLoading,
-  setIsPreviousDatePressed,
-  setSelectedDate,
-} from './src/features/result';
+import {saveResult, setIsLoading, setSelectedDate} from './src/features/result';
 import BlankResultScreen from './src/screens/BlankResultScreen';
 import ResultScreen from './src/screens/ResultScreen';
 import getItem from './src/utils/getItem';
@@ -28,7 +23,7 @@ const codePushOptions = {
     : codePush.CheckFrequency.ON_APP_RESUME,
 };
 const {height: PAGE_HEIGHT, width: PAGE_WIDTH} = Dimensions.get('window');
-// const activeOffsetX = {activeOffsetX: [-10, 10]};
+const activeOffsetX = {activeOffsetX: [-10, 10]};
 
 const App = () => {
   const blankResultRef = useRef(null);
@@ -44,7 +39,6 @@ const App = () => {
   const isPrevDatePressed = useSelector(
     state => state.result.isPrevDatePressed,
   );
-  // const prevOrNext = useSelector(state => state.result.prevOrNext);
   const result = useSelector(state => state.result.value);
 
   // Base options for <Carousel />
@@ -60,33 +54,33 @@ const App = () => {
         width: PAGE_WIDTH,
       };
 
-  const linkOptions = {
-    // iOS Properties
-    dismissButtonStyle: 'close',
-    preferredBarTintColor: 'white',
-    preferredControlTintColor: 'black',
-    readerMode: false,
-    animated: true,
-    modalPresentationStyle: 'popover',
-    modalTransitionStyle: 'coverVertical',
-    modalEnabled: true,
-    enableBarCollapsing: false,
-    // Android Properties
-    showTitle: true,
-    toolbarColor: 'white',
-    secondaryToolbarColor: 'black',
-    navigationBarColor: 'black',
-    navigationBarDividerColor: 'white',
-    enableUrlBarHiding: true,
-    enableDefaultShare: true,
-    forceCloseOnRedirection: false,
-    animations: {
-      startEnter: 'slide_in_right',
-      startExit: 'slide_out_left',
-      endEnter: 'slide_in_left',
-      endExit: 'slide_out_right',
-    },
-  };
+  // const linkOptions = {
+  //   // iOS Properties
+  //   dismissButtonStyle: 'close',
+  //   preferredBarTintColor: 'white',
+  //   preferredControlTintColor: 'black',
+  //   readerMode: false,
+  //   animated: true,
+  //   modalPresentationStyle: 'popover',
+  //   modalTransitionStyle: 'coverVertical',
+  //   modalEnabled: true,
+  //   enableBarCollapsing: false,
+  //   // Android Properties
+  //   showTitle: true,
+  //   toolbarColor: 'white',
+  //   secondaryToolbarColor: 'black',
+  //   navigationBarColor: 'black',
+  //   navigationBarDividerColor: 'white',
+  //   enableUrlBarHiding: true,
+  //   enableDefaultShare: true,
+  //   forceCloseOnRedirection: false,
+  //   animations: {
+  //     startEnter: 'slide_in_right',
+  //     startExit: 'slide_out_left',
+  //     endEnter: 'slide_in_left',
+  //     endExit: 'slide_out_right',
+  //   },
+  // };
 
   // Open external link in the in-app browser
   // Link: https://github.com/proyecto26/react-native-inappbrowser
@@ -97,6 +91,7 @@ const App = () => {
 
   // Fetching data from API and save to result state
   const fetchFdData = async (date = '') => {
+    dispatch(setIsLoading(true));
     console.log('🌺 Fetching data from', `${API_BASE_URL}/${date}`);
     const response = await fetch(`${API_BASE_URL}/${date}`);
     const json = await response.json();
@@ -142,9 +137,12 @@ const App = () => {
     );
     if (result.length !== 0) {
       console.log('🔥 Done fetching data...');
-      const fdData = getItem(result, currentSide).fdData;
-      const currentSideDate = fdData.dd;
-      isPrevDatePressed && updateDate(currentSideDate);
+      // const index = resultRef.current.getCurrentIndex();
+      // setCurrentSide(c[index].code);
+      // const fdData = getItem(result, currentSide).fdData;
+      // const currentSideDate = fdData.dd;
+      // updateDate(currentSideDate);
+      // isPrevDatePressed && updateDate(currentSideDate);
     }
   }, [result]);
 
@@ -157,42 +155,15 @@ const App = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{flex: 1}}>
       {isLoading && !isLiveStarted ? <FullScreenLoading /> : null}
       <AppTitle />
-      {/* <Carousel
-        {...baseOptions}
-        data={c}
-        defaultIndex={0}
-        // panGestureHandlerProps={activeOffsetX}
-        panGestureHandlerProps={{
-          activeOffsetX: [-10, 10],
-        }}
-        ref={blankResultRef}
-        renderItem={({index}) => {
-          return (
-            <BlankResultScreen
-              key={index}
-              index={index}
-              bgColor={c[index].color}
-              hasLetter={c[index].hasLetter}
-              isBlackText={c[index].isBlackText}
-              isGreenText={c[index].isGreenText}
-              name={c[index].name}
-              source={c[index].image}
-            />
-          );
-        }}
-      /> */}
       {result.length === 0 ? (
         <Carousel
           {...baseOptions}
           data={c}
           defaultIndex={0}
-          // panGestureHandlerProps={activeOffsetX}
-          panGestureHandlerProps={{
-            activeOffsetX: [-10, 10],
-          }}
+          panGestureHandlerProps={activeOffsetX}
           ref={blankResultRef}
           renderItem={({index}) => {
             return (
@@ -214,14 +185,12 @@ const App = () => {
           {...baseOptions}
           data={c}
           defaultIndex={0}
-          onSnapToItem={index => setCurrentSide(c[index].code)}
-          pagingEnabled
-          // panGestureHandlerProps={activeOffsetX}
-          panGestureHandlerProps={{
-            activeOffsetX: [-10, 10],
-          }}
+          // onSnapToItem={index => setCurrentSide(c[index].code)}
+          pagingEnabled={true}
+          panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
-          snapEnabled
+          scrollAnimationDuration={500}
+          // snapEnabled={true}
           renderItem={({index}) => {
             return (
               <ResultScreen
@@ -244,11 +213,5 @@ const App = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default codePush(codePushOptions)(App);

@@ -9,7 +9,6 @@ import {DATE_FORMAT, TARGET_DATE} from '../constants';
 import {
   setIsLoading,
   setIsPreviousDatePressed,
-  setPrevOrNext,
   setSelectedDate,
 } from '../features/result';
 
@@ -38,7 +37,6 @@ const AppDatePicker = ({disableButton = false}) => {
         selectedDate: previousDate,
         formattedDate: formattedPreviousDate,
       }),
-      // dispatch(setPrevOrNext('/prev'));
     );
   };
 
@@ -55,7 +53,6 @@ const AppDatePicker = ({disableButton = false}) => {
         selectedDate: nextDate,
         formattedDate: formattedNextDate,
       }),
-      // dispatch(setPrevOrNext('/next'));
     );
   };
 
@@ -83,7 +80,7 @@ const AppDatePicker = ({disableButton = false}) => {
         name="calendar"
         size={DEVICE_WIDTH <= 320 ? 14 : 18}
         onPress={() => !disableButton && setOpen(true)}>
-        Date
+        Select Date
       </AntDesign.Button>
       <DatePicker
         androidVariant="iosClone"
