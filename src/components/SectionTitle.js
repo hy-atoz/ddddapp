@@ -5,9 +5,10 @@ import {APP} from '../constants';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
-const WinnerSectionTitle = ({
+const SectionTitle = ({
   backgroundColor = APP.TITLE_BG,
   forVideo,
+  isSettingPage = false,
   title,
 }) => {
   return (
@@ -24,11 +25,12 @@ const WinnerSectionTitle = ({
         fontFamily="Roboto-Bold"
         fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'sm'}
         fontWeight="bold"
-        textAlign="center">
+        paddingX={isSettingPage ? 3 : 0}
+        textAlign={isSettingPage ? 'left' : 'center'}>
         {title}
       </Text>
     </Box>
   );
 };
 
-export default WinnerSectionTitle;
+export default SectionTitle;

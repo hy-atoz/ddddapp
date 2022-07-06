@@ -1,14 +1,14 @@
 import React from 'react';
 import {Box, Flex, Text} from 'native-base';
 import {APP} from '../constants';
-import WinnerSectionTitle from './WinnerSectionTitle';
+import SectionTitle from './SectionTitle';
 
 const {BORDER_WIDTH, GRAY_BORDER} = APP;
 
 const Jackpot = ({isLast, prize, title}) => {
   return (
     <Flex flexGrow={1}>
-      <WinnerSectionTitle title={title} />
+      <SectionTitle title={title} />
       <Box
         backgroundColor="brand.gray"
         borderColor={GRAY_BORDER}

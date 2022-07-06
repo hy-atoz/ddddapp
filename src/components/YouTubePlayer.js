@@ -1,12 +1,12 @@
 import React from 'react';
 import {Box} from 'native-base';
 import YoutubePlayer from 'react-native-youtube-iframe';
-import WinnerSectionTitle from './WinnerSectionTitle';
+import SectionTitle from './SectionTitle';
 
 const YouTubePlayer = ({videoId}) => {
   return (
     <Box marginTop={1}>
-      <WinnerSectionTitle
+      <SectionTitle
         backgroundColor="brand.black"
         forVideo
         title="View Draw Video 观看视频"

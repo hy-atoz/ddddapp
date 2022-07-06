@@ -1,6 +1,6 @@
 import {VStack} from 'native-base';
 import React from 'react';
-import WinnerSectionTitle from './WinnerSectionTitle';
+import SectionTitle from './SectionTitle';
 
 const WinnerSection = ({children, title}) => {
   return (
@@ -9,7 +9,7 @@ const WinnerSection = ({children, title}) => {
       justifyContent="center"
       marginBottom={1}
       width="100%">
-      <WinnerSectionTitle title={title} />
+      <SectionTitle title={title} />
       {children}
     </VStack>
   );

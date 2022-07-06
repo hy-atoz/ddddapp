@@ -13,6 +13,7 @@ import internetReducer from './src/features/internet';
 import resultReducer from './src/features/result';
 import theme from './src/utils/theme';
 import BottomTabs from './src/containers/BottomTabs';
+import './src/i18n';
 import App from './App';
 
 const store = configureStore({
