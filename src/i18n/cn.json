@@ -1,0 +1,68 @@
+{
+  "bottomTab": {
+    "dashboard": "目录",
+    "notification": "通知",
+    "results": "成绩",
+    "toolbox": "工具箱",
+    "settings": "设定"
+  },
+  "header": {
+    "dashboard": "4DNum 面板",
+    "notification": "万字开彩通知",
+    "results": "4DNum 万字成绩",
+    "toolbox": "工具箱",
+    "settings": "设定"
+  },
+  "prize": {
+    "first": "头奖",
+    "second": "二奖",
+    "third": "三奖",
+    "special": "特别奖",
+    "consolation": "安慰奖"
+  },
+  "settings": {
+    "language": "语言",
+    "voice": "语音",
+    "others": "其他"
+  },
+  "day": {
+    "monday": "星期一",
+    "tuesday": "星期二",
+    "wednesday": "星期三",
+    "thursday": "星期四",
+    "friday": "星期五",
+    "saturday": "星期六",
+    "sunday": "星期日"
+  },
+  "companyResult": {
+    "magnum": "萬能萬字",
+    "damacai": "大馬彩 1+3D",
+    "toto": "多多萬字",
+    "sandakan": "山打根賽馬會",
+    "sabah88": "沙巴88萬字",
+    "cs": "砂勞越大萬",
+    "sg4d": "新加坡萬字",
+    "hari": "天天好運",
+    "gd": "豪龍彩票"
+  },
+  "companyDashboard": {
+    "magnum": "萬能萬字",
+    "damacai": "大馬彩 1+3D",
+    "toto": "多多萬字",
+    "sandakan": "山打根賽馬會",
+    "sabah88": "沙巴88萬字",
+    "cs": "砂勞越大萬",
+    "sg4d": "新加坡萬字",
+    "hari": "天天好運",
+    "gd": "豪龍彩票"
+  },
+  "date": {
+    "date": "日期",
+    "prev": "上一期",
+    "next": "下一期"
+  },
+  "reorder": {
+    "reorder": "排序",
+    "done": "完成"
+  }
+}

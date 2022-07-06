@@ -1,0 +1,67 @@
+{
+  "bottomTab": {
+    "dashboard": "Dashboard",
+    "notification": "Notification",
+    "results": "Results",
+    "toolbox": "Toolbox",
+    "settings": "Settings"
+  },
+  "header": {
+    "dashboard": "4DNum Dashboard",
+    "notification": "Notification",
+    "results": "4DNum Results",
+    "toolbox": "Toolbox",
+    "settings": "Settings"
+  },
+  "prize": {
+    "first": "1st Prize",
+    "second": "2nd Prize",
+    "third": "3rd Prize",
+    "special": "Special",
+    "consolation": "Consolation"
+  },
+  "settings": {
+    "language": "Language",
+    "voice": "Voice",
+    "others": "Others"
+  },
+  "day": {
+    "monday": "Mon",
+    "tuesday": "Tue",
+    "wednesday": "Wed",
+    "thursday": "Thu",
+    "friday": "Fri",
+    "saturday": "Sat",
+    "sunday": "Sun"
+  },
+  "companyResult": {
+    "magnum": "Magnum 4D",
+    "damacai": "Da Ma Cai 1+3D",
+    "toto": "SportsToto 4D",
+    "sandakan": "Sandakan 4D",
+    "sabah88": "Sabah88 4D",
+    "cs": "Special CashSweep",
+    "sg4d": "Singapore 4D",
+    "hari": "Lucky Hari Hari",
+    "gd": "Grand Dragon 4D"
+  },
+    "magnum": "Magnum 4D",
+    "damacai": "Da Ma Cai",
+    "toto": "SportsToto",
+    "sandakan": "Sandakan 4D",
+    "sabah88": "Sabah88 4D",
+    "cs": "Special CashSweep",
+    "sg4d": "Singapore 4D",
+    "hari": "Lucky Hari Hari",
+    "gd": "Grand Dragon 4D"
+  },
+  "date": {
+    "date": "date",
+    "prev": "Prev",
+    "next": "Next"
+  },
+  "reorder": {
+    "reorder": "Reorder",
+    "done": "Done"
+  }
+}
