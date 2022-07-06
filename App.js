@@ -15,7 +15,7 @@ import {setInternetConnection} from './src/features/internet';
 import {saveResult, setIsLoading, setSelectedDate} from './src/features/result';
 import BlankResultScreen from './src/screens/BlankResultScreen';
 import ResultScreen from './src/screens/ResultScreen';
-import getItem from './src/utils/getItem';
+// import getItem from './src/utils/getItem';
 
 const codePushOptions = {
   checkFrequency: __DEV__
@@ -28,7 +28,7 @@ const activeOffsetX = {activeOffsetX: [-10, 10]};
 const App = () => {
   const blankResultRef = useRef(null);
   const resultRef = useRef(null);
-  const [currentSide, setCurrentSide] = useState('M');
+  // const [currentSide, setCurrentSide] = useState('M');
   const [isVertical] = useState(false);
 
   const dispatch = useDispatch();
@@ -36,9 +36,6 @@ const App = () => {
   const {formattedDate} = useSelector(state => state.result.dates);
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
   const isLoading = useSelector(state => state.result.isLoading);
-  const isPrevDatePressed = useSelector(
-    state => state.result.isPrevDatePressed,
-  );
   const result = useSelector(state => state.result.value);
 
   // Base options for <Carousel />
@@ -91,30 +88,34 @@ const App = () => {
 
   // Fetching data from API and save to result state
   const fetchFdData = async (date = '') => {
-    dispatch(setIsLoading(true));
     console.log('🌺 Fetching data from', `${API_BASE_URL}/${date}`);
-    const response = await fetch(`${API_BASE_URL}/${date}`);
-    const json = await response.json();
-    dispatch(setIsLoading(false));
-    dispatch(saveResult(json));
+    try {
+      const response = await fetch(`${API_BASE_URL}/${date}`);
+      const json = await response.json();
+      dispatch(saveResult(json));
+      dispatch(setIsLoading(false));
+    } catch (err) {
+      console.error(err);
+      return err;
+    }
   };
 
-  const updateDate = date => {
-    dispatch(
-      setSelectedDate({
-        selectedDate: moment(date).toDate(),
-        formattedDate: moment(date).format(DATE_FORMAT),
-      }),
-    );
-  };
+  // const updateDate = date => {
+  //   dispatch(
+  //     setSelectedDate({
+  //       selectedDate: moment(date).toDate(),
+  //       formattedDate: moment(date).format(DATE_FORMAT),
+  //     }),
+  //   );
+  // };
 
   // Check if there is an internet connection
   useEffect(() => {
     dispatch(setIsLoading(true));
     const data = NetInfo.addEventListener(state => {
       if (!state.isConnected && !state.isInternetReachable) {
-        dispatch(setIsLoading(false));
         dispatch(setInternetConnection(false));
+        dispatch(setIsLoading(false));
       } else {
         dispatch(setInternetConnection(true));
       }
@@ -131,20 +132,16 @@ const App = () => {
   }, [formattedDate, hasInternet]);
 
   // Update the selectedDate based on the result
-  useEffect(() => {
-    console.log(
-      `🕰 selectedDate ${formattedDate} | ⚽️ currentSide ${currentSide}`,
-    );
-    if (result.length !== 0) {
-      console.log('🔥 Done fetching data...');
-      // const index = resultRef.current.getCurrentIndex();
-      // setCurrentSide(c[index].code);
-      // const fdData = getItem(result, currentSide).fdData;
-      // const currentSideDate = fdData.dd;
-      // updateDate(currentSideDate);
-      // isPrevDatePressed && updateDate(currentSideDate);
-    }
-  }, [result]);
+  // useEffect(() => {
+  //   console.log(
+  //     `🕰 selectedDate ${formattedDate} | ⚽️ currentSide ${currentSide}`,
+  //   );
+  //   if (result.length !== 0) {
+  //     console.log('🔥 Done fetching data...');
+  //     const fdData = getItem(result, currentSide).fdData;
+  //     const currentSideDate = fdData.dd;
+  //   }
+  // }, [result]);
 
   // CodePush: https://github.com/gulsher7/CodePushApp
   useEffect(() => {
@@ -190,7 +187,6 @@ const App = () => {
           panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
           scrollAnimationDuration={500}
-          // snapEnabled={true}
           renderItem={({index}) => {
             return (
               <ResultScreen

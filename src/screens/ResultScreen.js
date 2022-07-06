@@ -58,10 +58,14 @@ const ResultScreen = ({
 
   // Fetch the latest data from the base api endpoint
   const fetchFdData = async () => {
-    const response = await fetch(`${API_BASE_URL}`);
-    const json = await response.json();
-    dispatch(saveResult(json));
-    dispatch(setIsLoading(false));
+    try {
+      const response = await fetch(`${API_BASE_URL}`);
+      const json = await response.json();
+      dispatch(saveResult(json));
+      dispatch(setIsLoading(false));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   // Decide whether to go live or not
