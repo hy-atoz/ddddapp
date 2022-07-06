@@ -9,7 +9,7 @@ const ResultScreenContainer = ({children, index}) => {
       flex={1}
       flexGrow={1}
       index={index}
-      marginBottom={40}
+      marginBottom={32}
       paddingX={1}
       safeAreaBottom
       stickyHeaderIndices={[1]}>

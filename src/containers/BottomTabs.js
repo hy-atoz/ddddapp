@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, StatusBar} from 'react-native';
+import {Dimensions, Platform, StatusBar} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import App from '../../App';
@@ -9,7 +9,9 @@ import {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import DashboardScreen from '../screens/DashboardScreen';
 import {hasNotch} from 'react-native-device-info';
+import {Button} from 'native-base';
 
+const DEVICE_WIDTH = Dimensions.get('window').width;
 const Tab = createBottomTabNavigator();
 
 function BottomTabs() {
@@ -22,11 +24,13 @@ function BottomTabs() {
   };
 
   const headerOptions = {
-    // headerStyle: {height: Platform.OS === 'ios' ? 80 : 40},
-    headerStyle: {height: hasNotch() ? 80 : 60},
+    headerStyle: {
+      backgroundColor: '#eeeeee',
+      height: !hasNotch() || Platform.OS === 'android' ? 50 : 80,
+    },
     headerTitleAlign: 'center',
     headerTitleStyle: {
-      fontSize: 16,
+      fontSize: DEVICE_WIDTH <= 320 ? 14 : 16,
     },
   };
 
@@ -76,7 +80,10 @@ function BottomTabs() {
         <Tab.Screen
           name={ROUTES.dashboard}
           component={DashboardScreen}
-          options={{headerTitle: '4DNum Dashboard', ...headerOptions}}
+          options={({navigation, route}) => ({
+            headerTitle: '4DNum Dashboard',
+            ...headerOptions,
+          })}
         />
         <Tab.Screen
           name={ROUTES.notification}

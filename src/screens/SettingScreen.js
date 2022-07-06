@@ -1,6 +1,7 @@
 import React from 'react';
 import {Pressable} from 'react-native';
 import {Box, Heading, SectionList, Text} from 'native-base';
+import {APP} from '../constants';
 
 const Item = ({borderBottomWidth, title}) => (
   <Pressable onPress={() => console.log('you clicked me')}>
@@ -43,8 +44,8 @@ const SettingScreen = () => {
         />
       )}
       renderSectionHeader={({section: {title}}) => (
-        <Box bgColor="muted.200">
-          <Heading color="gray.700" fontSize="xs" paddingX={4} paddingY={2}>
+        <Box bgColor={APP.TITLE_BG}>
+          <Heading color="white" fontSize="xs" paddingX={4} paddingY={2}>
             {title}
           </Heading>
         </Box>

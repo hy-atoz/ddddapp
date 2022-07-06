@@ -134,7 +134,7 @@ const ResultScreen = ({
     n3_pos,
   } = fdData;
   const hasJackpotAmount = fdData?.jackpotAmount;
-  const hasJackpotGD = fdData?.JackpotPrize;
+  // const hasJackpotGD = fdData?.JackpotPrize;
   const urlId = fdData?.videoUrl;
   var videoId = '';
   if (urlId !== undefined) {

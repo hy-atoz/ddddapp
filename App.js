@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import moment from 'moment';
-import {Dimensions, SafeAreaView, StyleSheet} from 'react-native';
+import {Dimensions, SafeAreaView} from 'react-native';
 import codePush from 'react-native-code-push';
-import InAppBrowser from 'react-native-inappbrowser-reborn';
+// import InAppBrowser from 'react-native-inappbrowser-reborn';
 import Carousel from 'react-native-reanimated-carousel';
 import SplashScreen from 'react-native-splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
@@ -11,15 +11,10 @@ import FullScreenLoading from './src/components/FullScreenLoading';
 import {API_BASE_URL, DATE_FORMAT} from './src/constants';
 import c from './src/constants/companies';
 import {setInternetConnection} from './src/features/internet';
-import {
-  saveResult,
-  setIsLoading,
-  setIsPreviousDatePressed,
-  setSelectedDate,
-} from './src/features/result';
+import {saveResult, setIsLoading, setSelectedDate} from './src/features/result';
 import BlankResultScreen from './src/screens/BlankResultScreen';
 import ResultScreen from './src/screens/ResultScreen';
-import getItem from './src/utils/getItem';
+// import getItem from './src/utils/getItem';
 
 const codePushOptions = {
   checkFrequency: __DEV__
@@ -32,7 +27,7 @@ const activeOffsetX = {activeOffsetX: [-10, 10]};
 const App = () => {
   const blankResultRef = useRef(null);
   const resultRef = useRef(null);
-  const [currentSide, setCurrentSide] = useState('M');
+  // const [currentSide, setCurrentSide] = useState('M');
   const [isVertical] = useState(false);
 
   const dispatch = useDispatch();
@@ -40,10 +35,6 @@ const App = () => {
   const {formattedDate} = useSelector(state => state.result.dates);
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
   const isLoading = useSelector(state => state.result.isLoading);
-  const isPrevDatePressed = useSelector(
-    state => state.result.isPrevDatePressed,
-  );
-  const prevOrNext = useSelector(state => state.result.prevOrNext);
   const result = useSelector(state => state.result.value);
 
   // Base options for <Carousel />
@@ -59,66 +50,71 @@ const App = () => {
         width: PAGE_WIDTH,
       };
 
-  const linkOptions = {
-    // iOS Properties
-    dismissButtonStyle: 'close',
-    preferredBarTintColor: 'white',
-    preferredControlTintColor: 'black',
-    readerMode: false,
-    animated: true,
-    modalPresentationStyle: 'popover',
-    modalTransitionStyle: 'coverVertical',
-    modalEnabled: true,
-    enableBarCollapsing: false,
-    // Android Properties
-    showTitle: true,
-    toolbarColor: 'white',
-    secondaryToolbarColor: 'black',
-    navigationBarColor: 'black',
-    navigationBarDividerColor: 'white',
-    enableUrlBarHiding: true,
-    enableDefaultShare: true,
-    forceCloseOnRedirection: false,
-    animations: {
-      startEnter: 'slide_in_right',
-      startExit: 'slide_out_left',
-      endEnter: 'slide_in_left',
-      endExit: 'slide_out_right',
-    },
-  };
+  // const linkOptions = {
+  //   // iOS Properties
+  //   dismissButtonStyle: 'close',
+  //   preferredBarTintColor: 'white',
+  //   preferredControlTintColor: 'black',
+  //   readerMode: false,
+  //   animated: true,
+  //   modalPresentationStyle: 'popover',
+  //   modalTransitionStyle: 'coverVertical',
+  //   modalEnabled: true,
+  //   enableBarCollapsing: false,
+  //   // Android Properties
+  //   showTitle: true,
+  //   toolbarColor: 'white',
+  //   secondaryToolbarColor: 'black',
+  //   navigationBarColor: 'black',
+  //   navigationBarDividerColor: 'white',
+  //   enableUrlBarHiding: true,
+  //   enableDefaultShare: true,
+  //   forceCloseOnRedirection: false,
+  //   animations: {
+  //     startEnter: 'slide_in_right',
+  //     startExit: 'slide_out_left',
+  //     endEnter: 'slide_in_left',
+  //     endExit: 'slide_out_right',
+  //   },
+  // };
 
   // Open external link in the in-app browser
   // Link: https://github.com/proyecto26/react-native-inappbrowser
-  const open4DNumWebsite = async () => {
-    const url = 'http://dream.4dnum.com';
-    InAppBrowser.open(url, linkOptions);
-  };
+  // const open4DNumWebsite = async () => {
+  //   const url = 'http://dream.4dnum.com';
+  //   InAppBrowser.open(url, linkOptions);
+  // };
 
   // Fetching data from API and save to result state
   const fetchFdData = async (date = '') => {
     console.log('🌺 Fetching data from', `${API_BASE_URL}/${date}`);
-    const response = await fetch(`${API_BASE_URL}/${date}`);
-    const json = await response.json();
-    dispatch(setIsLoading(false));
-    dispatch(saveResult(json));
+    try {
+      const response = await fetch(`${API_BASE_URL}/${date}`);
+      const json = await response.json();
+      dispatch(saveResult(json));
+      dispatch(setIsLoading(false));
+    } catch (err) {
+      console.error(err);
+      return err;
+    }
   };
 
-  const updateDate = date => {
-    dispatch(
-      setSelectedDate({
-        selectedDate: moment(date).toDate(),
-        formattedDate: moment(date).format(DATE_FORMAT),
-      }),
-    );
-  };
+  // const updateDate = date => {
+  //   dispatch(
+  //     setSelectedDate({
+  //       selectedDate: moment(date).toDate(),
+  //       formattedDate: moment(date).format(DATE_FORMAT),
+  //     }),
+  //   );
+  // };
 
   // Check if there is an internet connection
   useEffect(() => {
     dispatch(setIsLoading(true));
     const data = NetInfo.addEventListener(state => {
       if (!state.isConnected && !state.isInternetReachable) {
-        dispatch(setIsLoading(false));
         dispatch(setInternetConnection(false));
+        dispatch(setIsLoading(false));
       } else {
         dispatch(setInternetConnection(true));
       }
@@ -135,17 +131,16 @@ const App = () => {
   }, [formattedDate, hasInternet]);
 
   // Update the selectedDate based on the result
-  useEffect(() => {
-    console.log(
-      `🕰 selectedDate ${formattedDate} | ⚽️ currentSide ${currentSide}`,
-    );
-    if (result.length !== 0) {
-      console.log('🔥 Done fetching data...');
-      const fdData = getItem(result, currentSide).fdData;
-      const currentSideDate = fdData.dd;
-      isPrevDatePressed && updateDate(currentSideDate);
-    }
-  }, [result]);
+  // useEffect(() => {
+  //   console.log(
+  //     `🕰 selectedDate ${formattedDate} | ⚽️ currentSide ${currentSide}`,
+  //   );
+  //   if (result.length !== 0) {
+  //     console.log('🔥 Done fetching data...');
+  //     const fdData = getItem(result, currentSide).fdData;
+  //     const currentSideDate = fdData.dd;
+  //   }
+  // }, [result]);
 
   // CodePush: https://github.com/gulsher7/CodePushApp
   useEffect(() => {
@@ -156,7 +151,7 @@ const App = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{flex: 1}}>
       {isLoading && !isLiveStarted ? <FullScreenLoading /> : null}
       {result.length === 0 ? (
         <Carousel
@@ -185,11 +180,11 @@ const App = () => {
           {...baseOptions}
           data={c}
           defaultIndex={0}
-          onSnapToItem={index => setCurrentSide(c[index].code)}
-          pagingEnabled
+          // onSnapToItem={index => setCurrentSide(c[index].code)}
+          pagingEnabled={true}
           panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
-          snapEnabled
+          scrollAnimationDuration={500}
           renderItem={({index}) => {
             return (
               <ResultScreen
@@ -212,11 +207,5 @@ const App = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default codePush(codePushOptions)(App);

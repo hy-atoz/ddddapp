@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Dimensions} from 'react-native';
 import moment from 'moment';
 import {HStack, IconButton} from 'native-base';
 import DatePicker from 'react-native-date-picker';
@@ -8,9 +9,11 @@ import {DATE_FORMAT, TARGET_DATE} from '../constants';
 import {
   setIsLoading,
   setIsPreviousDatePressed,
-  setPrevOrNext,
   setSelectedDate,
 } from '../features/result';
+
+const DEVICE_WIDTH = Dimensions.get('window').width;
+const ICON_SIZE = DEVICE_WIDTH <= 320 ? 4 : 8;
 
 const AppDatePicker = ({disableButton = false}) => {
   const [open, setOpen] = useState(false);
@@ -34,7 +37,6 @@ const AppDatePicker = ({disableButton = false}) => {
         selectedDate: previousDate,
         formattedDate: formattedPreviousDate,
       }),
-      // dispatch(setPrevOrNext('/prev'));
     );
   };
 
@@ -51,7 +53,6 @@ const AppDatePicker = ({disableButton = false}) => {
         selectedDate: nextDate,
         formattedDate: formattedNextDate,
       }),
-      // dispatch(setPrevOrNext('/next'));
     );
   };
 
@@ -64,6 +65,7 @@ const AppDatePicker = ({disableButton = false}) => {
       <IconButton
         disabled={disableButton}
         colorScheme="muted"
+        size={ICON_SIZE}
         variant="ghost"
         onPress={goPreviousDate}
         _icon={{
@@ -72,12 +74,13 @@ const AppDatePicker = ({disableButton = false}) => {
         }}
       />
       <AntDesign.Button
+        allowFontScaling={false}
         backgroundColor="white"
         color="black"
         name="calendar"
-        size={18}
+        size={DEVICE_WIDTH <= 320 ? 14 : 18}
         onPress={() => !disableButton && setOpen(true)}>
-        Date
+        Select Date
       </AntDesign.Button>
       <DatePicker
         androidVariant="iosClone"
@@ -104,6 +107,7 @@ const AppDatePicker = ({disableButton = false}) => {
       <IconButton
         disabled={disableButton}
         colorScheme="muted"
+        size={ICON_SIZE}
         variant="ghost"
         onPress={goNextDate}
         _icon={{

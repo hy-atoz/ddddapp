@@ -10,11 +10,11 @@ const WinnerBadge = ({num}) => {
       backgroundColor="amber.400"
       borderRadius="sm"
       marginRight={1}
-      paddingX={2}>
+      paddingX={1}>
       <Text
         color="white"
         fontFamily="Roboto-Bold"
-        fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'sm'}
+        fontSize={DEVICE_WIDTH <= 320 ? '2xs' : 'xs'}
         fontWeight="bold">
         {num}
       </Text>
