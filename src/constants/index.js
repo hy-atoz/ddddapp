@@ -30,12 +30,14 @@ export const ALPHABET = [
 
 // export const API_BASE_URL = 'https://test.algo.my/';
 export const API_BASE_URL = 'https://api.4dnum.com/api/v1/result';
+export const PRIVACY_URL = 'https://privacy.4dnum.com/';
 
 export const APP = {
   BORDER_WIDTH: '1',
   EMPTY: '----',
   GRAY_BORDER: 'gray.400',
   TITLE_BG: 'brand.black',
+  VERSION: '1.0.2',
 };
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
@@ -184,3 +186,31 @@ export const EMPTY_ARR = [
     name: APP.EMPTY,
   },
 ];
+
+export const LINK_OPTIONS = {
+  // iOS Properties
+  dismissButtonStyle: 'close',
+  preferredBarTintColor: 'white',
+  preferredControlTintColor: 'black',
+  readerMode: false,
+  animated: true,
+  modalPresentationStyle: 'popover',
+  modalTransitionStyle: 'coverVertical',
+  modalEnabled: true,
+  enableBarCollapsing: false,
+  // Android Properties
+  showTitle: true,
+  toolbarColor: 'white',
+  secondaryToolbarColor: 'black',
+  navigationBarColor: 'black',
+  navigationBarDividerColor: 'white',
+  enableUrlBarHiding: true,
+  enableDefaultShare: true,
+  forceCloseOnRedirection: false,
+  animations: {
+    startEnter: 'slide_in_right',
+    startExit: 'slide_out_left',
+    endEnter: 'slide_in_left',
+    endExit: 'slide_out_right',
+  },
+};

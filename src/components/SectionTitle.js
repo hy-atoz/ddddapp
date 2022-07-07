@@ -7,8 +7,11 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 
 const SectionTitle = ({
   backgroundColor = APP.TITLE_BG,
+  color = 'white',
+  fontWeight = 'bold',
   forVideo,
   isSettingPage = false,
+  textTransform,
   title,
 }) => {
   return (
@@ -21,12 +24,13 @@ const SectionTitle = ({
       padding={1}
       width="100%">
       <Text
-        color="white"
+        color={color}
         fontFamily="Roboto-Bold"
         fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'sm'}
-        fontWeight="bold"
+        fontWeight={fontWeight}
         paddingX={isSettingPage ? 3 : 0}
-        textAlign={isSettingPage ? 'left' : 'center'}>
+        textAlign={isSettingPage ? 'left' : 'center'}
+        textTransform={textTransform}>
         {title}
       </Text>
     </Box>

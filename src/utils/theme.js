@@ -16,6 +16,7 @@ const theme = extendTheme({
       black: '#333333',
       gray: '#CCCCCC',
       red: '#EE525F',
+      checkedGreen: '#22c55e',
     },
   },
   fontSizes: {

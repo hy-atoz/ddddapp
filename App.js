@@ -8,7 +8,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import SplashScreen from 'react-native-splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import FullScreenLoading from './src/components/FullScreenLoading';
-import {API_BASE_URL, DATE_FORMAT} from './src/constants';
+import {API_BASE_URL, DATE_FORMAT, LINK_OPTIONS} from './src/constants';
 import c from './src/constants/companies';
 import {setInternetConnection} from './src/features/internet';
 import {saveResult, setIsLoading, setSelectedDate} from './src/features/result';
@@ -50,39 +50,11 @@ const App = () => {
         width: PAGE_WIDTH,
       };
 
-  // const linkOptions = {
-  //   // iOS Properties
-  //   dismissButtonStyle: 'close',
-  //   preferredBarTintColor: 'white',
-  //   preferredControlTintColor: 'black',
-  //   readerMode: false,
-  //   animated: true,
-  //   modalPresentationStyle: 'popover',
-  //   modalTransitionStyle: 'coverVertical',
-  //   modalEnabled: true,
-  //   enableBarCollapsing: false,
-  //   // Android Properties
-  //   showTitle: true,
-  //   toolbarColor: 'white',
-  //   secondaryToolbarColor: 'black',
-  //   navigationBarColor: 'black',
-  //   navigationBarDividerColor: 'white',
-  //   enableUrlBarHiding: true,
-  //   enableDefaultShare: true,
-  //   forceCloseOnRedirection: false,
-  //   animations: {
-  //     startEnter: 'slide_in_right',
-  //     startExit: 'slide_out_left',
-  //     endEnter: 'slide_in_left',
-  //     endExit: 'slide_out_right',
-  //   },
-  // };
-
   // Open external link in the in-app browser
   // Link: https://github.com/proyecto26/react-native-inappbrowser
   // const open4DNumWebsite = async () => {
   //   const url = 'http://dream.4dnum.com';
-  //   InAppBrowser.open(url, linkOptions);
+  //   InAppBrowser.open(url, LINK_OPTIONS);
   // };
 
   // Fetching data from API and save to result state

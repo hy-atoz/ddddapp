@@ -1,84 +1,160 @@
 import React, {useState} from 'react';
-import {Pressable} from 'react-native';
-import {Box, Heading, HStack, SectionList, Text, VStack} from 'native-base';
-import {APP} from '../constants';
+import {Platform} from 'react-native';
+import {HStack, Pressable, ScrollView, Switch, Text, VStack} from 'native-base';
 import SectionTitle from '../components/SectionTitle';
 import SettingItem from '../components/SettingItem';
-
-const Item = ({borderBottomWidth, title}) => {
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
-  const [selectedVoice, setSelectedVoice] = useState('en');
-
-  return (
-    <Pressable onPress={() => console.log('you clicked me')}>
-      <HStack
-        borderBottomColor="gray.200"
-        borderBottomWidth={borderBottomWidth}
-        justifyContent="space-between"
-        paddingX={4}
-        paddingY={3}>
-        <Text>{title}</Text>
-        <Text>selected</Text>
-      </HStack>
-    </Pressable>
-  );
-};
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import InAppBrowser from 'react-native-inappbrowser-reborn';
+import {APP, LINK_OPTIONS, PRIVACY_URL} from '../constants';
 
 const SettingScreen = () => {
-  const LANGUAGES = [
-    {
-      title: 'Language',
-      data: ['English', '中文'],
-    },
-    {
-      title: 'Voice',
-      data: ['English', '中文', 'Malay'],
-    },
-    // {
-    //   title: 'Others',
-    //   data: ['Keep screen on'],
-    // },
-  ];
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const [selectedVoice, setSelectedVoice] = useState('cn');
+  const [screenOn, setScreenOn] = useState(false);
+
+  const onLanguageChange = lang => {
+    setSelectedLanguage(lang);
+  };
+
+  const onVoiceChange = lang => {
+    setSelectedVoice(lang);
+  };
+
+  // Open external link in the in-app browser
+  // Link: https://github.com/proyecto26/react-native-inappbrowser
+  const openExternalLink = async url => {
+    // const url = PRIVACY_URL;
+    InAppBrowser.open(url, LINK_OPTIONS);
+  };
 
   return (
-    // <SectionList
-    //   alwaysBounceVertical={false}
-    //   keyExtractor={(item, index) => item + index}
-    //   sections={LANGUAGES}
-    //   stickySectionHeadersEnabled={false}
-    //   renderItem={({index, item, section}) => (
-    //     <Item
-    //       borderBottomWidth={index === section.data.length - 1 ? 0 : 1}
-    //       title={item}
-    //     />
-    //   )}
-    //   renderSectionHeader={({section: {title}}) => (
-    //     <Box bgColor={APP.TITLE_BG}>
-    //       <Heading color="white" fontSize="xs" paddingX={4} paddingY={2}>
-    //         {title}
-    //       </Heading>
-    //     </Box>
-    //   )}
-    // />
-    <>
+    <ScrollView alwaysBounceVertical={false}>
       <VStack>
-        <SectionTitle isSettingPage title="Language" />
+        <SectionTitle
+          backgroundColor="gray.300"
+          color="gray.700"
+          fontWeight="normal"
+          isSettingPage
+          textTransform="uppercase"
+          title="Language"
+        />
         <VStack>
           <SettingItem
-            isSelected
-            onPress={() => console.log('hello')}
+            isSelected={selectedLanguage === 'en'}
+            onPress={() => onLanguageChange('en')}
             text="English"
           />
           <SettingItem
             isLast
-            onPress={() => console.log('hello')}
+            isSelected={selectedLanguage === 'cn'}
+            onPress={() => onLanguageChange('cn')}
             text="中文"
           />
         </VStack>
       </VStack>
-      <SectionTitle isSettingPage title="Voice" />
-      <SectionTitle isSettingPage title="Others" />
-    </>
+      <VStack>
+        <SectionTitle
+          backgroundColor="gray.300"
+          color="gray.700"
+          fontWeight="normal"
+          isSettingPage
+          textTransform="uppercase"
+          title="Voice"
+        />
+        <VStack>
+          <SettingItem
+            isSelected={selectedVoice === 'en'}
+            onPress={() => onVoiceChange('en')}
+            text="English"
+          />
+          <SettingItem
+            isSelected={selectedVoice === 'cn'}
+            onPress={() => onVoiceChange('cn')}
+            text="中文"
+          />
+          <SettingItem
+            isLast
+            isSelected={selectedVoice === 'my'}
+            onPress={() => onVoiceChange('my')}
+            text="Malay"
+          />
+        </VStack>
+      </VStack>
+      <VStack>
+        <SectionTitle
+          backgroundColor="gray.300"
+          color="gray.700"
+          fontWeight="normal"
+          isSettingPage
+          textTransform="uppercase"
+          title="Other"
+        />
+        <HStack
+          alignItems="center"
+          borderBottomColor="gray.200"
+          borderBottomWidth="1"
+          justifyContent="space-between"
+          paddingX={4}
+          paddingY={2}>
+          <Text>Keep Screen On</Text>
+          <Switch
+            isChecked={screenOn}
+            onToggle={() => setScreenOn(!screenOn)}
+            onTrackColor="green.500"
+            size={Platform.OS === 'ios' ? 'sm' : 'md'}
+          />
+        </HStack>
+        <Pressable
+          alignItems="center"
+          borderBottomColor="gray.200"
+          borderBottomWidth="1"
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          onPress={() => openExternalLink('https://google.com')}
+          paddingX={4}
+          paddingY={3}>
+          <HStack alignItems="center" space={2}>
+            <FontAwesome color="#fbbf24" name="star" size={20} />
+            <Text>Rate for 4DNum!</Text>
+          </HStack>
+          <Entypo name="chevron-small-right" size={24} color="gray" />
+        </Pressable>
+        <Pressable
+          alignItems="center"
+          borderBottomColor="gray.200"
+          borderBottomWidth="1"
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          onPress={() => openExternalLink(PRIVACY_URL)}
+          paddingX={4}
+          paddingY={3}>
+          <HStack alignItems="center" space={2}>
+            <FontAwesome color="#0478BB" name="info-circle" size={20} />
+            <Text>Privacy Policy</Text>
+          </HStack>
+          <Entypo name="chevron-small-right" size={24} color="gray" />
+        </Pressable>
+        <HStack
+          alignItems="center"
+          borderBottomColor="gray.200"
+          borderBottomWidth="1"
+          justifyContent="space-between"
+          paddingX={4}
+          paddingY={3}>
+          <HStack alignItems="center" space={2}>
+            {Platform.OS === 'ios' ? (
+              <FontAwesome color="gray" name="apple" size={20} />
+            ) : (
+              <FontAwesome color="gray" name="android" size={20} />
+            )}
+            <Text>Version {APP.VERSION}</Text>
+          </HStack>
+        </HStack>
+      </VStack>
+    </ScrollView>
   );
 };
 
