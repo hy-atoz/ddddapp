@@ -10,6 +10,7 @@ import InAppBrowser from 'react-native-inappbrowser-reborn';
 import {APP, LINK_OPTIONS, PRIVACY_URL} from '../constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {setScreenOn} from '../features/setting';
+import {useTranslation} from 'react-i18next';
 
 const SettingScreen = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
@@ -17,9 +18,13 @@ const SettingScreen = () => {
 
   const dispatch = useDispatch();
   const screenOn = useSelector(state => state.setting.screenOn);
+  const {t, i18n} = useTranslation();
 
   const onLanguageChange = lang => {
-    setSelectedLanguage(lang);
+    i18n
+      .changeLanguage(lang)
+      .then(() => setSelectedLanguage(lang))
+      .catch(err => console.log(err));
   };
 
   const onVoiceChange = lang => {
@@ -40,7 +45,7 @@ const SettingScreen = () => {
           color="gray.700"
           fontWeight="normal"
           isSettingPage
-          title="Language"
+          title={t('settings:language')}
         />
         <VStack>
           <SettingItem
@@ -62,7 +67,7 @@ const SettingScreen = () => {
           color="gray.700"
           fontWeight="normal"
           isSettingPage
-          title="Voice"
+          title={t('settings:voice')}
         />
         <VStack>
           <SettingItem
@@ -89,7 +94,7 @@ const SettingScreen = () => {
           color="gray.700"
           fontWeight="normal"
           isSettingPage
-          title="Other"
+          title={t('settings:other')}
         />
         <HStack
           alignItems="center"
@@ -98,7 +103,7 @@ const SettingScreen = () => {
           justifyContent="space-between"
           paddingX={4}
           paddingY={2}>
-          <Text>Keep Screen On</Text>
+          <Text>{t('other:screenOn')}</Text>
           <Switch
             isChecked={screenOn}
             onToggle={() => dispatch(setScreenOn(!screenOn))}
@@ -118,7 +123,7 @@ const SettingScreen = () => {
           paddingY={3}>
           <HStack alignItems="center" space={2}>
             <FontAwesome color="#fbbf24" name="star" size={20} />
-            <Text>Rate for 4DNum!</Text>
+            <Text>{t('other:rate')}</Text>
           </HStack>
           <Entypo name="chevron-small-right" size={24} color="gray" />
         </Pressable>
@@ -134,7 +139,7 @@ const SettingScreen = () => {
           paddingY={3}>
           <HStack alignItems="center" space={2}>
             <FontAwesome5 color="#0478BB" name="info-circle" size={20} />
-            <Text>Privacy Policy</Text>
+            <Text>{t('other:privacy')}</Text>
           </HStack>
           <Entypo name="chevron-small-right" size={24} color="gray" />
         </Pressable>
@@ -151,7 +156,9 @@ const SettingScreen = () => {
             ) : (
               <FontAwesome color="gray" name="android" size={20} />
             )}
-            <Text marginLeft="0.5">Version {APP.VERSION}</Text>
+            <Text marginLeft="0.5">
+              {t('other:version')} {APP.VERSION}
+            </Text>
           </HStack>
         </HStack>
       </VStack>

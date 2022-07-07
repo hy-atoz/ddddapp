@@ -12,6 +12,9 @@ i18next.use(initReactI18next).init({
   react: {
     useSuspense: false,
   },
+  interpolation: {
+    escapeValue: false,
+  },
 });
 
 export default i18next;

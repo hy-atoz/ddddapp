@@ -14,14 +14,21 @@ import {
   activateKeepAwake,
   deactivateKeepAwake,
 } from '@sayem314/react-native-keep-awake';
+import {useTranslation} from 'react-i18next';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const Tab = createBottomTabNavigator();
 
 function BottomTabs() {
   const screenOn = useSelector(state => state.setting.screenOn);
+  const {t} = useTranslation();
 
   const ROUTES = {
+    // dashboard: t('bottomTab:dashboard'),
+    // toolbox: t('bottomTab:toolbox'),
+    // result: t('bottomTab:results'),
+    // notification: t('bottomTab:notification'),
+    // settings: t('bottomTab:settings'),
     dashboard: 'Dashboard',
     toolbox: 'Toolbox',
     result: 'Results',
@@ -96,29 +103,29 @@ function BottomTabs() {
           name={ROUTES.dashboard}
           component={DashboardScreen}
           options={({navigation, route}) => ({
-            headerTitle: '4DNum Dashboard',
+            headerTitle: t('header:dashboard'),
             ...headerOptions,
           })}
         />
         <Tab.Screen
           name={ROUTES.notification}
           component={TestingScreen}
-          options={{...headerOptions}}
+          options={{headerTitle: t('header:notification'), ...headerOptions}}
         />
         <Tab.Screen
           name={ROUTES.result}
           component={App}
-          options={{headerTitle: '4DNum Results', ...headerOptions}}
+          options={{headerTitle: t('header:results'), ...headerOptions}}
         />
         <Tab.Screen
           name={ROUTES.toolbox}
           component={TestingScreen}
-          options={{...headerOptions}}
+          options={{headerTitle: t('header:toolbox'), ...headerOptions}}
         />
         <Tab.Screen
           name={ROUTES.settings}
           component={SettingScreen}
-          options={{...headerOptions}}
+          options={{headerTitle: t('header:settings'), ...headerOptions}}
         />
       </Tab.Navigator>
     </>

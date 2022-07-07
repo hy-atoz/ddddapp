@@ -23,7 +23,7 @@
   "settings": {
     "language": "Language",
     "voice": "Voice",
-    "others": "Others"
+    "other": "Other"
   },
   "day": {
     "monday": "Mon",
@@ -64,5 +64,11 @@
   "reorder": {
     "reorder": "Reorder",
     "done": "Done"
+  },
+  "other": {
+    "screenOn": "Keep Screen On",
+    "rate": "Rate for 4DNum!",
+    "privacy": "Privacy Policy",
+    "version": "Version"
   }
 }

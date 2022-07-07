@@ -4,6 +4,7 @@ if (__DEV__) {
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {configureStore} from '@reduxjs/toolkit';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NativeBaseProvider} from 'native-base';
 import {AppRegistry} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
