@@ -9,12 +9,18 @@ import {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import DashboardScreen from '../screens/DashboardScreen';
 import {hasNotch} from 'react-native-device-info';
-import {Button} from 'native-base';
+import {useSelector} from 'react-redux';
+import {
+  activateKeepAwake,
+  deactivateKeepAwake,
+} from '@sayem314/react-native-keep-awake';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const Tab = createBottomTabNavigator();
 
 function BottomTabs() {
+  const screenOn = useSelector(state => state.setting.screenOn);
+
   const ROUTES = {
     dashboard: 'Dashboard',
     toolbox: 'Toolbox',
@@ -37,6 +43,15 @@ function BottomTabs() {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+
+  useEffect(() => {
+    console.log('👀', screenOn);
+    if (screenOn) {
+      activateKeepAwake();
+    } else {
+      deactivateKeepAwake();
+    }
+  }, [screenOn]);
 
   return (
     <>

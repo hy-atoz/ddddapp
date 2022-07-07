@@ -11,15 +11,17 @@ import {Provider as ReduxProvider} from 'react-redux';
 import {name as appName} from './app.json';
 import internetReducer from './src/features/internet';
 import resultReducer from './src/features/result';
+import settingReducer from './src/features/setting';
 import theme from './src/utils/theme';
 import BottomTabs from './src/containers/BottomTabs';
 import './src/i18n';
-import App from './App';
+// import App from './App';
 
 const store = configureStore({
   reducer: {
     internet: internetReducer,
     result: resultReducer,
+    setting: settingReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

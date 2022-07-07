@@ -5,13 +5,18 @@ import SectionTitle from '../components/SectionTitle';
 import SettingItem from '../components/SettingItem';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import {APP, LINK_OPTIONS, PRIVACY_URL} from '../constants';
+import {useDispatch, useSelector} from 'react-redux';
+import {setScreenOn} from '../features/setting';
 
 const SettingScreen = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [selectedVoice, setSelectedVoice] = useState('cn');
-  const [screenOn, setScreenOn] = useState(false);
+
+  const dispatch = useDispatch();
+  const screenOn = useSelector(state => state.setting.screenOn);
 
   const onLanguageChange = lang => {
     setSelectedLanguage(lang);
@@ -24,7 +29,6 @@ const SettingScreen = () => {
   // Open external link in the in-app browser
   // Link: https://github.com/proyecto26/react-native-inappbrowser
   const openExternalLink = async url => {
-    // const url = PRIVACY_URL;
     InAppBrowser.open(url, LINK_OPTIONS);
   };
 
@@ -36,7 +40,6 @@ const SettingScreen = () => {
           color="gray.700"
           fontWeight="normal"
           isSettingPage
-          textTransform="uppercase"
           title="Language"
         />
         <VStack>
@@ -59,7 +62,6 @@ const SettingScreen = () => {
           color="gray.700"
           fontWeight="normal"
           isSettingPage
-          textTransform="uppercase"
           title="Voice"
         />
         <VStack>
@@ -87,7 +89,6 @@ const SettingScreen = () => {
           color="gray.700"
           fontWeight="normal"
           isSettingPage
-          textTransform="uppercase"
           title="Other"
         />
         <HStack
@@ -100,7 +101,7 @@ const SettingScreen = () => {
           <Text>Keep Screen On</Text>
           <Switch
             isChecked={screenOn}
-            onToggle={() => setScreenOn(!screenOn)}
+            onToggle={() => dispatch(setScreenOn(!screenOn))}
             onTrackColor="green.500"
             size={Platform.OS === 'ios' ? 'sm' : 'md'}
           />
@@ -132,7 +133,7 @@ const SettingScreen = () => {
           paddingX={4}
           paddingY={3}>
           <HStack alignItems="center" space={2}>
-            <FontAwesome color="#0478BB" name="info-circle" size={20} />
+            <FontAwesome5 color="#0478BB" name="info-circle" size={20} />
             <Text>Privacy Policy</Text>
           </HStack>
           <Entypo name="chevron-small-right" size={24} color="gray" />
@@ -144,13 +145,13 @@ const SettingScreen = () => {
           justifyContent="space-between"
           paddingX={4}
           paddingY={3}>
-          <HStack alignItems="center" space={2}>
+          <HStack alignItems="center" space={2} marginLeft="0.5">
             {Platform.OS === 'ios' ? (
               <FontAwesome color="gray" name="apple" size={20} />
             ) : (
               <FontAwesome color="gray" name="android" size={20} />
             )}
-            <Text>Version {APP.VERSION}</Text>
+            <Text marginLeft="0.5">Version {APP.VERSION}</Text>
           </HStack>
         </HStack>
       </VStack>
