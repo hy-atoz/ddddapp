@@ -24,16 +24,19 @@ function BottomTabs() {
   const {t} = useTranslation();
 
   const ROUTES = {
-    // dashboard: t('bottomTab:dashboard'),
-    // toolbox: t('bottomTab:toolbox'),
-    // result: t('bottomTab:results'),
-    // notification: t('bottomTab:notification'),
-    // settings: t('bottomTab:settings'),
     dashboard: 'Dashboard',
     toolbox: 'Toolbox',
     result: 'Results',
     notification: 'Notification',
     settings: 'Settings',
+  };
+
+  const ROUTE_NAMES = {
+    dashboard: t('bottomTab:dashboard'),
+    toolbox: t('bottomTab:toolbox'),
+    result: t('bottomTab:results'),
+    notification: t('bottomTab:notification'),
+    settings: t('bottomTab:settings'),
   };
 
   const headerOptions = {
@@ -104,28 +107,45 @@ function BottomTabs() {
           component={DashboardScreen}
           options={({navigation, route}) => ({
             headerTitle: t('header:dashboard'),
+            title: ROUTE_NAMES.dashboard,
             ...headerOptions,
           })}
         />
         <Tab.Screen
           name={ROUTES.notification}
           component={TestingScreen}
-          options={{headerTitle: t('header:notification'), ...headerOptions}}
+          options={{
+            headerTitle: t('header:notification'),
+            title: ROUTE_NAMES.notification,
+            ...headerOptions,
+          }}
         />
         <Tab.Screen
           name={ROUTES.result}
           component={App}
-          options={{headerTitle: t('header:results'), ...headerOptions}}
+          options={{
+            headerTitle: t('header:results'),
+            title: ROUTE_NAMES.result,
+            ...headerOptions,
+          }}
         />
         <Tab.Screen
           name={ROUTES.toolbox}
           component={TestingScreen}
-          options={{headerTitle: t('header:toolbox'), ...headerOptions}}
+          options={{
+            headerTitle: t('header:toolbox'),
+            title: ROUTE_NAMES.toolbox,
+            ...headerOptions,
+          }}
         />
         <Tab.Screen
           name={ROUTES.settings}
           component={SettingScreen}
-          options={{headerTitle: t('header:settings'), ...headerOptions}}
+          options={{
+            headerTitle: t('header:settings'),
+            title: ROUTE_NAMES.settings,
+            ...headerOptions,
+          }}
         />
       </Tab.Navigator>
     </>
