@@ -2,6 +2,11 @@ import i18next from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import english from './en.json';
 import chinese from './cn.json';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const LANGUAGE_STOGRAGE_KEY = '@APP:languageCode';
+
+// const
 
 i18next.use(initReactI18next).init({
   lng: 'en',

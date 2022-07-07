@@ -11,6 +11,7 @@ import {APP, LINK_OPTIONS, PRIVACY_URL} from '../constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {setScreenOn} from '../features/setting';
 import {useTranslation} from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SettingScreen = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
@@ -23,7 +24,10 @@ const SettingScreen = () => {
   const onLanguageChange = lang => {
     i18n
       .changeLanguage(lang)
-      .then(() => setSelectedLanguage(lang))
+      .then(() => {
+        setSelectedLanguage(lang);
+        AsyncStorage.setItem('@APP:languageCode', lang);
+      })
       .catch(err => console.log(err));
   };
 
