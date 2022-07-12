@@ -1,7 +1,6 @@
-import moment from 'moment';
 import {HStack} from 'native-base';
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React from 'react';
+import {useSelector} from 'react-redux';
 import AppHeader from '../components/AppHeader';
 import AppRow from '../components/AppRow';
 import CompanyHeader from '../components/CompanyHeader';
@@ -11,18 +10,8 @@ import SixDJackpot from '../components/SixDJackpot';
 import WinnerSection from '../components/WinnerSection';
 import WinnerTop3 from '../components/WinnerTop3';
 import YouTubePlayer from '../components/YouTubePlayer';
-import {
-  ALPHABET,
-  API_BASE_URL,
-  DRAW_TIME,
-  REFRESH_RATE_MILLISECOND,
-  REFRESH_RATE_SECOND,
-  TARGET_TIME,
-  TIME_FORMAT_LONG,
-  TITLES,
-} from '../constants';
+import {ALPHABET, TITLES} from '../constants';
 import ResultScreenContainer from '../containers/ResultScreenContainer';
-import {saveResult, setIsLiveStarted, setIsLoading} from '../features/result';
 import {createNumberRow} from '../utils/createRow';
 import formatPrize from '../utils/formatPrize';
 
@@ -48,65 +37,10 @@ const ResultScreen = ({
   source,
   name,
 }) => {
-  const [currentTime, setCurrentTime] = useState(TARGET_TIME);
-
-  const dispatch = useDispatch();
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
   const fdData = useSelector(
     state => state.result.value.find(f => f.type === companyCode).fdData,
   );
-
-  // Fetch the latest data from the base api endpoint
-  const fetchFdData = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}`);
-      const json = await response.json();
-      dispatch(saveResult(json));
-      dispatch(setIsLoading(false));
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // Decide whether to go live or not
-  useEffect(() => {
-    let timer;
-    if (
-      Number(currentTime) >= DRAW_TIME.start &&
-      Number(currentTime) <= DRAW_TIME.end
-    ) {
-      console.log('🔴 live:', currentTime);
-      dispatch(setIsLiveStarted(1));
-
-      timer = setInterval(() => {
-        setCurrentTime(prevTime =>
-          moment(prevTime, TIME_FORMAT_LONG)
-            .add(REFRESH_RATE_SECOND, 'seconds')
-            .format(TIME_FORMAT_LONG),
-        );
-        if (
-          Number(currentTime) >= DRAW_TIME.start &&
-          Number(currentTime) <= DRAW_TIME.end
-        ) {
-          console.log('🔴 nestedIf live:', currentTime);
-          dispatch(setIsLiveStarted(1));
-          fetchFdData();
-        } else {
-          console.log('❌ nestedIf offline:', currentTime);
-          dispatch(setIsLiveStarted(0));
-          clearInterval(timer);
-        }
-      }, REFRESH_RATE_MILLISECOND);
-      return () => {
-        clearInterval(timer);
-      };
-    } else {
-      console.log('❌ else offline:', currentTime);
-      dispatch(setIsLiveStarted(0));
-      clearInterval(timer);
-    }
-    return () => clearInterval(timer);
-  }, [currentTime, isLiveStarted]);
 
   const {
     day,
