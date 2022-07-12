@@ -1,5 +1,5 @@
-import React from 'react';
 import {Button, Text} from 'native-base';
+import React from 'react';
 
 const ViewDrawVideo = () => {
   return (

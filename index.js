@@ -1,9 +1,9 @@
 if (__DEV__) {
   import('./ReactotronConfig').then(() => console.log('Reactotron Configured'));
 }
-import React from 'react';
 import {configureStore} from '@reduxjs/toolkit';
 import {NativeBaseProvider} from 'native-base';
+import React from 'react';
 import {AppRegistry} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Provider as ReduxProvider} from 'react-redux';

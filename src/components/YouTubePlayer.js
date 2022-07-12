@@ -1,5 +1,5 @@
-import React from 'react';
 import {Box} from 'native-base';
+import React from 'react';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import WinnerSectionTitle from './WinnerSectionTitle';
 

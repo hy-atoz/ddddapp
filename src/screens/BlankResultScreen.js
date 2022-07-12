@@ -1,5 +1,5 @@
-import React from 'react';
 import {HStack} from 'native-base';
+import React from 'react';
 import AppHeader from '../components/AppHeader';
 import AppRow from '../components/AppRow';
 import CompanyHeader from '../components/CompanyHeader';

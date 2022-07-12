@@ -1,5 +1,5 @@
-import React from 'react';
 import {Box, Flex, Text} from 'native-base';
+import React from 'react';
 import {APP} from '../constants';
 import WinnerSectionTitle from './WinnerSectionTitle';
 

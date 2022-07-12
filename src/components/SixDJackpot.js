@@ -1,6 +1,6 @@
+import {Box, Text} from 'native-base';
 import React from 'react';
 import {Dimensions} from 'react-native';
-import {Box, Text} from 'native-base';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 

@@ -1,6 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
 import NetInfo from '@react-native-community/netinfo';
-import moment from 'moment';
+import React, {useEffect, useRef, useState} from 'react';
 import {Dimensions, SafeAreaView} from 'react-native';
 import codePush from 'react-native-code-push';
 // import InAppBrowser from 'react-native-inappbrowser-reborn';
@@ -9,10 +8,10 @@ import SplashScreen from 'react-native-splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import AppTitle from './src/components/AppTitle';
 import FullScreenLoading from './src/components/FullScreenLoading';
-import {API_BASE_URL, DATE_FORMAT} from './src/constants';
+import {API_BASE_URL} from './src/constants';
 import c from './src/constants/companies';
 import {setInternetConnection} from './src/features/internet';
-import {saveResult, setIsLoading, setSelectedDate} from './src/features/result';
+import {saveResult, setIsLoading} from './src/features/result';
 import BlankResultScreen from './src/screens/BlankResultScreen';
 import ResultScreen from './src/screens/ResultScreen';
 // import getItem from './src/utils/getItem';
@@ -182,7 +181,6 @@ const App = () => {
           {...baseOptions}
           data={c}
           defaultIndex={0}
-          // onSnapToItem={index => setCurrentSide(c[index].code)}
           pagingEnabled={true}
           panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
