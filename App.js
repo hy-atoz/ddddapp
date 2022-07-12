@@ -183,7 +183,7 @@ const App = () => {
           data={c}
           defaultIndex={0}
           // onSnapToItem={index => setCurrentSide(c[index].code)}
-          pagingEnabled={false}
+          pagingEnabled={true}
           panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
           snapEnabled={true}
