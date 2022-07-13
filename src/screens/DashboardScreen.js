@@ -3,6 +3,11 @@ import {ScrollView} from 'native-base';
 import DashboardRow from '../components/DashboardRow';
 import c from '../constants/companies';
 import CustomButton from '../components/CustomButton';
+import DraggableFlatList, {
+  ScaleDecorator,
+  RenderItemParams,
+} from 'react-native-draggable-flatlist';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DashboardScreen = ({navigation}) => {
   const [reorderMode, setReorderMode] = useState(false);

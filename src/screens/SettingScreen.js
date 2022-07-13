@@ -9,15 +9,16 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import {APP, LINK_OPTIONS, PRIVACY_URL} from '../constants';
 import {useDispatch, useSelector} from 'react-redux';
-import {setScreenOn} from '../features/setting';
+import {setLanguage, setScreenOn, setVoice} from '../features/setting';
 import {useTranslation} from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {LANGUAGE_STOGRAGE_KEY} from '../i18n';
 
 const SettingScreen = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [selectedVoice, setSelectedVoice] = useState('cn');
 
   const dispatch = useDispatch();
+  const language = useSelector(state => state.setting.language);
   const screenOn = useSelector(state => state.setting.screenOn);
   const {t, i18n} = useTranslation();
 
@@ -25,8 +26,8 @@ const SettingScreen = () => {
     i18n
       .changeLanguage(lang)
       .then(() => {
-        setSelectedLanguage(lang);
-        AsyncStorage.setItem('@APP:languageCode', lang);
+        dispatch(setLanguage(lang));
+        AsyncStorage.setItem(LANGUAGE_STOGRAGE_KEY, lang);
       })
       .catch(err => console.log(err));
   };
@@ -53,13 +54,13 @@ const SettingScreen = () => {
         />
         <VStack>
           <SettingItem
-            isSelected={selectedLanguage === 'en'}
+            isSelected={language === 'en'}
             onPress={() => onLanguageChange('en')}
             text="English"
           />
           <SettingItem
             isLast
-            isSelected={selectedLanguage === 'cn'}
+            isSelected={language === 'cn'}
             onPress={() => onLanguageChange('cn')}
             text="中文"
           />

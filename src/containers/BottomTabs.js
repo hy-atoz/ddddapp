@@ -9,19 +9,23 @@ import {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import DashboardScreen from '../screens/DashboardScreen';
 import {hasNotch} from 'react-native-device-info';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   activateKeepAwake,
   deactivateKeepAwake,
 } from '@sayem314/react-native-keep-awake';
 import {useTranslation} from 'react-i18next';
+import {setLanguage} from '../features/setting';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {LANGUAGE_STOGRAGE_KEY} from '../i18n';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const Tab = createBottomTabNavigator();
 
 function BottomTabs() {
   const screenOn = useSelector(state => state.setting.screenOn);
-  const {t} = useTranslation();
+  const {t, i18n} = useTranslation();
+  const dispatch = useDispatch();
 
   const ROUTES = {
     dashboard: 'Dashboard',
@@ -50,7 +54,20 @@ function BottomTabs() {
     },
   };
 
+  const getSavedLanguage = async () => {
+    try {
+      const lang = await AsyncStorage.getItem(LANGUAGE_STOGRAGE_KEY);
+      if (lang) {
+        dispatch(setLanguage(lang));
+        i18n.changeLanguage(lang);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
+    getSavedLanguage();
     SplashScreen.hide();
   }, []);
 

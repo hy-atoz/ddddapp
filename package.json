@@ -38,6 +38,7 @@
     "react-native-code-push": "^7.0.4",
     "react-native-date-picker": "^4.2.2",
     "react-native-device-info": "^9.0.2",
+    "react-native-draggable-flatlist": "^3.1.2",
     "react-native-gesture-handler": "^2.4.2",
     "react-native-inappbrowser-reborn": "^3.6.3",
     "react-native-locale-detector": "^1.0.1",

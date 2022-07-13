@@ -4,7 +4,6 @@ if (__DEV__) {
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {configureStore} from '@reduxjs/toolkit';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NativeBaseProvider} from 'native-base';
 import {AppRegistry} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -16,7 +15,6 @@ import settingReducer from './src/features/setting';
 import theme from './src/utils/theme';
 import BottomTabs from './src/containers/BottomTabs';
 import './src/i18n';
-// import App from './App';
 
 const store = configureStore({
   reducer: {
@@ -36,7 +34,6 @@ const RNRedux = () => (
       <GestureHandlerRootView style={{flex: 1}}>
         <NavigationContainer>
           <BottomTabs />
-          {/* <App /> */}
         </NavigationContainer>
       </GestureHandlerRootView>
     </NativeBaseProvider>

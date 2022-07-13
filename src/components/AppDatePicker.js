@@ -80,7 +80,7 @@ const AppDatePicker = ({disableButton = false}) => {
         name="calendar"
         size={DEVICE_WIDTH <= 320 ? 14 : 18}
         onPress={() => !disableButton && setOpen(true)}>
-        Select Date
+        Date
       </AntDesign.Button>
       <DatePicker
         androidVariant="iosClone"
