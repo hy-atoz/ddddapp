@@ -1,20 +1,29 @@
-import React, {useEffect, useRef, useState} from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import moment from 'moment';
+import React, {useEffect, useRef, useState} from 'react';
 import {Dimensions, SafeAreaView} from 'react-native';
 import codePush from 'react-native-code-push';
-// import InAppBrowser from 'react-native-inappbrowser-reborn';
 import Carousel from 'react-native-reanimated-carousel';
 import SplashScreen from 'react-native-splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import FullScreenLoading from './src/components/FullScreenLoading';
-import {API_BASE_URL, DATE_FORMAT, LINK_OPTIONS} from './src/constants';
+import {
+  API_BASE_URL,
+  DRAW_TIME,
+  REFRESH_RATE_MILLISECOND,
+  REFRESH_RATE_SECOND,
+  TARGET_TIME,
+  TIME_FORMAT_LONG,
+} from './src/constants';
 import c from './src/constants/companies';
 import {setInternetConnection} from './src/features/internet';
-import {saveResult, setIsLoading, setSelectedDate} from './src/features/result';
+import {
+  saveResult,
+  setIsLiveStarted,
+  setIsLoading,
+} from './src/features/result';
 import BlankResultScreen from './src/screens/BlankResultScreen';
 import ResultScreen from './src/screens/ResultScreen';
-// import getItem from './src/utils/getItem';
 
 const codePushOptions = {
   checkFrequency: __DEV__
@@ -27,8 +36,8 @@ const activeOffsetX = {activeOffsetX: [-10, 10]};
 const App = () => {
   const blankResultRef = useRef(null);
   const resultRef = useRef(null);
-  // const [currentSide, setCurrentSide] = useState('M');
   const [isVertical] = useState(false);
+  const [currentTime, setCurrentTime] = useState(TARGET_TIME);
 
   const dispatch = useDispatch();
   const hasInternet = useSelector(state => state.internet.value);
@@ -50,13 +59,6 @@ const App = () => {
         width: PAGE_WIDTH,
       };
 
-  // Open external link in the in-app browser
-  // Link: https://github.com/proyecto26/react-native-inappbrowser
-  // const open4DNumWebsite = async () => {
-  //   const url = 'http://dream.4dnum.com';
-  //   InAppBrowser.open(url, LINK_OPTIONS);
-  // };
-
   // Fetching data from API and save to result state
   const fetchFdData = async (date = '') => {
     console.log('🌺 Fetching data from', `${API_BASE_URL}/${date}`);
@@ -70,15 +72,6 @@ const App = () => {
       return err;
     }
   };
-
-  // const updateDate = date => {
-  //   dispatch(
-  //     setSelectedDate({
-  //       selectedDate: moment(date).toDate(),
-  //       formattedDate: moment(date).format(DATE_FORMAT),
-  //     }),
-  //   );
-  // };
 
   // Check if there is an internet connection
   useEffect(() => {
@@ -102,17 +95,45 @@ const App = () => {
     SplashScreen.hide();
   }, [formattedDate, hasInternet]);
 
-  // Update the selectedDate based on the result
-  // useEffect(() => {
-  //   console.log(
-  //     `🕰 selectedDate ${formattedDate} | ⚽️ currentSide ${currentSide}`,
-  //   );
-  //   if (result.length !== 0) {
-  //     console.log('🔥 Done fetching data...');
-  //     const fdData = getItem(result, currentSide).fdData;
-  //     const currentSideDate = fdData.dd;
-  //   }
-  // }, [result]);
+  // Decide whether to go live or not
+  useEffect(() => {
+    let timer;
+    if (
+      Number(currentTime) >= DRAW_TIME.start &&
+      Number(currentTime) <= DRAW_TIME.end
+    ) {
+      console.log('🔴 live:', currentTime);
+      dispatch(setIsLiveStarted(1));
+
+      timer = setInterval(() => {
+        setCurrentTime(prevTime =>
+          moment(prevTime, TIME_FORMAT_LONG)
+            .add(REFRESH_RATE_SECOND, 'seconds')
+            .format(TIME_FORMAT_LONG),
+        );
+        if (
+          Number(currentTime) >= DRAW_TIME.start &&
+          Number(currentTime) <= DRAW_TIME.end
+        ) {
+          console.log('🔴 nestedIf live:', currentTime);
+          dispatch(setIsLiveStarted(1));
+          fetchFdData();
+        } else {
+          console.log('❌ nestedIf offline:', currentTime);
+          dispatch(setIsLiveStarted(0));
+          clearInterval(timer);
+        }
+      }, REFRESH_RATE_MILLISECOND);
+      return () => {
+        clearInterval(timer);
+      };
+    } else {
+      console.log('❌ else offline:', currentTime);
+      dispatch(setIsLiveStarted(0));
+      clearInterval(timer);
+    }
+    return () => clearInterval(timer);
+  }, [currentTime, isLiveStarted]);
 
   // CodePush: https://github.com/gulsher7/CodePushApp
   useEffect(() => {
@@ -152,7 +173,6 @@ const App = () => {
           {...baseOptions}
           data={c}
           defaultIndex={0}
-          // onSnapToItem={index => setCurrentSide(c[index].code)}
           pagingEnabled={true}
           panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
