@@ -4,13 +4,13 @@ import {useSelector} from 'react-redux';
 import AppDatePicker from './AppDatePicker';
 import NoInternet from './NoInternet';
 
-const AppHeader = ({disableButton}) => {
+const AppHeader = ({disableButton, navigation}) => {
   const hasInternet = useSelector(state => state.internet.value);
 
   return (
     <HStack backgroundColor="white" justifyContent="center">
       {hasInternet ? null : <NoInternet />}
-      <AppDatePicker disableButton={disableButton} />
+      <AppDatePicker disableButton={disableButton} navigation={navigation} />
     </HStack>
   );
 };

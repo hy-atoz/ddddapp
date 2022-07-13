@@ -15,7 +15,7 @@ import {
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const ICON_SIZE = DEVICE_WIDTH <= 320 ? 4 : 8;
 
-const AppDatePicker = ({disableButton = false}) => {
+const AppDatePicker = ({disableButton = false, navigation}) => {
   const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -79,8 +79,19 @@ const AppDatePicker = ({disableButton = false}) => {
         color="black"
         name="calendar"
         size={DEVICE_WIDTH <= 320 ? 14 : 18}
+        onPress={() =>
+          navigation.navigate('Testing', {id: 'testing route params'})
+        }>
+        Date
+      </AntDesign.Button>
+      {/* <AntDesign.Button
+        allowFontScaling={false}
+        backgroundColor="white"
+        color="black"
+        name="calendar"
+        size={DEVICE_WIDTH <= 320 ? 14 : 18}
         onPress={() => !disableButton && setOpen(true)}>
-        Select Date
+        Date
       </AntDesign.Button>
       <DatePicker
         androidVariant="iosClone"
@@ -103,7 +114,7 @@ const AppDatePicker = ({disableButton = false}) => {
             }),
           );
         }}
-      />
+      /> */}
       <IconButton
         disabled={disableButton}
         colorScheme="muted"

@@ -36,6 +36,7 @@ const ResultScreen = ({
   isGreenText,
   source,
   name,
+  navigation,
 }) => {
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
   const fdData = useSelector(
@@ -67,7 +68,7 @@ const ResultScreen = ({
 
   return (
     <ResultScreenContainer index={index}>
-      <AppHeader disableButton={false} />
+      <AppHeader disableButton={false} navigation={navigation} />
       <CompanyHeader
         bgColor={bgColor}
         isBlackText={isBlackText}

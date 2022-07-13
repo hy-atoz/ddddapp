@@ -34,7 +34,7 @@ const codePushOptions = {
 const {height: PAGE_HEIGHT, width: PAGE_WIDTH} = Dimensions.get('window');
 const activeOffsetX = {activeOffsetX: [-10, 10]};
 
-const App = () => {
+const App = ({navigation, route}) => {
   const blankResultRef = useRef(null);
   const resultRef = useRef(null);
   const [isVertical] = useState(false);
@@ -92,9 +92,15 @@ const App = () => {
 
   // Fetching fdData every time the selected date is changing
   useEffect(() => {
-    formattedDate ? fetchFdData(formattedDate) : fetchFdData();
+    if (route.params === undefined) {
+      formattedDate ? fetchFdData(formattedDate) : fetchFdData();
+      console.log('❗️undefined');
+    } else {
+      fetchFdData(route.params['date'].slice(0, 10));
+    }
+
     SplashScreen.hide();
-  }, [formattedDate, hasInternet]);
+  }, [formattedDate, hasInternet, route]);
 
   // Decide whether to go live or not
   useEffect(() => {
@@ -118,8 +124,7 @@ const App = () => {
         ) {
           console.log('🔴 nestedIf live:', currentTime);
           dispatch(setIsLiveStarted(1));
-          // fetchFdData();
-          console.log('fetching data...');
+          fetchFdData();
         } else {
           console.log('❌ nestedIf offline:', currentTime);
           dispatch(setIsLiveStarted(0));
@@ -179,11 +184,11 @@ const App = () => {
           pagingEnabled={true}
           panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
-          snapEnabled={true}
-          scrollAnimationDuration={800}
+          snapEnabled={false}
           renderItem={({index}) => {
             return (
               <ResultScreen
+                navigation={navigation}
                 key={index}
                 index={index}
                 bgColor={c[index].color}
