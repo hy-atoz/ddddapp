@@ -92,13 +92,13 @@ const App = ({navigation, route}) => {
 
   // Fetching fdData every time the selected date is changing
   useEffect(() => {
-    if (route.params === undefined) {
-      formattedDate ? fetchFdData(formattedDate) : fetchFdData();
-      console.log('❗️undefined');
-    } else {
-      fetchFdData(route.params['date'].slice(0, 10));
-    }
-
+    // if (route.params === undefined) {
+    //   formattedDate ? fetchFdData(formattedDate) : fetchFdData();
+    // } else {
+    //   dispatch(setIsLoading(true));
+    //   fetchFdData(route.params['date'].slice(0, 10));
+    // }
+    formattedDate ? fetchFdData(formattedDate) : fetchFdData();
     SplashScreen.hide();
   }, [formattedDate, hasInternet, route]);
 
