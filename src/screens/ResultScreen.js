@@ -41,8 +41,6 @@ const ResultScreen = ({
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
   const result = useSelector(state => state.result.value);
 
-  // TODO: What to do when the user presses the "Previous Date" button?
-
   const fdData = getItem(result, companyCode).fdData;
   const {
     day,

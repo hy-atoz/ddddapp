@@ -32,11 +32,12 @@ const codePushOptions = {
 const {height: PAGE_HEIGHT, width: PAGE_WIDTH} = Dimensions.get('window');
 const activeOffsetX = {activeOffsetX: [-10, 10]};
 
-const App = () => {
+const App = ({route}) => {
   const blankResultRef = useRef(null);
   const resultRef = useRef(null);
   const [isVertical] = useState(false);
   const [currentTime, setCurrentTime] = useState(TARGET_TIME);
+  const [imageVar, setImageVar] = useState(0);
 
   const dispatch = useDispatch();
   const c = useSelector(state => state.company.value);
@@ -72,6 +73,15 @@ const App = () => {
       return err;
     }
   };
+
+  useEffect(() => {
+    if (route.params === undefined) {
+      console.log('undefined params');
+    } else {
+      console.log(route.params.index);
+      resultRef.current.scrollTo({index: route.params.index, animated: true});
+    }
+  }, [route.params]);
 
   // Check if there is an internet connection
   useEffect(() => {
@@ -163,7 +173,7 @@ const App = () => {
                 isBlackText={c[index].isBlackText}
                 isGreenText={c[index].isGreenText}
                 name={c[index].name}
-                source={c[index].image}
+                source={c[index].id}
               />
             );
           }}
@@ -180,7 +190,6 @@ const App = () => {
           renderItem={({index}) => {
             return (
               <>
-                {console.log(index)}
                 <ResultScreen
                   key={index}
                   index={index}
@@ -192,7 +201,7 @@ const App = () => {
                   isBlackText={c[index].isBlackText}
                   isGreenText={c[index].isGreenText}
                   name={c[index].name}
-                  source={c[index].image}
+                  source={c[index].id}
                 />
               </>
             );

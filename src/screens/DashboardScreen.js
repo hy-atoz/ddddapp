@@ -41,13 +41,17 @@ const DashboardScreen = ({navigation}) => {
     });
   }, [navigation, reorderMode]);
 
-  const renderItem = ({item, drag, isActive}) => {
+  const renderItem = ({index, item, drag, isActive}) => {
     const fdData = getItem(result, item.code).fdData;
     const {day, dn, n1, n2, n3} = fdData;
 
     return (
       <OpacityDecorator>
-        <Pressable disabled={isActive} onPressIn={reorderMode ? drag : null}>
+        <Pressable
+          disabled={isActive}
+          onPress={() => navigation.navigate('Results', {index})}
+          // onPressIn={reorderMode ? drag : null}
+        >
           <HStack
             alignItems="center"
             borderBottomWidth="0.5"
@@ -60,7 +64,7 @@ const DashboardScreen = ({navigation}) => {
                 alt={item.name_en}
                 height={DEVICE_WIDTH <= 320 ? 8 : 10}
                 width={DEVICE_WIDTH <= 320 ? 8 : 10}
-                source={item.image}
+                source={item.id}
               />
               <VStack space={1}>
                 <Text

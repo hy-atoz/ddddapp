@@ -1,24 +1,23 @@
-import React from 'react';
-import {Dimensions, Platform, StatusBar} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons';
-import App from '../../App';
-import TestingScreen from '../screens/TestingScreen';
-import SettingScreen from '../screens/SettingScreen';
-import {useEffect} from 'react';
-import SplashScreen from 'react-native-splash-screen';
-import DashboardScreen from '../screens/DashboardScreen';
-import {hasNotch} from 'react-native-device-info';
-import {useDispatch, useSelector} from 'react-redux';
 import {
   activateKeepAwake,
   deactivateKeepAwake,
 } from '@sayem314/react-native-keep-awake';
+import React, {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {setLanguage} from '../features/setting';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {LANGUAGE_STOGRAGE_KEY, ORDER_STORAGE_KEY} from '../i18n';
+import {Dimensions, Platform, StatusBar} from 'react-native';
+import {hasNotch} from 'react-native-device-info';
+import SplashScreen from 'react-native-splash-screen';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {useDispatch, useSelector} from 'react-redux';
+import App from '../../App';
 import {updateOrder} from '../features/company';
+import {setLanguage} from '../features/setting';
+import {LANGUAGE_STOGRAGE_KEY, ORDER_STORAGE_KEY} from '../i18n';
+import DashboardScreen from '../screens/DashboardScreen';
+import SettingScreen from '../screens/SettingScreen';
+import TestingScreen from '../screens/TestingScreen';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const Tab = createBottomTabNavigator();

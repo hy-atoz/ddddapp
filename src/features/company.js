@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
   value: [
     {
-      id: 0,
+      id: 1,
       code: 'M',
       color: 'brand.magnum',
       name: 'Magnum 4D 萬能',
@@ -16,7 +16,7 @@ const initialState = {
       hasLiveVideo: false,
     },
     {
-      id: 1,
+      id: 2,
       code: 'PMP',
       color: 'brand.damacai',
       name: 'Da Ma Cai 1+3D 大馬彩',
@@ -28,7 +28,7 @@ const initialState = {
       hasLiveVideo: false,
     },
     {
-      id: 2,
+      id: 3,
       code: 'ST',
       color: 'brand.toto',
       name: 'SportsToto 4D 多多',
@@ -40,7 +40,7 @@ const initialState = {
       hasLiveVideo: false,
     },
     {
-      id: 3,
+      id: 4,
       code: 'STC',
       color: 'brand.sandakan',
       name: 'Sandakan 4D 山打根賽馬會',
@@ -53,7 +53,7 @@ const initialState = {
       hasLiveVideo: false,
     },
     {
-      id: 4,
+      id: 5,
       code: 'EE',
       color: 'brand.sabah88',
       name: 'Sabah 88 4D 沙巴萬字',
@@ -65,7 +65,7 @@ const initialState = {
       hasLiveVideo: false,
     },
     {
-      id: 5,
+      id: 6,
       code: 'CS',
       color: 'brand.cashsweep',
       name: 'Special CashSweep 砂勞越大萬',
@@ -77,7 +77,7 @@ const initialState = {
       hasLiveVideo: false,
     },
     {
-      id: 6,
+      id: 7,
       code: 'SG',
       color: 'brand.sg4d',
       name: 'Singapore 4D',
@@ -89,7 +89,7 @@ const initialState = {
       hasLiveVideo: false,
     },
     {
-      id: 7,
+      id: 8,
       code: 'H',
       color: 'brand.hari',
       name: 'Lucky Hari Hari 天天好運',
@@ -101,7 +101,7 @@ const initialState = {
       hasLiveVideo: true,
     },
     {
-      id: 8,
+      id: 9,
       code: 'GD',
       color: 'brand.gd',
       name: 'Grand Dragon 4D 豪龍',
