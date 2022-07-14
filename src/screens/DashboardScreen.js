@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {HStack, Image, Pressable, Text, VStack} from 'native-base';
 import React, {useLayoutEffect, useState} from 'react';
 import {Dimensions} from 'react-native';
@@ -5,17 +6,29 @@ import DraggableFlatList, {
   OpacityDecorator,
 } from 'react-native-draggable-flatlist';
 import Icon from 'react-native-vector-icons/Entypo';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import CustomButton from '../components/CustomButton';
 import WinnerBadge from '../components/WinnerBadge';
-import c from '../constants/companies';
+import {updateOrder} from '../features/company';
+import {ORDER_STORAGE_KEY} from '../i18n';
 import getItem from '../utils/getItem';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
 const DashboardScreen = ({navigation}) => {
   const [reorderMode, setReorderMode] = useState(false);
+  const companies = useSelector(state => state.company.value);
   const result = useSelector(state => state.result.value);
+  const dispatch = useDispatch();
+
+  const storeData = async value => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem(ORDER_STORAGE_KEY, jsonValue);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -103,11 +116,10 @@ const DashboardScreen = ({navigation}) => {
 
   return (
     <DraggableFlatList
-      data={c}
+      data={companies}
       onDragEnd={({data}) => {
-        // setData(data);
-        // storeData(data);
-        console.log(data);
+        dispatch(updateOrder(data));
+        storeData(data);
       }}
       keyExtractor={item => item.id}
       renderItem={renderItem}

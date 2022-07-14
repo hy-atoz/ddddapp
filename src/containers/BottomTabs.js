@@ -17,7 +17,8 @@ import {
 import {useTranslation} from 'react-i18next';
 import {setLanguage} from '../features/setting';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {LANGUAGE_STOGRAGE_KEY} from '../i18n';
+import {LANGUAGE_STOGRAGE_KEY, ORDER_STORAGE_KEY} from '../i18n';
+import {updateOrder} from '../features/company';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const Tab = createBottomTabNavigator();
@@ -66,8 +67,20 @@ function BottomTabs() {
     }
   };
 
+  const getSavedOrder = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(ORDER_STORAGE_KEY);
+      return jsonValue != null
+        ? dispatch(updateOrder(JSON.parse(jsonValue)))
+        : null;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     getSavedLanguage();
+    getSavedOrder();
     SplashScreen.hide();
   }, []);
 

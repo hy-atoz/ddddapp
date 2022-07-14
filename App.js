@@ -15,7 +15,6 @@ import {
   TARGET_TIME,
   TIME_FORMAT_LONG,
 } from './src/constants';
-import c from './src/constants/companies';
 import {setInternetConnection} from './src/features/internet';
 import {
   saveResult,
@@ -40,6 +39,7 @@ const App = () => {
   const [currentTime, setCurrentTime] = useState(TARGET_TIME);
 
   const dispatch = useDispatch();
+  const c = useSelector(state => state.company.value);
   const hasInternet = useSelector(state => state.internet.value);
   const {formattedDate} = useSelector(state => state.result.dates);
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
@@ -179,19 +179,22 @@ const App = () => {
           scrollAnimationDuration={500}
           renderItem={({index}) => {
             return (
-              <ResultScreen
-                key={index}
-                index={index}
-                bgColor={c[index].color}
-                companyCode={c[index].code}
-                hasLastRow={c[index].hasLastRow}
-                hasLetter={c[index].hasLetter}
-                hasLiveVideo={c[index].hasLiveVideo}
-                isBlackText={c[index].isBlackText}
-                isGreenText={c[index].isGreenText}
-                name={c[index].name}
-                source={c[index].image}
-              />
+              <>
+                {console.log(index)}
+                <ResultScreen
+                  key={index}
+                  index={index}
+                  bgColor={c[index].color}
+                  companyCode={c[index].code}
+                  hasLastRow={c[index].hasLastRow}
+                  hasLetter={c[index].hasLetter}
+                  hasLiveVideo={c[index].hasLiveVideo}
+                  isBlackText={c[index].isBlackText}
+                  isGreenText={c[index].isGreenText}
+                  name={c[index].name}
+                  source={c[index].image}
+                />
+              </>
             );
           }}
         />

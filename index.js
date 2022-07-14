@@ -9,6 +9,7 @@ import {AppRegistry} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Provider as ReduxProvider} from 'react-redux';
 import {name as appName} from './app.json';
+import companyReducer from './src/features/company';
 import internetReducer from './src/features/internet';
 import resultReducer from './src/features/result';
 import settingReducer from './src/features/setting';
@@ -18,6 +19,7 @@ import './src/i18n';
 
 const store = configureStore({
   reducer: {
+    company: companyReducer,
     internet: internetReducer,
     result: resultReducer,
     setting: settingReducer,
