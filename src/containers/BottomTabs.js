@@ -15,6 +15,7 @@ import App from '../../App';
 import {updateOrder} from '../features/company';
 import {setLanguage} from '../features/setting';
 import {LANGUAGE_STOGRAGE_KEY, ORDER_STORAGE_KEY} from '../i18n';
+import BlankDashboardScreen from '../screens/BlankDashboardScreen';
 import DashboardScreen from '../screens/DashboardScreen';
 import SettingScreen from '../screens/SettingScreen';
 import TestingScreen from '../screens/TestingScreen';

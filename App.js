@@ -38,6 +38,7 @@ const App = ({route}) => {
   const [isVertical] = useState(false);
   const [currentTime, setCurrentTime] = useState(TARGET_TIME);
   const [imageVar, setImageVar] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const dispatch = useDispatch();
   const c = useSelector(state => state.company.value);
@@ -75,10 +76,13 @@ const App = ({route}) => {
   };
 
   useEffect(() => {
+    console.log(activeIndex);
+  }, [activeIndex]);
+
+  useEffect(() => {
     if (route.params === undefined) {
       console.log('undefined params');
     } else {
-      console.log(route.params.index);
       resultRef.current.scrollTo({index: route.params.index, animated: true});
     }
   }, [route.params]);
@@ -187,6 +191,8 @@ const App = ({route}) => {
           panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
           scrollAnimationDuration={500}
+          snapEnabled={true}
+          onSnapToItem={index => setActiveIndex(index)}
           renderItem={({index}) => {
             return (
               <>

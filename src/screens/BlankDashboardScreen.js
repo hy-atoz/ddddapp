@@ -12,15 +12,12 @@ import CustomButton from '../components/CustomButton';
 import WinnerBadge from '../components/WinnerBadge';
 import {updateOrder} from '../features/company';
 import {ORDER_STORAGE_KEY} from '../i18n';
-import getItem from '../utils/getItem';
-import BlankDashboardScreen from './BlankDashboardScreen';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
-const DashboardScreen = ({navigation}) => {
+const BlankDashboardScreen = ({navigation}) => {
   const [reorderMode, setReorderMode] = useState(false);
   const companies = useSelector(state => state.company.value);
-  const result = useSelector(state => state.result.value);
   const dispatch = useDispatch();
   const {t} = useTranslation();
 
@@ -33,21 +30,18 @@ const DashboardScreen = ({navigation}) => {
     }
   };
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <CustomButton
-          title={reorderMode ? t('reorder:done') : t('reorder:reorder')}
-          onPress={() => setReorderMode(!reorderMode)}
-        />
-      ),
-    });
-  }, [navigation, reorderMode]);
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => (
+  //       <CustomButton
+  //         title={reorderMode ? t('reorder:done') : t('reorder:reorder')}
+  //         onPress={() => setReorderMode(!reorderMode)}
+  //       />
+  //     ),
+  //   });
+  // }, [navigation, reorderMode]);
 
   const renderItem = ({index, item, drag, isActive}) => {
-    const fdData = getItem(result, item.code).fdData;
-    const {day, dn, n1, n2, n3} = fdData;
-
     return (
       <>
         {reorderMode ? (
@@ -74,7 +68,7 @@ const DashboardScreen = ({navigation}) => {
                       color="black"
                       fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'sm'}
                       fontWeight="bold">
-                      {item.name_en} [{dn}] [{day}]
+                      {item.name_en} [---/--] [---]
                     </Text>
                     <HStack space={DEVICE_WIDTH <= 320 ? 4 : 6}>
                       <HStack alignItems="center">
@@ -84,7 +78,7 @@ const DashboardScreen = ({navigation}) => {
                           fontFamily="Roboto-Bold"
                           fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'md'}
                           fontWeight="bold">
-                          {n1}
+                          ----
                         </Text>
                       </HStack>
                       <HStack alignItems="center">
@@ -94,7 +88,7 @@ const DashboardScreen = ({navigation}) => {
                           fontFamily="Roboto-Bold"
                           fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'md'}
                           fontWeight="bold">
-                          {n2}
+                          ----
                         </Text>
                       </HStack>
                       <HStack alignItems="center">
@@ -104,7 +98,7 @@ const DashboardScreen = ({navigation}) => {
                           fontFamily="Roboto-Bold"
                           fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'md'}
                           fontWeight="bold">
-                          {n3}
+                          ----
                         </Text>
                       </HStack>
                     </HStack>
@@ -142,7 +136,7 @@ const DashboardScreen = ({navigation}) => {
                       color="black"
                       fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'sm'}
                       fontWeight="bold">
-                      {item.name_en} [{dn}] [{day}]
+                      {item.name_en} [---/--] [---]
                     </Text>
                     <HStack space={DEVICE_WIDTH <= 320 ? 4 : 6}>
                       <HStack alignItems="center">
@@ -152,7 +146,7 @@ const DashboardScreen = ({navigation}) => {
                           fontFamily="Roboto-Bold"
                           fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'md'}
                           fontWeight="bold">
-                          {n1}
+                          ----
                         </Text>
                       </HStack>
                       <HStack alignItems="center">
@@ -162,7 +156,7 @@ const DashboardScreen = ({navigation}) => {
                           fontFamily="Roboto-Bold"
                           fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'md'}
                           fontWeight="bold">
-                          {n2}
+                          ----
                         </Text>
                       </HStack>
                       <HStack alignItems="center">
@@ -172,7 +166,7 @@ const DashboardScreen = ({navigation}) => {
                           fontFamily="Roboto-Bold"
                           fontSize={DEVICE_WIDTH <= 320 ? 'xs' : 'md'}
                           fontWeight="bold">
-                          {n3}
+                          ----
                         </Text>
                       </HStack>
                     </HStack>
@@ -192,23 +186,17 @@ const DashboardScreen = ({navigation}) => {
   };
 
   return (
-    <>
-      {result.length === 0 ? (
-        <BlankDashboardScreen />
-      ) : (
-        <DraggableFlatList
-          alwaysBounceVertical={false}
-          data={companies}
-          onDragEnd={({data}) => {
-            dispatch(updateOrder(data));
-            storeData(data);
-          }}
-          keyExtractor={item => item.id}
-          renderItem={renderItem}
-        />
-      )}
-    </>
+    <DraggableFlatList
+      alwaysBounceVertical={false}
+      data={companies}
+      onDragEnd={({data}) => {
+        dispatch(updateOrder(data));
+        storeData(data);
+      }}
+      keyExtractor={item => item.id}
+      renderItem={renderItem}
+    />
   );
 };
 
-export default DashboardScreen;
+export default BlankDashboardScreen;
