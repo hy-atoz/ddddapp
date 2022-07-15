@@ -43,7 +43,7 @@ const SettingScreen = () => {
   };
 
   return (
-    <ScrollView alwaysBounceVertical={false}>
+    <ScrollView alwaysBounceVertical={false} flex="1">
       <VStack>
         <SectionTitle
           backgroundColor="gray.300"

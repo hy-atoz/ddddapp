@@ -9,7 +9,7 @@ const TestingScreen = () => {
   }, []);
 
   return (
-    <Box>
+    <Box flex="1">
       <Text textAlign="center">TestingScreen</Text>
     </Box>
   );

@@ -37,7 +37,6 @@ const App = ({route}) => {
   const resultRef = useRef(null);
   const [isVertical] = useState(false);
   const [currentTime, setCurrentTime] = useState(TARGET_TIME);
-  const [imageVar, setImageVar] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const dispatch = useDispatch();
@@ -74,10 +73,6 @@ const App = ({route}) => {
       return err;
     }
   };
-
-  useEffect(() => {
-    console.log(activeIndex);
-  }, [activeIndex]);
 
   useEffect(() => {
     if (route.params === undefined) {
@@ -187,11 +182,9 @@ const App = ({route}) => {
           {...baseOptions}
           data={c}
           defaultIndex={0}
-          pagingEnabled={true}
           panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
           scrollAnimationDuration={500}
-          snapEnabled={true}
           onSnapToItem={index => setActiveIndex(index)}
           renderItem={({index}) => {
             return (
