@@ -29,7 +29,7 @@ const CompanyHeader = ({
       justifyContent="center"
       paddingY={1}
       space={2}>
-      <Image alt={name} height={8} width={8} source={source} />
+      <Image key={source} alt={name} height={8} width={8} source={source} />
       <Heading
         alignSelf="center"
         color={color}

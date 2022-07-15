@@ -61,7 +61,7 @@ const BlankDashboardScreen = ({navigation}) => {
                     alt={item.name_en}
                     height={DEVICE_WIDTH <= 320 ? 8 : 10}
                     width={DEVICE_WIDTH <= 320 ? 8 : 10}
-                    source={item.id}
+                    source={item.image}
                   />
                   <VStack space={1}>
                     <Text
@@ -129,7 +129,7 @@ const BlankDashboardScreen = ({navigation}) => {
                     alt={item.name_en}
                     height={DEVICE_WIDTH <= 320 ? 8 : 10}
                     width={DEVICE_WIDTH <= 320 ? 8 : 10}
-                    source={item.id}
+                    source={item.image}
                   />
                   <VStack space={1}>
                     <Text

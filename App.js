@@ -177,7 +177,7 @@ const App = ({route}) => {
                 isBlackText={c[index].isBlackText}
                 isGreenText={c[index].isGreenText}
                 name={c[index].name}
-                source={c[index].id}
+                source={c[index].image}
               />
             );
           }}
@@ -207,7 +207,7 @@ const App = ({route}) => {
                   isBlackText={c[index].isBlackText}
                   isGreenText={c[index].isGreenText}
                   name={c[index].name}
-                  source={c[index].id}
+                  source={c[index].image}
                 />
               </>
             );
