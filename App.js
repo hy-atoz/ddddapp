@@ -1,12 +1,15 @@
 import NetInfo from '@react-native-community/netinfo';
 import moment from 'moment';
+import {Box, Pressable, Text} from 'native-base';
 import React, {useEffect, useRef, useState} from 'react';
-import {Dimensions, SafeAreaView} from 'react-native';
+import {useLayoutEffect} from 'react';
+import {ActivityIndicator, Dimensions, SafeAreaView} from 'react-native';
 import codePush from 'react-native-code-push';
 import Carousel from 'react-native-reanimated-carousel';
 import SplashScreen from 'react-native-splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import FullScreenLoading from './src/components/FullScreenLoading';
+import Refresh from './src/components/Refresh';
 import {
   API_BASE_URL,
   DRAW_TIME,
@@ -32,12 +35,13 @@ const codePushOptions = {
 const {height: PAGE_HEIGHT, width: PAGE_WIDTH} = Dimensions.get('window');
 const activeOffsetX = {activeOffsetX: [-10, 10]};
 
-const App = ({route}) => {
+const App = ({navigation, route}) => {
   const blankResultRef = useRef(null);
   const resultRef = useRef(null);
   const [isVertical] = useState(false);
   const [currentTime, setCurrentTime] = useState(TARGET_TIME);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const dispatch = useDispatch();
   const c = useSelector(state => state.company.value);
@@ -73,6 +77,25 @@ const App = ({route}) => {
       return err;
     }
   };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable
+          pr={2}
+          onPress={() => {
+            dispatch(setIsLoading(true));
+            fetchFdData();
+          }}>
+          {isLoading ? (
+            <ActivityIndicator size="small" style={{paddingRight: 2}} />
+          ) : (
+            <Refresh isSpinning={isLoading} />
+          )}
+        </Pressable>
+      ),
+    });
+  });
 
   useEffect(() => {
     if (route.params === undefined) {
