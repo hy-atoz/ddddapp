@@ -24,7 +24,8 @@ const initialState = {
   },
   isLoading: false,
   isLiveStarted: 0,
-  isPrevDatePressed: false,
+  isPrevDrawPressed: false,
+  isNextDrawPressed: false,
   prevOrNext: '',
   value: [],
 };
@@ -42,8 +43,11 @@ export const resultSlice = createSlice({
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
     },
-    setIsPreviousDatePressed: (state, action) => {
-      state.isPrevDatePressed = action.payload;
+    setIsPrevDrawPressed: (state, action) => {
+      state.isPrevDrawPressed = action.payload;
+    },
+    setIsNextDrawPressed: (state, action) => {
+      state.isNextDrawPressed = action.payload;
     },
     setPrevOrNext: (state, action) => {
       state.prevOrNext = action.payload;
@@ -58,7 +62,7 @@ export const {
   saveResult,
   setIsLoading,
   setIsLiveStarted,
-  setIsPreviousDatePressed,
+  setIsPrevDrawPressed,
   setPrevOrNext,
   setSelectedDate,
 } = resultSlice.actions;

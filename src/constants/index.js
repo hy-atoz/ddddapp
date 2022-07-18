@@ -29,7 +29,17 @@ export const ALPHABET = [
 ];
 
 // export const API_BASE_URL = 'https://test.algo.my/';
+export const API_BASE_URL_TEST = 'https://api.4dnum.com/api';
+export const API_VERSION = 'v1';
 export const API_BASE_URL = 'https://api.4dnum.com/api/v1/result';
+export const LOCALHOST = 'http://192.168.1.114/api';
+export const RESULT_ENDPOINT = 'result';
+export const MSSGPREV_ENDPOINT = 'MSSGPrev';
+export const MSSGNEXT_ENDPOINT = 'MSSGNext';
+export const OTHERPREV_ENDPOINT = 'otherPrev';
+export const OTHERNEXT_ENDPOINT = 'otherNext';
+export const SHOWRESULT_ENDPOINT = 'showResult';
+export const HISTORY_ENDPOINT = 'history';
 export const PRIVACY_URL = 'https://privacy.4dnum.com/';
 
 export const APP = {

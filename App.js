@@ -1,8 +1,7 @@
 import NetInfo from '@react-native-community/netinfo';
 import moment from 'moment';
-import {Box, Pressable, Text} from 'native-base';
-import React, {useEffect, useRef, useState} from 'react';
-import {useLayoutEffect} from 'react';
+import {Pressable} from 'native-base';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {ActivityIndicator, Dimensions, SafeAreaView} from 'react-native';
 import codePush from 'react-native-code-push';
 import Carousel from 'react-native-reanimated-carousel';
@@ -12,9 +11,12 @@ import FullScreenLoading from './src/components/FullScreenLoading';
 import Refresh from './src/components/Refresh';
 import {
   API_BASE_URL,
+  API_VERSION,
   DRAW_TIME,
+  LOCALHOST,
   REFRESH_RATE_MILLISECOND,
   REFRESH_RATE_SECOND,
+  RESULT_ENDPOINT,
   TARGET_TIME,
   TIME_FORMAT_LONG,
 } from './src/constants';
@@ -40,11 +42,10 @@ const App = ({navigation, route}) => {
   const resultRef = useRef(null);
   const [isVertical] = useState(false);
   const [currentTime, setCurrentTime] = useState(TARGET_TIME);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const c = useSelector(state => state.company.value);
+  const [currentSide, setCurrentSide] = useState(c[0].code);
 
   const dispatch = useDispatch();
-  const c = useSelector(state => state.company.value);
   const hasInternet = useSelector(state => state.internet.value);
   const {formattedDate} = useSelector(state => state.result.dates);
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
@@ -66,9 +67,12 @@ const App = ({navigation, route}) => {
 
   // Fetching data from API and save to result state
   const fetchFdData = async (date = '') => {
-    console.log('🌺 Fetching data from', `${API_BASE_URL}/${date}`);
+    // const url = `${LOCALHOST}/${API_VERSION}/${RESULT_ENDPOINT}/${date}`;
+    const url = `${API_BASE_URL}`;
+    console.log('🌺 Fetching data from', url);
+
     try {
-      const response = await fetch(`${API_BASE_URL}/${date}`);
+      const response = await fetch(url);
       const json = await response.json();
       dispatch(saveResult(json));
       dispatch(setIsLoading(false));
@@ -126,6 +130,15 @@ const App = ({navigation, route}) => {
     formattedDate ? fetchFdData(formattedDate) : fetchFdData();
     SplashScreen.hide();
   }, [formattedDate, hasInternet]);
+
+  useEffect(() => {
+    console.log('🎃', currentSide);
+    if (currentSide === 'H' || currentSide === 'GD') {
+      console.log('Calling other api');
+    } else {
+      console.log('Calling mssg api');
+    }
+  }, [currentSide]);
 
   // Decide whether to go live or not
   useEffect(() => {
@@ -207,8 +220,7 @@ const App = ({navigation, route}) => {
           defaultIndex={0}
           panGestureHandlerProps={activeOffsetX}
           ref={resultRef}
-          scrollAnimationDuration={500}
-          onSnapToItem={index => setActiveIndex(index)}
+          onSnapToItem={index => setCurrentSide(c[index].code)}
           renderItem={({index}) => {
             return (
               <>

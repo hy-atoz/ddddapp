@@ -119,6 +119,13 @@ const ResultScreen = ({
           hasPrefix={true}
         />
       ) : null}
+      {/* {hasJackpotAmount !== (undefined || '') ? (
+        <SixDJackpot
+          backgroundColor="brand.hari"
+          amount={hasJackpotAmount}
+          hasPrefix={true}
+        />
+      ) : null} */}
       {/* {hasJackpotGD !== undefined ? (
           <SixDJackpot
             backgroundColor="brand.gd"

@@ -18,13 +18,11 @@ import {LANGUAGE_STOGRAGE_KEY, ORDER_STORAGE_KEY} from '../i18n';
 import DashboardScreen from '../screens/DashboardScreen';
 import SettingScreen from '../screens/SettingScreen';
 import TestingScreen from '../screens/TestingScreen';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const Tab = createBottomTabNavigator();
 
 function BottomTabs() {
-  const insets = useSafeAreaInsets();
   const screenOn = useSelector(state => state.setting.screenOn);
   const {t, i18n} = useTranslation();
   const dispatch = useDispatch();

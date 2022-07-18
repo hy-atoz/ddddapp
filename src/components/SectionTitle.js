@@ -8,7 +8,7 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 const SectionTitle = ({
   backgroundColor = APP.TITLE_BG,
   color = 'white',
-  forVideo,
+  isVideoTitle,
   isSettingPage = false,
   title,
 }) => {
@@ -18,7 +18,7 @@ const SectionTitle = ({
       borderColor={backgroundColor}
       borderLeftWidth={APP.BORDER_WIDTH}
       borderRightWidth={APP.BORDER_WIDTH}
-      marginBottom={forVideo ? 0 : 0}
+      marginBottom={isVideoTitle ? 0 : 0}
       padding={1}
       width="100%">
       <Text

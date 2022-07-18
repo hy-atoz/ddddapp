@@ -2,14 +2,14 @@ import React from 'react';
 import {HStack} from 'native-base';
 import {useSelector} from 'react-redux';
 import AppDatePicker from './AppDatePicker';
-import NoInternet from './NoInternet';
+import OfflineNotice from './OfflineNotice';
 
 const AppHeader = ({disableButton}) => {
   const hasInternet = useSelector(state => state.internet.value);
 
   return (
     <HStack backgroundColor="white" justifyContent="center">
-      {hasInternet ? null : <NoInternet />}
+      {hasInternet ? null : <OfflineNotice />}
       <AppDatePicker disableButton={disableButton} />
     </HStack>
   );

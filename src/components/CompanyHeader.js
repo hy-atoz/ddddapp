@@ -1,6 +1,6 @@
 import {Flex, Heading, HStack, Image} from 'native-base';
 import React from 'react';
-import Blink from './Blink';
+// import Blink from '.re';
 import Live from './Live';
 import New from './New';
 

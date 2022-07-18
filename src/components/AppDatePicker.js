@@ -5,10 +5,18 @@ import {Dimensions} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
-import {DATE_FORMAT, TARGET_DATE} from '../constants';
 import {
+  API_VERSION,
+  DATE_FORMAT,
+  LOCALHOST,
+  MSSGNEXT_ENDPOINT,
+  MSSGPREV_ENDPOINT,
+  TARGET_DATE,
+} from '../constants';
+import {
+  saveResult,
   setIsLoading,
-  setIsPreviousDatePressed,
+  setIsPrevDrawPressed,
   setSelectedDate,
 } from '../features/result';
 
@@ -22,6 +30,32 @@ const AppDatePicker = ({disableButton = false}) => {
   const {formattedDate, selectedDate} = useSelector(
     state => state.result.dates,
   );
+  const isPrevDrawPressed = useSelector(
+    state => state.result.isPrevDrawPressed,
+  );
+  const isNextDrawPressed = useSelector(
+    state => state.result.isNextDrawPressed,
+  );
+
+  const fetchFdData = async (date = '') => {
+    let url;
+    if (isPrevDrawPressed) {
+      url = `${LOCALHOST}/${API_VERSION}/${MSSGPREV_ENDPOINT}/${date}`;
+    } else if (isNextDrawPressed) {
+      url = `${LOCALHOST}/${API_VERSION}/${MSSGNEXT_ENDPOINT}/${date}`;
+    }
+    console.log('🌺 Fetching data from', url);
+
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+      dispatch(saveResult(json));
+      dispatch(setIsLoading(false));
+    } catch (err) {
+      console.error(err);
+      return err;
+    }
+  };
 
   const goPreviousDate = () => {
     console.log('⏪ goToPrevious', formattedDate);
@@ -31,7 +65,7 @@ const AppDatePicker = ({disableButton = false}) => {
       .format(DATE_FORMAT);
 
     dispatch(setIsLoading(true));
-    dispatch(setIsPreviousDatePressed(true));
+    dispatch(setIsPrevDrawPressed(true));
     dispatch(
       setSelectedDate({
         selectedDate: previousDate,
