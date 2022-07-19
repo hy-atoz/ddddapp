@@ -17,7 +17,6 @@ const ICON_SIZE = DEVICE_WIDTH <= 320 ? 4 : 8;
 
 const AppDatePicker = ({disableButton = false, navigation}) => {
   const [open, setOpen] = useState(false);
-  // const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const dispatch = useDispatch();
   const {formattedDate, selectedDate} = useSelector(
@@ -55,19 +54,6 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
         formattedDate: formattedNextDate,
       }),
     );
-
-    // if (formattedNextDate === moment(TARGET_DATE).format(DATE_FORMAT)) {
-    //   setIsButtonDisabled(true);
-    // } else {
-    //   setIsButtonDisabled(false);
-    //   dispatch(setIsLoading(true));
-    //   dispatch(
-    //     setSelectedDate({
-    //       selectedDate: nextDate,
-    //       formattedDate: formattedNextDate,
-    //     }),
-    //   );
-    // }
   };
 
   return (

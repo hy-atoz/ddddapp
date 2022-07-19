@@ -1,7 +1,7 @@
 import {Box, Flex, Text} from 'native-base';
 import React from 'react';
 
-const NoInternet = () => {
+const OfflineNotice = () => {
   return (
     <Box
       backgroundColor="brand.red"
@@ -29,4 +29,4 @@ const NoInternet = () => {
   );
 };
 
-export default NoInternet;
+export default OfflineNotice;
