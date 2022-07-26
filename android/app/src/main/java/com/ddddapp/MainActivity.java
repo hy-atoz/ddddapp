@@ -1,5 +1,5 @@
 package com.ddddapp;
-import com.proyecto26.inappbrowser.RNInAppBrowserModule;
+// import com.proyecto26.inappbrowser.RNInAppBrowserModule;
 
 import android.os.Bundle; 
 
