@@ -3,6 +3,7 @@ import React from 'react';
 import {Dimensions} from 'react-native';
 import {APP} from '../constants';
 import Letter from './Letter';
+import LoadingSkeleton from './LoadingSkeleton';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
@@ -17,14 +18,16 @@ const WinnerTop3Number = ({isLast, letter, result = APP.EMPTY}) => {
       justifyContent="center"
       width="100%">
       <Letter isTop3 text={letter} />
-      <Text
-        allowFontScaling={false}
-        fontFamily="Roboto-Bold"
-        fontSize={DEVICE_WIDTH <= 320 ? 'xl' : '2xl'}
-        fontWeight="bold"
-        textAlign="center">
-        {result}
-      </Text>
+      <LoadingSkeleton isCenter height="6" width="50%">
+        <Text
+          allowFontScaling={false}
+          fontFamily="Roboto-Bold"
+          fontSize={DEVICE_WIDTH <= 320 ? 'xl' : '2xl'}
+          fontWeight="bold"
+          textAlign="center">
+          {result}
+        </Text>
+      </LoadingSkeleton>
     </Flex>
   );
 };

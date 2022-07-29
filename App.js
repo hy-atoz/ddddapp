@@ -74,6 +74,7 @@ const App = ({navigation, route}) => {
       `${API}/api/v1/result/${formattedDate}`,
     );
     try {
+      // dispatch(setIsLoading(true));
       const response = await fetch(`${API}/api/v1/result/${formattedDate}`);
       const json = await response.json();
       dispatch(saveResult(json));
@@ -164,7 +165,7 @@ const App = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      {isLoading && !isLiveStarted ? <FullScreenLoading /> : null}
+      {/* {isLoading && !isLiveStarted ? <FullScreenLoading /> : null} */}
       <AppTitle />
       {result.length === 0 ? (
         <Carousel

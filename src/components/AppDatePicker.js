@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {Button, HStack} from 'native-base';
+import {Button, HStack, Text} from 'native-base';
 import React, {useEffect, useState} from 'react';
 import {Dimensions} from 'react-native';
 import DatePicker from 'react-native-date-picker';
@@ -17,7 +17,7 @@ import {
 import getItem from '../utils/getItem';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
-const ICON_SIZE = DEVICE_WIDTH <= 320 ? 4 : 8;
+// const ICON_SIZE = DEVICE_WIDTH <= 320 ? 4 : 8;
 
 const AppDatePicker = ({disableButton = false, navigation}) => {
   const [open, setOpen] = useState(false);
@@ -49,11 +49,11 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
       const response = await fetch(`${API}/api/v1/MSSGPrev/${date}`);
       const json = await response.json();
       dispatch(saveResult(json));
+      dispatch(setIsLoading(false));
     } catch (err) {
       console.error(err);
       return err;
     }
-    dispatch(setIsLoading(false));
   };
 
   const fetchMSSGNext = async (date = '') => {
@@ -63,11 +63,11 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
       const response = await fetch(`${API}/api/v1/MSSGNext/${date}`);
       const json = await response.json();
       dispatch(saveResult(json));
+      dispatch(setIsLoading(false));
     } catch (err) {
       console.error(err);
       return err;
     }
-    dispatch(setIsLoading(false));
   };
 
   const fetchOtherPrev = async (date = '') => {
@@ -77,11 +77,11 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
       const response = await fetch(`${API}/api/v1/otherPrev/${date}`);
       const json = await response.json();
       dispatch(saveResult(json));
+      dispatch(setIsLoading(false));
     } catch (err) {
       console.error(err);
       return err;
     }
-    dispatch(setIsLoading(false));
   };
 
   const fetchOtherNext = async (date = '') => {
@@ -91,11 +91,11 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
       const response = await fetch(`${API}/api/v1/otherNext/${date}`);
       const json = await response.json();
       dispatch(saveResult(json));
+      dispatch(setIsLoading(false));
     } catch (err) {
       console.error(err);
       return err;
     }
-    dispatch(setIsLoading(false));
   };
 
   const goPrevious = () => {
@@ -182,21 +182,20 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
       <Button
         disabled={isLoading}
         onPress={goPrevious}
-        fontWeight="bold"
         variant="ghost"
         size="sm"
         leftIcon={<AntDesign name="caretleft" size={10} />}
-        colorScheme="black.600">
+        colorScheme="rgb(0,0,0)">
         Prev
       </Button>
       <AntDesign.Button
         allowFontScaling={false}
         backgroundColor="white"
-        color="black"
+        color="rgba(0,0,0,0.9)"
         name="calendar"
         size={DEVICE_WIDTH <= 320 ? 14 : 18}
         onPress={() => !disableButton && setOpen(true)}>
-        Date
+        <Text fontSize="12">Date</Text>
       </AntDesign.Button>
       <DatePicker
         androidVariant="iosClone"
@@ -211,27 +210,26 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
           setOpen(false);
         }}
         onConfirm={date => {
-          dispatch(setIsLoading(true));
-          dispatch(setIsNormalDraw(true));
-          dispatch(setIsPrevDraw(false));
-          dispatch(setIsNextDraw(false));
           setOpen(false);
+          dispatch(setIsLoading(true));
           dispatch(
             setSelectedDate({
               selectedDate: date,
               formattedDate: moment(date).format(DATE_FORMAT),
             }),
           );
+          dispatch(setIsNormalDraw(true));
+          dispatch(setIsPrevDraw(false));
+          dispatch(setIsNextDraw(false));
         }}
       />
       <Button
         disabled={isLoading || isNextDisabled}
         onPress={goNext}
-        fontWeight="bold"
         variant="ghost"
         size="sm"
         rightIcon={<AntDesign name="caretright" size={10} />}
-        colorScheme="black">
+        colorScheme="rgb(0,0,0)">
         Next
       </Button>
       {/* <IconButton

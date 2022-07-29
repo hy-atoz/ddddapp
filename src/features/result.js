@@ -22,7 +22,7 @@ const initialState = {
     formattedDate: initialFormattedDate,
   },
   isLiveStarted: 0,
-  isLoading: false,
+  isLoading: true,
   isPrevDraw: false,
   isNextDraw: false,
   isNormalDraw: true,
