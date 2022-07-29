@@ -45,7 +45,7 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
   const fetchMSSGPrev = async (date = '') => {
     console.log('🌺 Fetching data from', `${API}/api/v1/MSSGPrev/${date}`);
     try {
-      dispatch(setIsLoading(true));
+      // dispatch(setIsLoading(true));
       const response = await fetch(`${API}/api/v1/MSSGPrev/${date}`);
       const json = await response.json();
       dispatch(saveResult(json));
@@ -59,7 +59,7 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
   const fetchMSSGNext = async (date = '') => {
     console.log('🌺 Fetching data from', `${API}/api/v1/MSSGNext/${date}`);
     try {
-      dispatch(setIsLoading(true));
+      // dispatch(setIsLoading(true));
       const response = await fetch(`${API}/api/v1/MSSGNext/${date}`);
       const json = await response.json();
       dispatch(saveResult(json));
@@ -73,7 +73,7 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
   const fetchOtherPrev = async (date = '') => {
     console.log('🌺 Fetching data from', `${API}/api/v1/otherPrev/${date}`);
     try {
-      dispatch(setIsLoading(true));
+      // dispatch(setIsLoading(true));
       const response = await fetch(`${API}/api/v1/otherPrev/${date}`);
       const json = await response.json();
       dispatch(saveResult(json));
@@ -87,7 +87,7 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
   const fetchOtherNext = async (date = '') => {
     console.log('🌺 Fetching data from', `${API}/api/v1/otherNext/${date}`);
     try {
-      dispatch(setIsLoading(true));
+      // dispatch(setIsLoading(true));
       const response = await fetch(`${API}/api/v1/otherNext/${date}`);
       const json = await response.json();
       dispatch(saveResult(json));
@@ -99,6 +99,7 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
   };
 
   const goPrevious = () => {
+    dispatch(setIsLoading(true));
     dispatch(setIsPrevDraw(true));
     dispatch(setIsNextDraw(false));
     dispatch(setIsNormalDraw(false));
@@ -134,6 +135,7 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
   };
 
   const goNext = () => {
+    dispatch(setIsLoading(true));
     dispatch(setIsNextDraw(true));
     dispatch(setIsPrevDraw(false));
     dispatch(setIsNormalDraw(false));
