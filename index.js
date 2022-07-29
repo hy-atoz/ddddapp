@@ -11,6 +11,7 @@ import {Provider as ReduxProvider} from 'react-redux';
 import App from './App';
 import {name as appName} from './app.json';
 import internetReducer from './src/features/internet';
+import companyReducer from './src/features/company';
 import resultReducer from './src/features/result';
 import theme from './src/utils/theme';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -18,6 +19,7 @@ import SelectDrawDateScreen from './src/screens/SelectDrawDateScreen';
 
 const store = configureStore({
   reducer: {
+    company: companyReducer,
     internet: internetReducer,
     result: resultReducer,
   },

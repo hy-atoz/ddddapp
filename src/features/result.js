@@ -16,14 +16,16 @@ if (TARGET_TIME < DRAW_TIME.start) {
 }
 
 const initialState = {
+  currentSide: 'M',
   dates: {
     selectedDate: initialDate,
     formattedDate: initialFormattedDate,
   },
   isLiveStarted: 0,
   isLoading: false,
-  isPrevDatePressed: false,
-  prevOrNext: '',
+  isPrevDraw: false,
+  isNextDraw: false,
+  isNormalDraw: true,
   value: [],
 };
 
@@ -34,14 +36,23 @@ export const resultSlice = createSlice({
     saveResult: (state, action) => {
       state.value = action.payload;
     },
+    setCurrentSide: (state, action) => {
+      state.currentSide = action.payload;
+    },
     setIsLiveStarted: (state, action) => {
       state.isLiveStarted = action.payload;
     },
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
     },
-    setIsPreviousDatePressed: (state, action) => {
-      state.isPrevDatePressed = action.payload;
+    setIsPrevDraw: (state, action) => {
+      state.isPrevDraw = action.payload;
+    },
+    setIsNextDraw: (state, action) => {
+      state.isNextDraw = action.payload;
+    },
+    setIsNormalDraw: (state, action) => {
+      state.isNormalDraw = action.payload;
     },
     setSelectedDate: (state, action) => {
       state.dates = action.payload;
@@ -51,9 +62,12 @@ export const resultSlice = createSlice({
 
 export const {
   saveResult,
+  setCurrentSide,
   setIsLoading,
+  setIsPrevDraw,
+  setIsNextDraw,
+  setIsNormalDraw,
   setIsLiveStarted,
-  setIsPreviousDatePressed,
   setSelectedDate,
 } = resultSlice.actions;
 

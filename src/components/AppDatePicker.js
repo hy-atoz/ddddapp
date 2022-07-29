@@ -1,16 +1,20 @@
 import moment from 'moment';
-import {HStack, IconButton} from 'native-base';
-import React, {useState} from 'react';
+import {Button, HStack} from 'native-base';
+import React, {useEffect, useState} from 'react';
 import {Dimensions} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
-import {DATE_FORMAT, TARGET_DATE} from '../constants';
+import {API, DATE_FORMAT, TARGET_DATE} from '../constants';
 import {
+  saveResult,
   setIsLoading,
-  setIsPreviousDatePressed,
+  setIsNextDraw,
+  setIsNormalDraw,
+  setIsPrevDraw,
   setSelectedDate,
 } from '../features/result';
+import getItem from '../utils/getItem';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const ICON_SIZE = DEVICE_WIDTH <= 320 ? 4 : 8;
@@ -19,42 +23,155 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
   const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch();
+  const currentSide = useSelector(state => state.result.currentSide);
   const {formattedDate, selectedDate} = useSelector(
     state => state.result.dates,
   );
+  const result = useSelector(state => state.result.value);
+  const isPrevDraw = useSelector(state => state.result.isPrevDraw);
+  const isNextDraw = useSelector(state => state.result.isNextDraw);
+  const isLoading = useSelector(state => state.result.isLoading);
+  const [fdDataDD, setFdDataDD] = useState(formattedDate);
+  const [isNextDisabled, setIsNextDisabled] = useState(true);
 
-  const goPreviousDate = () => {
-    console.log('⏪ goToPrevious', formattedDate);
-    const previousDate = moment(selectedDate).subtract(1, 'days').toDate();
-    const formattedPreviousDate = moment(selectedDate, DATE_FORMAT)
-      .subtract(1, 'days')
-      .format(DATE_FORMAT);
-
-    dispatch(setIsLoading(true));
-    dispatch(setIsPreviousDatePressed(true));
-    dispatch(
-      setSelectedDate({
-        selectedDate: previousDate,
-        formattedDate: formattedPreviousDate,
-      }),
-    );
+  const disableNextButton = date => {
+    if (date === moment().subtract(1, 'days').toDate()) {
+      setIsNextDisabled(true);
+    } else {
+      setIsNextDisabled(false);
+    }
   };
 
-  const goNextDate = () => {
-    console.log('⏭ goToNext', formattedDate);
-    const nextDate = moment(selectedDate).add(1, 'days').toDate();
-    const formattedNextDate = moment(selectedDate, DATE_FORMAT)
-      .add(1, 'days')
-      .format(DATE_FORMAT);
-
-    dispatch(setIsLoading(true));
-    dispatch(
-      setSelectedDate({
-        selectedDate: nextDate,
-        formattedDate: formattedNextDate,
-      }),
-    );
+  const fetchMSSGPrev = async (date = '') => {
+    console.log('🌺 Fetching data from', `${API}/api/v1/MSSGPrev/${date}`);
+    try {
+      dispatch(setIsLoading(true));
+      const response = await fetch(`${API}/api/v1/MSSGPrev/${date}`);
+      const json = await response.json();
+      dispatch(saveResult(json));
+    } catch (err) {
+      console.error(err);
+      return err;
+    }
+    dispatch(setIsLoading(false));
   };
+
+  const fetchMSSGNext = async (date = '') => {
+    console.log('🌺 Fetching data from', `${API}/api/v1/MSSGNext/${date}`);
+    try {
+      dispatch(setIsLoading(true));
+      const response = await fetch(`${API}/api/v1/MSSGNext/${date}`);
+      const json = await response.json();
+      dispatch(saveResult(json));
+    } catch (err) {
+      console.error(err);
+      return err;
+    }
+    dispatch(setIsLoading(false));
+  };
+
+  const fetchOtherPrev = async (date = '') => {
+    console.log('🌺 Fetching data from', `${API}/api/v1/otherPrev/${date}`);
+    try {
+      dispatch(setIsLoading(true));
+      const response = await fetch(`${API}/api/v1/otherPrev/${date}`);
+      const json = await response.json();
+      dispatch(saveResult(json));
+    } catch (err) {
+      console.error(err);
+      return err;
+    }
+    dispatch(setIsLoading(false));
+  };
+
+  const fetchOtherNext = async (date = '') => {
+    console.log('🌺 Fetching data from', `${API}/api/v1/otherNext/${date}`);
+    try {
+      dispatch(setIsLoading(true));
+      const response = await fetch(`${API}/api/v1/otherNext/${date}`);
+      const json = await response.json();
+      dispatch(saveResult(json));
+    } catch (err) {
+      console.error(err);
+      return err;
+    }
+    dispatch(setIsLoading(false));
+  };
+
+  const goPrevious = () => {
+    dispatch(setIsPrevDraw(true));
+    dispatch(setIsNextDraw(false));
+    dispatch(setIsNormalDraw(false));
+    setIsNextDisabled(false);
+
+    if (result.length !== 0) {
+      if (currentSide === 'GD' || currentSide === 'H') {
+        const fdData = getItem(result, currentSide).fdData;
+        setFdDataDD(fdData.dd);
+        fetchOtherPrev(fdData.dd);
+        dispatch(
+          setSelectedDate({
+            selectedDate: moment(fdData.dd).subtract(1, 'days').toDate(),
+            formattedDate: moment(fdData.dd)
+              .subtract(1, 'days')
+              .format(DATE_FORMAT),
+          }),
+        );
+      } else {
+        const fdData = getItem(result, currentSide).fdData;
+        setFdDataDD(fdData.dd);
+        fetchMSSGPrev(fdData.dd);
+        dispatch(
+          setSelectedDate({
+            selectedDate: moment(fdData.dd).subtract(1, 'days').toDate(),
+            formattedDate: moment(fdData.dd)
+              .subtract(1, 'days')
+              .format(DATE_FORMAT),
+          }),
+        );
+      }
+    }
+  };
+
+  const goNext = () => {
+    dispatch(setIsNextDraw(true));
+    dispatch(setIsPrevDraw(false));
+    dispatch(setIsNormalDraw(false));
+
+    if (result.length !== 0) {
+      if (currentSide === 'GD' || currentSide === 'H') {
+        const fdData = getItem(result, currentSide).fdData;
+        setFdDataDD(fdData.dd);
+        fetchOtherNext(fdData.dd);
+        disableNextButton(moment(fdData.dd).add(1, 'days').format(DATE_FORMAT));
+        dispatch(
+          setSelectedDate({
+            selectedDate: moment(fdData.dd).add(1, 'days').toDate(),
+            formattedDate: moment(fdData.dd).add(1, 'days').format(DATE_FORMAT),
+          }),
+        );
+      } else {
+        const fdData = getItem(result, currentSide).fdData;
+        setFdDataDD(fdData.dd);
+        fetchMSSGNext(fdData.dd);
+        disableNextButton(moment(fdData.dd).add(1, 'days').format(DATE_FORMAT));
+        dispatch(
+          setSelectedDate({
+            selectedDate: moment(fdData.dd).add(1, 'days').toDate(),
+            formattedDate: moment(fdData.dd).add(1, 'days').format(DATE_FORMAT),
+          }),
+        );
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isPrevDraw) {
+      goPrevious();
+    } else if (isNextDraw) {
+      goNext();
+    }
+  }, [fdDataDD]);
 
   return (
     <HStack
@@ -62,26 +179,16 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
       backgroundColor="white"
       justifyContent="center"
       padding={0.5}>
-      <IconButton
-        disabled={disableButton}
-        colorScheme="muted"
-        size={ICON_SIZE}
+      <Button
+        disabled={isLoading}
+        onPress={goPrevious}
+        fontWeight="bold"
         variant="ghost"
-        onPress={goPreviousDate}
-        _icon={{
-          as: AntDesign,
-          name: 'caretleft',
-        }}
-      />
-      {/* <AntDesign.Button
-        allowFontScaling={false}
-        backgroundColor="white"
-        color="black"
-        name="calendar"
-        size={DEVICE_WIDTH <= 320 ? 14 : 18}
-        onPress={() => navigation.navigate('Testing')}>
-        Date
-      </AntDesign.Button> */}
+        size="sm"
+        leftIcon={<AntDesign name="caretleft" size={10} />}
+        colorScheme="black.600">
+        Prev
+      </Button>
       <AntDesign.Button
         allowFontScaling={false}
         backgroundColor="white"
@@ -94,6 +201,7 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
       <DatePicker
         androidVariant="iosClone"
         date={selectedDate}
+        minimumDate={moment('1985-04-27', DATE_FORMAT).toDate()}
         maximumDate={moment(TARGET_DATE).toDate()}
         modal
         mode="date"
@@ -104,6 +212,9 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
         }}
         onConfirm={date => {
           dispatch(setIsLoading(true));
+          dispatch(setIsNormalDraw(true));
+          dispatch(setIsPrevDraw(false));
+          dispatch(setIsNextDraw(false));
           setOpen(false);
           dispatch(
             setSelectedDate({
@@ -113,17 +224,27 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
           );
         }}
       />
-      <IconButton
-        disabled={disableButton}
+      <Button
+        disabled={isLoading || isNextDisabled}
+        onPress={goNext}
+        fontWeight="bold"
+        variant="ghost"
+        size="sm"
+        rightIcon={<AntDesign name="caretright" size={10} />}
+        colorScheme="black">
+        Next
+      </Button>
+      {/* <IconButton
+        disabled={disableNextButton}
         colorScheme="muted"
         size={ICON_SIZE}
         variant="ghost"
-        onPress={goNextDate}
+        onPress={goNext}
         _icon={{
           as: AntDesign,
           name: 'caretright',
         }}
-      />
+      /> */}
     </HStack>
   );
 };

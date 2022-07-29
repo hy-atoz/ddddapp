@@ -9,17 +9,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import AppTitle from './src/components/AppTitle';
 import FullScreenLoading from './src/components/FullScreenLoading';
 import {
-  API_BASE_URL,
+  API,
   DRAW_TIME,
   REFRESH_RATE_MILLISECOND,
   REFRESH_RATE_SECOND,
   TARGET_TIME,
   TIME_FORMAT_LONG,
 } from './src/constants';
-import c from './src/constants/companies';
 import {setInternetConnection} from './src/features/internet';
 import {
   saveResult,
+  setCurrentSide,
   setIsLiveStarted,
   setIsLoading,
 } from './src/features/result';
@@ -41,6 +41,10 @@ const App = ({navigation, route}) => {
   const [currentTime, setCurrentTime] = useState(TARGET_TIME);
 
   const dispatch = useDispatch();
+  const c = useSelector(state => state.company.value);
+  const isPrevDraw = useSelector(state => state.result.isPrevDraw);
+  const isNextDraw = useSelector(state => state.result.isNextDraw);
+  const isNormalDraw = useSelector(state => state.result.isNormalDraw);
   const hasInternet = useSelector(state => state.internet.value);
   const {formattedDate} = useSelector(state => state.result.dates);
   const isLiveStarted = useSelector(state => state.result.isLiveStarted);
@@ -60,11 +64,17 @@ const App = ({navigation, route}) => {
         width: PAGE_WIDTH,
       };
 
-  // Fetching data from API and save to result state
-  const fetchFdData = async (date = '') => {
-    console.log('🌺 Fetching data from', `${API_BASE_URL}/${date}`);
+  const updateCurrentSide = index => {
+    dispatch(setCurrentSide(c[index].code));
+  };
+
+  const fetchResult = async () => {
+    console.log(
+      '🌺 Fetching data from',
+      `${API}/api/v1/result/${formattedDate}`,
+    );
     try {
-      const response = await fetch(`${API_BASE_URL}/${date}`);
+      const response = await fetch(`${API}/api/v1/result/${formattedDate}`);
       const json = await response.json();
       dispatch(saveResult(json));
       dispatch(setIsLoading(false));
@@ -98,7 +108,9 @@ const App = ({navigation, route}) => {
     //   dispatch(setIsLoading(true));
     //   fetchFdData(route.params['date'].slice(0, 10));
     // }
-    formattedDate ? fetchFdData(formattedDate) : fetchFdData();
+    if (isNormalDraw && !isPrevDraw && !isNextDraw) {
+      fetchResult();
+    }
     SplashScreen.hide();
   }, [formattedDate, hasInternet, route]);
 
@@ -140,7 +152,7 @@ const App = ({navigation, route}) => {
       clearInterval(timer);
     }
     return () => clearInterval(timer);
-  }, [currentTime, isLiveStarted]);
+  }, [currentTime, isLiveStarted, formattedDate]);
 
   // CodePush: https://github.com/gulsher7/CodePushApp
   useEffect(() => {
@@ -159,6 +171,7 @@ const App = ({navigation, route}) => {
           {...baseOptions}
           data={c}
           defaultIndex={0}
+          onSnapToItem={index => updateCurrentSide(index)}
           panGestureHandlerProps={activeOffsetX}
           ref={blankResultRef}
           renderItem={({index}) => {
@@ -181,6 +194,7 @@ const App = ({navigation, route}) => {
           {...baseOptions}
           data={c}
           defaultIndex={0}
+          onSnapToItem={index => updateCurrentSide(index)}
           pagingEnabled={true}
           panGestureHandlerProps={activeOffsetX}
           ref={resultRef}

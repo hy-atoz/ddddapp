@@ -29,7 +29,9 @@ export const ALPHABET = [
 ];
 
 // export const API_BASE_URL = 'https://test.algo.my/';
-export const API_BASE_URL = 'https://api.4dnum.com/api/v1/result';
+// export const API_BASE_URL = 'https://api.4dnum.com/api/v1/result';
+// export const API_BASE_URL = 'https://backend.4dnum.com/api/v1/result';
+export const API = 'https://backend.4dnum.com';
 
 export const APP = {
   BORDER_WIDTH: '1',

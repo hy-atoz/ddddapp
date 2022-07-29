@@ -58,12 +58,20 @@ const ResultScreen = ({
     n3,
     n3_pos,
   } = fdData;
-  const hasJackpotAmount = fdData?.jackpotAmount;
-  // const hasJackpotGD = fdData?.JackpotPrize;
-  const urlId = fdData?.videoUrl;
+  const jackpotAmount = fdData?.jackpotAmount;
+  let hasJackpotAmount;
+  if (jackpotAmount === '') {
+    hasJackpotAmount = false;
+  } else if (jackpotAmount === 'No Jackpot') {
+    hasJackpotAmount = false;
+  } else {
+    hasJackpotAmount = true;
+  }
+
+  const videoUrl = fdData?.videoUrl;
   var videoId = '';
-  if (urlId !== undefined) {
-    videoId = urlId.slice(30, 41);
+  if (videoUrl !== undefined) {
+    videoId = videoUrl.slice(30, 41);
   }
 
   return (
@@ -113,20 +121,13 @@ const ResultScreen = ({
           />
         </HStack>
       )}
-      {hasJackpotAmount !== undefined ? (
+      {hasJackpotAmount && (
         <SixDJackpot
           backgroundColor="brand.hari"
-          amount={hasJackpotAmount}
+          amount={jackpotAmount}
           hasPrefix={true}
         />
-      ) : null}
-      {/* {hasJackpotGD !== undefined ? (
-          <SixDJackpot
-            backgroundColor="brand.gd"
-            amount={hasJackpotGD}
-            hasPrefix={false}
-          />
-        ) : null} */}
+      )}
       {hasLiveVideo ? <YouTubePlayer videoId={videoId} /> : null}
     </ResultScreenContainer>
   );
