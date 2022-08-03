@@ -18,16 +18,16 @@ const Jackpot = ({isLast, prize, title}) => {
         borderTopWidth="0"
         height={10}
         padding={2}>
-        <LoadingSkeleton>
-          <Text
-            allowFontScaling={false}
-            fontFamily="Roboto-Regular"
-            fontSize="sm"
-            fontWeight="bold"
-            textAlign="center">
-            {prize}
-          </Text>
-        </LoadingSkeleton>
+        {/* <LoadingSkeleton> */}
+        <Text
+          allowFontScaling={false}
+          fontFamily="Roboto-Regular"
+          fontSize="sm"
+          fontWeight="bold"
+          textAlign="center">
+          {prize}
+        </Text>
+        {/* </LoadingSkeleton> */}
       </Box>
     </Flex>
   );

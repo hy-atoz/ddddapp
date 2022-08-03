@@ -21,17 +21,17 @@ const WinnerNumber = ({color = 'black', hasLetter, isLast, letter, number}) => {
       justifyContent="center"
       paddingX={0}>
       {hasLetter ? <Letter text={letter} /> : null}
-      <LoadingSkeleton isCenter height="50%" width="80%">
-        <Text
-          allowFontScaling={false}
-          color={color}
-          fontFamily="Roboto-Medium"
-          fontSize={DEVICE_WIDTH <= 320 ? 'xl' : '2xl'}
-          fontWeight="medium"
-          textAlign="center">
-          {number}
-        </Text>
-      </LoadingSkeleton>
+      {/* <LoadingSkeleton isCenter height="50%" width="80%"> */}
+      <Text
+        allowFontScaling={false}
+        color={color}
+        fontFamily="Roboto-Medium"
+        fontSize={DEVICE_WIDTH <= 320 ? 'xl' : '2xl'}
+        fontWeight="medium"
+        textAlign="center">
+        {number}
+      </Text>
+      {/* </LoadingSkeleton> */}
     </Flex>
   );
 };

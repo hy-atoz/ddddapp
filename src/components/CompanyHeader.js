@@ -1,6 +1,6 @@
 import {Flex, Heading, HStack, Image} from 'native-base';
 import React from 'react';
-import {Dimensions} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import Blink from './Blink';
 import Live from './Live';
 import New from './New';

@@ -5,7 +5,13 @@ import {Dimensions} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
-import {API, DATE_FORMAT, TARGET_DATE} from '../constants';
+import {
+  API,
+  DATE_FORMAT,
+  DRAW_TIME,
+  TARGET_DATE,
+  TARGET_TIME,
+} from '../constants';
 import {
   saveResult,
   setIsLoading,
@@ -33,12 +39,34 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
   const isLoading = useSelector(state => state.result.isLoading);
   const [fdDataDD, setFdDataDD] = useState(formattedDate);
   const [isNextDisabled, setIsNextDisabled] = useState(true);
+  let initialDate = new Date();
+
+  if (TARGET_TIME < DRAW_TIME.start) {
+    initialDate = moment(TARGET_DATE).subtract(1, 'days').toDate();
+  } else {
+    initialDate = moment(TARGET_DATE).toDate();
+  }
 
   const disableNextButton = date => {
-    if (date === moment().subtract(1, 'days').toDate()) {
-      setIsNextDisabled(true);
+    console.log(TARGET_DATE);
+    console.log(moment().subtract(1, 'days').format(DATE_FORMAT));
+    // if (date === moment().subtract(1, 'days').toDate()) {
+    //   setIsNextDisabled(true);
+    // } else {
+    //   setIsNextDisabled(false);
+    // }
+    if (TARGET_TIME < DRAW_TIME.start) {
+      if (date >= moment().subtract(1, 'days').format(DATE_FORMAT)) {
+        setIsNextDisabled(true);
+      } else {
+        setIsNextDisabled(false);
+      }
     } else {
-      setIsNextDisabled(false);
+      if (date >= TARGET_DATE) {
+        setIsNextDisabled(true);
+      } else {
+        setIsNextDisabled(false);
+      }
     }
   };
 
@@ -203,7 +231,7 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
         androidVariant="iosClone"
         date={selectedDate}
         minimumDate={moment('1985-04-27', DATE_FORMAT).toDate()}
-        maximumDate={moment(TARGET_DATE).toDate()}
+        maximumDate={initialDate}
         modal
         mode="date"
         open={open}
@@ -212,21 +240,23 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
           setOpen(false);
         }}
         onConfirm={date => {
+          console.log('date picker selection', date);
           setOpen(false);
           dispatch(setIsLoading(true));
+          dispatch(setIsNormalDraw(true));
+          dispatch(setIsPrevDraw(false));
+          dispatch(setIsNextDraw(false));
           dispatch(
             setSelectedDate({
               selectedDate: date,
               formattedDate: moment(date).format(DATE_FORMAT),
             }),
           );
-          dispatch(setIsNormalDraw(true));
-          dispatch(setIsPrevDraw(false));
-          dispatch(setIsNextDraw(false));
         }}
       />
       <Button
-        disabled={isLoading || isNextDisabled}
+        // disabled={isLoading || isNextDisabled}
+        isDisabled={isLoading || isNextDisabled}
         onPress={goNext}
         variant="ghost"
         size="sm"

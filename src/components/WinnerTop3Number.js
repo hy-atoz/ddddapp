@@ -18,16 +18,16 @@ const WinnerTop3Number = ({isLast, letter, result = APP.EMPTY}) => {
       justifyContent="center"
       width="100%">
       <Letter isTop3 text={letter} />
-      <LoadingSkeleton isCenter height="6" width="50%">
-        <Text
-          allowFontScaling={false}
-          fontFamily="Roboto-Bold"
-          fontSize={DEVICE_WIDTH <= 320 ? 'xl' : '2xl'}
-          fontWeight="bold"
-          textAlign="center">
-          {result}
-        </Text>
-      </LoadingSkeleton>
+      {/* <LoadingSkeleton isCenter height="6" width="50%"> */}
+      <Text
+        allowFontScaling={false}
+        fontFamily="Roboto-Bold"
+        fontSize={DEVICE_WIDTH <= 320 ? 'xl' : '2xl'}
+        fontWeight="bold"
+        textAlign="center">
+        {result}
+      </Text>
+      {/* </LoadingSkeleton> */}
     </Flex>
   );
 };

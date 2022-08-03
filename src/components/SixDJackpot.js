@@ -16,16 +16,16 @@ const SixDJackpot = ({amount, backgroundColor, hasPrefix}) => {
         textAlign="center">
         Jackpot Pool
       </Text>
-      <LoadingSkeleton isCenter height="7" width="50%">
-        <Text
-          allowFontScaling={false}
-          color="white"
-          fontSize={DEVICE_WIDTH <= 320 ? 'lg' : 'xl'}
-          fontWeight="bold"
-          textAlign="center">
-          {hasPrefix ? `USD${amount}` : `${amount}`}
-        </Text>
-      </LoadingSkeleton>
+      {/* <LoadingSkeleton isCenter height="7" width="50%"> */}
+      <Text
+        allowFontScaling={false}
+        color="white"
+        fontSize={DEVICE_WIDTH <= 320 ? 'lg' : 'xl'}
+        fontWeight="bold"
+        textAlign="center">
+        {hasPrefix ? `USD${amount}` : `${amount}`}
+      </Text>
+      {/* </LoadingSkeleton> */}
     </Box>
   );
 };
