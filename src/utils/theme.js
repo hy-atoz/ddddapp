@@ -13,6 +13,7 @@ const theme = extendTheme({
       sg4d: '#0478BB',
       hari: '#116691',
       gd: '#970418',
+      perdana: '#0065CA',
       black: '#333333',
       gray: '#CCCCCC',
       red: '#EE525F',

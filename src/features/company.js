@@ -86,6 +86,17 @@ const initialState = {
     },
     {
       id: 8,
+      code: 'P',
+      color: 'brand.perdana',
+      name: 'Perdana Lottery 4D',
+      image: require('../../assets/img/perdana.png'),
+      hasLastRow: false,
+      hasLetter: true,
+      hasLiveVideo: true,
+      swiperHeight: 0,
+    },
+    {
+      id: 9,
       code: 'GD',
       color: 'brand.gd',
       name: 'Grand Dragon 4D 豪龍',

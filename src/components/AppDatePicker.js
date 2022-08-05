@@ -56,7 +56,7 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
     //   setIsNextDisabled(false);
     // }
     if (TARGET_TIME < DRAW_TIME.start) {
-      if (date >= moment().subtract(1, 'days').format(DATE_FORMAT)) {
+      if (date >= moment(TARGET_DATE).subtract(1, 'days').format(DATE_FORMAT)) {
         setIsNextDisabled(true);
       } else {
         setIsNextDisabled(false);
@@ -70,11 +70,11 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
     }
   };
 
-  const fetchMSSGPrev = async (date = '') => {
-    console.log('🌺 Fetching data from', `${API}/api/v1/MSSGPrev/${date}`);
+  const fetchMYSGPrev = async (date = '') => {
+    console.log('🌺 Fetching data from', `${API}/api/v1/MYSGPrev/${date}`);
     try {
       // dispatch(setIsLoading(true));
-      const response = await fetch(`${API}/api/v1/MSSGPrev/${date}`);
+      const response = await fetch(`${API}/api/v1/MYSGPrev/${date}`);
       const json = await response.json();
       dispatch(saveResult(json));
       dispatch(setIsLoading(false));
@@ -84,11 +84,11 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
     }
   };
 
-  const fetchMSSGNext = async (date = '') => {
-    console.log('🌺 Fetching data from', `${API}/api/v1/MSSGNext/${date}`);
+  const fetchMYSGNext = async (date = '') => {
+    console.log('🌺 Fetching data from', `${API}/api/v1/MYSGNext/${date}`);
     try {
       // dispatch(setIsLoading(true));
-      const response = await fetch(`${API}/api/v1/MSSGNext/${date}`);
+      const response = await fetch(`${API}/api/v1/MYSGNext/${date}`);
       const json = await response.json();
       dispatch(saveResult(json));
       dispatch(setIsLoading(false));
@@ -149,7 +149,7 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
       } else {
         const fdData = getItem(result, currentSide).fdData;
         setFdDataDD(fdData.dd);
-        fetchMSSGPrev(fdData.dd);
+        fetchMYSGPrev(fdData.dd);
         dispatch(
           setSelectedDate({
             selectedDate: moment(fdData.dd).subtract(1, 'days').toDate(),
@@ -183,7 +183,7 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
       } else {
         const fdData = getItem(result, currentSide).fdData;
         setFdDataDD(fdData.dd);
-        fetchMSSGNext(fdData.dd);
+        fetchMYSGNext(fdData.dd);
         disableNextButton(moment(fdData.dd).add(1, 'days').format(DATE_FORMAT));
         dispatch(
           setSelectedDate({
@@ -210,7 +210,7 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
       justifyContent="center"
       padding={0.5}>
       <Button
-        disabled={isLoading}
+        isDisabled={isLoading}
         onPress={goPrevious}
         variant="ghost"
         size="sm"
