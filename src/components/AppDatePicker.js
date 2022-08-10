@@ -256,7 +256,7 @@ const AppDatePicker = ({disableButton = false, navigation}) => {
       />
       <Button
         // disabled={isLoading || isNextDisabled}
-        isDisabled={isLoading || isNextDisabled}
+        isDisabled={isLoading}
         onPress={goNext}
         variant="ghost"
         size="sm"

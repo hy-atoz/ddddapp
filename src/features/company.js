@@ -90,7 +90,7 @@ const initialState = {
       color: 'brand.perdana',
       name: 'Perdana Lottery 4D',
       image: require('../../assets/img/perdana.png'),
-      hasLastRow: false,
+      hasLastRow: true,
       hasLetter: true,
       hasLiveVideo: true,
       swiperHeight: 0,
