@@ -2,8 +2,6 @@ import moment from 'moment';
 import momentTz from 'moment-timezone';
 import * as RNLocalize from 'react-native-localize';
 
-// testing
-
 export const ALPHABET = [
   {id: 's1', name: 'A'},
   {id: 's2', name: 'B'},
